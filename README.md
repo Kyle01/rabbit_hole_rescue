@@ -14,6 +14,7 @@ We will need to:
   * Make a Chrome extension that collects data 
   * Build a database to store user and browsing data
   * Construct a Web application for visualization of and interaction with the collected browser data
+  * Decide how to handle privacy issues: ideally, store data on user machines and give them options to delete unwanted data
 
 ## Functionality & MVP
 
@@ -95,6 +96,8 @@ Technical challenges:
   - All members of the team read the Chrome and MERN tutorials
   - Set up database
   - Wrote proposal Readme and planned work for the week
+  - Implement user authorization on database backend - **Kyle** and **Nick** (completed on Sunday)
+
 
 ## Group Members & Work Breakdown
 
@@ -110,19 +113,19 @@ Technical challenges:
   - Begin setting up D3 visualization - **Kavian** 
 
 ### August 27 
-   - Continue and complete the basic work from Sunday
-  - Build login view on Chrome extension
-  - Decide which data to save in database, and how to structure it 
-  - Write and test methods to save browser data to database
-  - Implement user authorization on database backend
+  - Continue and complete the basic work from Sunday - **All**
+  - Build login view on Chrome extension - **Nick/Jeremiah**
+  - Decide which data to save in database, and how to structure it **All will discuss**
+  - Write and test methods to save browser data to database - **Jeremiah/Nick**
 
 ### Day 2
 
-  - Connect user authorization database to Chrome front end 
-  - Connect React-based Web application to database
+  - Connect user authorization database to Chrome front end - **Kyle**
+  - Connect React-based Web application to database - **Kyle/Kavian**
+  - Meet to decide duties for next three days
 
 ### Day 3
-  - Continue implementation of visualization on Web application using D3 library
+  - Continue implementation of visualization on Web application using D3 library 
   - Add methods to fetch data for popups in visualization
   - Run tests of completed Chrome extension
 
@@ -137,7 +140,7 @@ Technical challenges:
   - Make demo page (required for Chrome extensions -- may not be required since this project has a live page too)
 
 ### Day 6
-  - Complete Production README.md 
+  - Complete Production README.md - **Jeremiah** 
   - Refine design/CSS 
   - Finish testing and debugging - **All team members** 
 

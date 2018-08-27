@@ -9,6 +9,9 @@ chrome.runtime.onInstalled.addListener(function () {
         console.log("The color is green.");
     });
 
+    const views = chrome.extension.getViews();
+    console.log(views);
+
     chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
         chrome.declarativeContent.onPageChanged.addRules([{
             conditions: [new chrome.declarativeContent.PageStateMatcher({

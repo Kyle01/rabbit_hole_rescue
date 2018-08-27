@@ -86,9 +86,9 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./frontend/components/App.jsx":
+/***/ "./frontend/components/app.jsx":
 /*!*************************************!*\
-  !*** ./frontend/components/App.jsx ***!
+  !*** ./frontend/components/app.jsx ***!
   \*************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -112,15 +112,7 @@ var App = function App() {
     return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(
-            _reactRouterDom.Switch,
-            null,
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/*', component: _react2.default.createElement(
-                    'div',
-                    null,
-                    'Home!'
-                ) })
-        )
+        'App page'
     );
 };
 
@@ -148,9 +140,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 
-var _App = __webpack_require__(/*! ./App */ "./frontend/components/App.jsx");
+var _app = __webpack_require__(/*! ./app */ "./frontend/components/app.jsx");
 
-var _App2 = _interopRequireDefault(_App);
+var _app2 = _interopRequireDefault(_app);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -158,7 +150,7 @@ var Root = function Root() {
    return _react2.default.createElement(
       'div',
       null,
-      _react2.default.createElement(_App2.default, null)
+      _react2.default.createElement(_app2.default, null)
    );
 };
 

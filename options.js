@@ -13,3 +13,14 @@ function constructOptions(kButtonColors) {
     }
 }
 constructOptions(kButtonColors);
+
+// chrome.history.search(null, function(results) {
+//     console.log(results);
+// });
+
+// chrome.tabs.getCurrent(function(tab) {console.log(tab);});
+
+chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function(tabs) {
+    var tabLink = tabs[0].url;
+    console.log(tabs[0]);
+});

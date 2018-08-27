@@ -9,8 +9,25 @@ chrome.runtime.onInstalled.addListener(function () {
         console.log("The color is green.");
     });
 
-    const views = chrome.extension.getViews();
-    console.log(views);
+    // chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
+    //     let = tabs.url;
+    //     console.log(tabs);
+    // });
+
+    // chrome.tabs.getCurrent(function(result) {console.log(result); });
+
+    // chrome.windows.getAll({populate: true, windowTypes: ["normal"]}, function(windows){
+    //     const tabs = {}; 
+    //     windows.forEach (window => {
+    //         tabs[window.id] = window.tabs
+    //     })
+
+    //     console.log(tabs);
+    // });
+
+    // chrome.history.getVisits({ url: 'https://expressjs.com/en/guide/routing.html'}, function(results) {
+    //     console.log(results);
+    // });
 
     chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
         chrome.declarativeContent.onPageChanged.addRules([{
@@ -21,4 +38,27 @@ chrome.runtime.onInstalled.addListener(function () {
             actions: [new chrome.declarativeContent.ShowPageAction()]
         }]);
     });
+
+    let savedTabs = {};
+    chrome.tabs.query({currentWindow: true}, function(tabs){
+        tabs.forEach(tab => {
+            savedTabs[tab.id] = { url: tab.url, title: tab.title };
+        });
+
+        chrome.tabs.onCreated.addListener(function(tab) {
+            savedTabs[tab.id] = { url: tab.url, title: tab.title };
+            // console.log(tab);
+            // console.log(savedTabs);
+        });
+
+        chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+            console.log(tabId);
+            if (changeInfo.url !== undefined ) {
+                console.log(changeInfo.url);
+            }
+        });
+
+        
+    })
+    console.log(savedTabs);
 });

@@ -1,7 +1,21 @@
 
-to do today 
+8/27
 -------
-Turn in linkedin/github/angel list/ resume 
-make sure gradesheet is in my two projects 
-do rabbithole stuff 
-relaxxx   
+* We'll need a chrome default icon 
+* What do we want our pop up to look for (probably nothing)
+* what background scripts do we need to run 
+    * What listeners do we need 
+    * what permissions do we need 
+        *tabs, window, history, identity
+* confirm we wont need a content script, because our site uses react with a backend so our extension will never modify the dom
+* Options page as an additional mvp 
+* Do we need to use the storage api or the html5 web storage api to get post calls to our server? 
+* need to check for incognito mode 
+
+
+* Working through localStorage
+    * Really easy to do basics. Built into HTML5 and on the window always 
+    * You can only store 10mb, which it is unlikely a user will ever hit (appx 5000 pages), but we'll need to deal with it if it happens. 
+    * Store things as K, V pairs. VALUE MUST BE A STRING. 
+    * functions setItem, getItem, removeItem, key, length
+    * Need to check if you have a room, write a storage_available method 

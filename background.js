@@ -4,57 +4,58 @@
 
 'use strict';
 
+let i = 0;
+
 chrome.runtime.onInstalled.addListener(function () {
-    chrome.storage.sync.set({ color: '#3aa757' }, function () {
-        console.log("The color is green.");
-    });
+    const idCreator = () => {
+        return i++;
+    }
+    const getTransitionType = (url) => {
+        chrome.history.getVisits({ url }, function (results) {
+            if (results.length === 0) {
+                return null;
+            } else {
+                return results.pop().id;
+            }
+        })
+    };
 
-    // chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
-    //     let = tabs.url;
-    //     console.log(tabs);
-    // });
-
-    // chrome.tabs.getCurrent(function(result) {console.log(result); });
-
-    // chrome.windows.getAll({populate: true, windowTypes: ["normal"]}, function(windows){
-    //     const tabs = {}; 
-    //     windows.forEach (window => {
-    //         tabs[window.id] = window.tabs
-    //     })
-
-    //     console.log(tabs);
-    // });
-
-    // chrome.history.getVisits({ url: 'https://expressjs.com/en/guide/routing.html'}, function(results) {
-    //     console.log(results);
-    // });
-
-    chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
-        chrome.declarativeContent.onPageChanged.addRules([{
-            conditions: [new chrome.declarativeContent.PageStateMatcher({
-                pageUrl: { hostEquals: 'developer.chrome.com' },
-            })
-            ],
-            actions: [new chrome.declarativeContent.ShowPageAction()]
-        }]);
-    });
+    const createNode = (tab) => {
+        return {
+            url: tab.url,
+            title: tab.title,
+            chromeTabId: tab.id,
+            chromeWindowId: tab.windowId,
+            parent: null,
+            children: [],
+            timeCreated: Date.now(),
+            transitionType: getTransitionType(tab.url)
+        }
+    }
 
     let savedTabs = {};
-    chrome.tabs.query({currentWindow: true}, function(tabs){
-        tabs.forEach(tab => {
-            savedTabs[tab.id] = { url: tab.url, title: tab.title };
-        });
+    chrome.windows.getAll({populate: true, windowTypes: ["normal"]}, function(windows){
+        windows.forEach(window => {
+            window.tabs.forEach(tab => {
+                let newNode = createNode(tab);
+                savedTabs[idCreator()] = newNode;
+            });
+        })
+        
 
         chrome.tabs.onCreated.addListener(function(tab) {
-            savedTabs[tab.id] = { url: tab.url, title: tab.title };
-            // console.log(tab);
-            // console.log(savedTabs);
+            if (tab.url === "chrome://newtab/") {return}
+            
+            let newNode = createNode(tab)
+            savedTabs[idCreator()] = newNode;
+            console.log(savedTabs);
         });
 
         chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-            console.log(tabId);
-            if (changeInfo.url !== undefined ) {
-                console.log(changeInfo.url);
+            if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
+                let newNode = createNode(tab);
+                savedTabs[idCreator()] = newNode;
+                console.log(savedTabs);
             }
         });
 
@@ -62,3 +63,61 @@ chrome.runtime.onInstalled.addListener(function () {
     })
     console.log(savedTabs);
 });
+
+
+// dates have windows
+
+// windows have tabs 
+
+// parent tabs have children tabs
+
+
+// what to check for in node
+
+//createWindow = new Window
+
+//createTab = new Node
+
+//updateTab = new Node with old Node as parent
+
+//newTab BUT from link, where to put on tree
+
+//save Node to folders?
+
+//Node info
+    //node_id*
+    //website_url*
+    //chrome_window_id*
+    //chrome_tab_id*
+    //website title*
+    //website desc?
+    //parent*
+    //children*
+    //currentNode
+    //timeCreated*
+    //timeRevisited?
+    //timeUpdated?
+    //timeLeft?
+    //totalTime?
+    //totalViews?
+    //transitionType*
+    //Notes?
+    //favorite/save?
+
+
+//Initial Node Info
+    //id
+    //web_url
+    //chrome_window_id
+    //chrome_tab_id
+    //web_title
+    //parent
+    //children
+    //timeCreated
+    //transitionType
+
+//listeners
+    //createWindow
+    //createTab
+    //updateTab
+    //changeTab/currentTab

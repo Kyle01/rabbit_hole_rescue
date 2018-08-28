@@ -94,15 +94,25 @@ class Show extends React.Component {
       node.append("circle")
         .attr("r", 5)
         .attr("fill","blue");
-      // debugger
+
+      node.append("text")
+        .text(function(d) { return d.data.website; });
+
+
+      svg.selectAll(".link")
+        .data(links)
+        .enter()
+        .append("path")
+        .attr("class","link")
+        .attr("fill","none")
+        .attr("stroke","black")
+        .attr("d", d3.linkVertical()
+          .x(function(d) {
+            return d.x; })
+          .y(function(d) { return d.y; }));
     }
 
 
-
-
-    // return (
-    //   <svg width={width + margin.right + margin.left} height={height + margin.top + margin.bottom}>HERE </svg>
-    // );
     return null;
   }
 }

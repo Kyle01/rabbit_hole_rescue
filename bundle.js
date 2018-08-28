@@ -249,16 +249,11 @@ var Show = function (_React$Component) {
       console.log(treeData);
       var svg = d3.select("body").append("svg").attr("width", 960).attr("height", 500).append("g").attr("transform", "translate(50,50)");
 
-      // var margin = {top: 20, right: 120, bottom: 20, left: 120},
-      // 	width = 960 - margin.right - margin.left,
-      // 	height = 500 - margin.top - margin.bottom,
-      //   g = svg.append("g").attr("transform", "translate(40,0)");
-
       var i = 0,
           duration = 750,
           root;
 
-      var tree = d3.tree().size([860, 400]);
+      var tree = d3.tree().size([400, 700]);
 
       root = treeData[0];
       root.x0 = 200;
@@ -276,7 +271,7 @@ var Show = function (_React$Component) {
         console.log(links);
 
         var node = svg.selectAll(".node").data(nodes).enter().append("g").attr("class", "node").attr("transform", function (d) {
-          return "translate(" + d.x + "," + d.y + ")";
+          return "translate(" + d.y + "," + d.x + ")";
         });
 
         node.append("circle").attr("r", 5).attr("fill", "blue");
@@ -285,10 +280,10 @@ var Show = function (_React$Component) {
           return d.data.website;
         });
 
-        svg.selectAll(".link").data(links).enter().append("path").attr("class", "link").attr("fill", "none").attr("stroke", "black").attr("d", d3.linkVertical().x(function (d) {
-          return d.x;
-        }).y(function (d) {
+        svg.selectAll(".link").data(links).enter().append("path").attr("class", "link").attr("fill", "none").attr("stroke", "black").attr("d", d3.linkHorizontal().x(function (d) {
           return d.y;
+        }).y(function (d) {
+          return d.x;
         }));
       }
 

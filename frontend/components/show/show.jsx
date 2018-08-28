@@ -1,6 +1,7 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
-const treeData = [
+import * as d3 from 'd3'
+
+const treeData =[
   {
     "website": "Slack",
     "id": 12,
@@ -41,14 +42,68 @@ const treeData = [
     ]
   }
 ];
+
 class Show extends React.Component {
+
+  componentDidUpdate(){
+
+  }
 
   render() {
     console.log(treeData);
-    const sample = (
-      <h1>Index Page</h1>
-    );
-    return sample;
+    var svg = d3.select("body").append("svg")
+    	.attr("width", 960)
+    	.attr("height", 500)
+      .append("g")
+    	.attr("transform", "translate(50,50)");
+
+    // var margin = {top: 20, right: 120, bottom: 20, left: 120},
+    // 	width = 960 - margin.right - margin.left,
+    // 	height = 500 - margin.top - margin.bottom,
+    //   g = svg.append("g").attr("transform", "translate(40,0)");
+
+    var i = 0,
+    	duration = 750,
+    	root;
+
+    var tree = d3.tree()
+    	.size([860, 400]);
+
+    root = treeData[0];
+    root.x0 = 200;
+    root.y0 = 0;
+
+    update(root);
+
+    function update(data){
+      var treeRoot = d3.hierarchy(root);
+      tree(treeRoot);
+      // nodes
+      var nodes = treeRoot.descendants();
+      // links
+      var links = treeRoot.links();
+      console.log(links);
+
+      var node = svg.selectAll(".node")
+        .data(nodes)
+        .enter()
+        .append("g")
+          .attr("class", "node")
+          .attr("transform", function(d) { return "translate("+ d.x + "," + d.y + ")";});
+
+      node.append("circle")
+        .attr("r", 5)
+        .attr("fill","blue");
+      // debugger
+    }
+
+
+
+
+    // return (
+    //   <svg width={width + margin.right + margin.left} height={height + margin.top + margin.bottom}>HERE </svg>
+    // );
+    return null;
   }
 }
 

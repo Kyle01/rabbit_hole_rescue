@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Provider } from "react-redux";
+import { HashRouter } from "react-router-dom";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
+import NavbarFeatures from "./components/NavBar/nav_bar_container";
+
+
+const App = ({ store }) => (
+  <Provider store={store}>
+  <HashRouter>
+    <div>
+      <header>
+        <NavbarFeatures />
+      </header>
+      Hello world!
+    </div>
+  </HashRouter>
+  </Provider>
+);
 
 export default App;

@@ -1,3 +1,11 @@
+8/28
+-------
+
+Questions for lecture
+~~~~~~~
+* What is registerServiceWorker? 
+* What is going on with that 'public' folder in frontend? 
+* We still don't have a 'logged in?' method 
 
 8/27
 -------

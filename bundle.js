@@ -187,6 +187,8 @@ var _d = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
 
 var d3 = _interopRequireWildcard(_d);
 
+var _tree_algorithms = __webpack_require__(/*! ./tree_algorithms */ "./frontend/components/show/tree_algorithms.js");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -309,22 +311,31 @@ var Show = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var retDiv = _react2.default.createElement('div', { id: 'modal' });
+      var retDiv = _react2.default.createElement(
+        'div',
+        { id: 'modal' },
+        _react2.default.createElement('ul', { id: 'modalist' })
+      );
       function radialPoint(x, y) {
         return [(y = +y) * Math.cos(x -= Math.PI / 2), y * Math.sin(x)];
       }
-      function hover_over(d) {
-        var modal = document.getElementById("modal");
-        modal.innerHTML = d.data.url;
-      }
+
       function click(d) {
-        var modal = document.getElementById("modal");
-        modal.classList.add("show-me");
+        var modal_list = document.getElementById("modalist");
+        // while (modal_list.firstChild) {
+        //     modal_list.removeChild(modal_list.firstChild);
+        // }
+        var nodes = (0, _tree_algorithms.BFSDisplay)(d.data);
+        nodes.forEach(function (node) {
+          var li = document.createElement('li');
+          var link = document.createElement('a');
+          link.href = node.url;
+          link.appendChild(document.createTextNode(node.description));
+          li.appendChild(link);
+          modal_list.appendChild(li);
+        });
       }
-      // function unclick(d){
-      //   var modal = document.getElementById("modal");
-      //   modal.classList.remove("show-me")
-      // }
+
       var svg = d3.select("body").append("svg").attr("width", 800).attr("height", 700).append("g").attr("transform", "translate(" + 800 / 2 + "," + (700 / 2 + 40) + ")");
 
       var i = 0,
@@ -357,7 +368,6 @@ var Show = function (_React$Component) {
         });
 
         node.append("circle").attr("r", 6).on("mouseover", function (d) {
-          hover_over(d);
           d3.select(this).attr("r", 12);
           d3.select(this).attr("class", "chosen-one");
         }).on("mouseout", function (d) {
@@ -391,6 +401,36 @@ var Show = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Show;
+
+/***/ }),
+
+/***/ "./frontend/components/show/tree_algorithms.js":
+/*!*****************************************************!*\
+  !*** ./frontend/components/show/tree_algorithms.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var BFSDisplay = exports.BFSDisplay = function BFSDisplay(node) {
+  if (!node.children) {
+    return [node];
+  }
+  var result = [];
+  var children = node.children;
+  children.forEach(function (child) {
+    var done = BFSDisplay(child);
+    result = result.concat(done);
+  });
+  delete node["children"];
+  result.push(node);
+  return result;
+};
 
 /***/ }),
 

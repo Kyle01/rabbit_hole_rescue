@@ -1,5 +1,6 @@
 import React from 'react';
 import * as d3 from 'd3';
+import { BFSDisplay } from './tree_algorithms';
 
 const treeData =[
   {
@@ -127,23 +128,28 @@ class Show extends React.Component {
 
   render() {
     var retDiv = (
-      <div id="modal"></div>
+      <div id="modal"><ul id="modalist"></ul></div>
     );
     function radialPoint(x, y) {
       return [(y = +y) * Math.cos(x -= Math.PI / 2), y * Math.sin(x)];
     }
-    function hover_over(d){
-      var modal = document.getElementById("modal");
-      modal.innerHTML = d.data.url;
-    }
+
     function click(d){
-      var modal = document.getElementById("modal");
-      modal.classList.add("show-me")
+      var modal_list = document.getElementById("modalist");
+      // while (modal_list.firstChild) {
+      //     modal_list.removeChild(modal_list.firstChild);
+      // }
+      let nodes = BFSDisplay(d.data);
+      nodes.forEach(node => {
+        let li = document.createElement('li');
+        let link = document.createElement('a');
+        link.href = node.url;
+        link.appendChild(document.createTextNode(node.description));
+        li.appendChild(link);
+        modal_list.appendChild(li);
+      });
     }
-    // function unclick(d){
-    //   var modal = document.getElementById("modal");
-    //   modal.classList.remove("show-me")
-    // }
+
     var svg = d3.select("body").append("svg")
     	.attr("width", 800)
     	.attr("height", 700)
@@ -185,7 +191,6 @@ class Show extends React.Component {
       node.append("circle")
         .attr("r", 6)
         .on("mouseover", function(d) {
-            hover_over(d);
             d3.select(this).attr("r", 12);
             d3.select(this).attr("class", "chosen-one");
           })

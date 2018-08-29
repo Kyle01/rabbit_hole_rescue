@@ -21,3 +21,7 @@
   stroke-opacity: 0.4;
   stroke-width: 1.5px;
 }
+
+.chosen-one circle {
+  fill: white !important;
+}

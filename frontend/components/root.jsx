@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import App from './app';
 
 const Root = () => (
-    <div>
+    <div className="page">
        <App />
     </div>
 );

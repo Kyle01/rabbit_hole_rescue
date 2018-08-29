@@ -154,12 +154,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Root = function Root() {
    return _react2.default.createElement(
       'div',
-      null,
+      { className: 'page' },
       _react2.default.createElement(_app2.default, null)
    );
 };
 
 exports.default = Root;
+
+/***/ }),
+
+/***/ "./frontend/components/show/modal.jsx":
+/*!********************************************!*\
+  !*** ./frontend/components/show/modal.jsx ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/SwaggyKavi/Desktop/rabbit_hole_rescue/frontend/components/show/modal.jsx'");
 
 /***/ }),
 
@@ -186,6 +197,10 @@ var _react2 = _interopRequireDefault(_react);
 var _d = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
 
 var d3 = _interopRequireWildcard(_d);
+
+var _modal = __webpack_require__(/*! ./modal */ "./frontend/components/show/modal.jsx");
+
+var _modal2 = _interopRequireDefault(_modal);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -309,9 +324,22 @@ var Show = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var retDiv = _react2.default.createElement('div', { id: 'modal' });
       function radialPoint(x, y) {
         return [(y = +y) * Math.cos(x -= Math.PI / 2), y * Math.sin(x)];
       }
+      function hover_over(d) {
+        var modal = document.getElementById("modal");
+        modal.innerHTML = d.data.url;
+      }
+      function click(d) {
+        var modal = document.getElementById("modal");
+        modal.classList.add("show-me");
+      }
+      // function unclick(d){
+      //   var modal = document.getElementById("modal");
+      //   modal.classList.remove("show-me")
+      // }
       var svg = d3.select("body").append("svg").attr("width", 800).attr("height", 700).append("g").attr("transform", "translate(" + 800 / 2 + "," + (700 / 2 + 40) + ")");
 
       var i = 0,
@@ -343,7 +371,15 @@ var Show = function (_React$Component) {
           return "translate(" + radialPoint(d.x, d.y) + ")";
         });
 
-        node.append("circle").attr("r", 6);
+        node.append("circle").attr("r", 6).on("mouseover", function (d) {
+          hover_over(d);
+          d3.select(this).attr("r", 12);
+          d3.select(this).attr("class", "chosen-one");
+        }).on("mouseout", function (d) {
+          // click(d);
+          d3.select(this).attr("r", 6);
+          d3.select(this).attr("class", " ");
+        }).on("click", click);
 
         node.append("text").attr("dy", "0.31em").attr("x", function (d) {
           return d.x < Math.PI === !d.children ? 7 : -7;
@@ -362,7 +398,7 @@ var Show = function (_React$Component) {
         }));
       }
 
-      return null;
+      return retDiv;
     }
   }]);
 

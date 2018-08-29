@@ -1,5 +1,6 @@
 import React from 'react';
-import * as d3 from 'd3'
+import * as d3 from 'd3';
+import Modal from './modal';
 
 const treeData =[
   {
@@ -126,9 +127,24 @@ class Show extends React.Component {
   }
 
   render() {
+    var retDiv = (
+      <div id="modal"></div>
+    );
     function radialPoint(x, y) {
       return [(y = +y) * Math.cos(x -= Math.PI / 2), y * Math.sin(x)];
     }
+    function hover_over(d){
+      var modal = document.getElementById("modal");
+      modal.innerHTML = d.data.url;
+    }
+    function click(d){
+      var modal = document.getElementById("modal");
+      modal.classList.add("show-me")
+    }
+    // function unclick(d){
+    //   var modal = document.getElementById("modal");
+    //   modal.classList.remove("show-me")
+    // }
     var svg = d3.select("body").append("svg")
     	.attr("width", 800)
     	.attr("height", 700)
@@ -168,7 +184,18 @@ class Show extends React.Component {
           .attr("transform", function(d) { return "translate(" + radialPoint(d.x, d.y) + ")"; });
 
       node.append("circle")
-        .attr("r", 6);
+        .attr("r", 6)
+        .on("mouseover", function(d) {
+            hover_over(d);
+            d3.select(this).attr("r", 12);
+            d3.select(this).attr("class", "chosen-one");
+          })
+        .on("mouseout", function(d) {
+            // click(d);
+            d3.select(this).attr("r", 6);
+            d3.select(this).attr("class", " ");
+          })
+        .on("click", click);
 
       node.append("text")
         .attr("dy", "0.31em")
@@ -191,7 +218,7 @@ class Show extends React.Component {
     }
 
 
-    return null;
+    return retDiv;
   }
 }
 

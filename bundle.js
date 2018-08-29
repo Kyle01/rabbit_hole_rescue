@@ -163,17 +163,6 @@ exports.default = Root;
 
 /***/ }),
 
-/***/ "./frontend/components/show/modal.jsx":
-/*!********************************************!*\
-  !*** ./frontend/components/show/modal.jsx ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/SwaggyKavi/Desktop/rabbit_hole_rescue/frontend/components/show/modal.jsx'");
-
-/***/ }),
-
 /***/ "./frontend/components/show/show.jsx":
 /*!*******************************************!*\
   !*** ./frontend/components/show/show.jsx ***!
@@ -197,10 +186,6 @@ var _react2 = _interopRequireDefault(_react);
 var _d = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
 
 var d3 = _interopRequireWildcard(_d);
-
-var _modal = __webpack_require__(/*! ./modal */ "./frontend/components/show/modal.jsx");
-
-var _modal2 = _interopRequireDefault(_modal);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 

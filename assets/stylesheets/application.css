@@ -1,0 +1,71 @@
+.node circle {
+  fill: #51B423;
+}
+
+.node text {
+  font: 14px sans-serif;
+  /* fill: #51B423 !important; */
+}
+
+.node--internal circle {
+  fill: darkgreen;
+}
+
+.node--internal text {
+  text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+}
+
+.link {
+  fill: none;
+  stroke: #51B423;
+  stroke-opacity: 0.4;
+  stroke-width: 1.5px;
+}
+
+.chosen-one circle {
+  fill: white !important;
+}
+
+#modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 20px;
+  border: 1px solid grey;
+  border-radius: 3px;
+  width: 250px;
+  text-align: center;
+  margin-right: 50px;
+  margin-top: 50px;
+}
+
+#modal ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+#modal h3{
+  margin: 0 auto;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+#modal li {
+  width: 100%;
+  border: 1px solid lightgrey;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  border-radius: 3px;
+}
+
+#modal a{
+  display: block;
+  text-align: left;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}

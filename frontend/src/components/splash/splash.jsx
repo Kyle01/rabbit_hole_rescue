@@ -26,11 +26,11 @@ class Splash extends React.Component{
                     </div>
                 </div>
                 <div className='splash-bottom-bar'>
-                    <div>
-                        About
+                    <div className='splash-bottom-about'>
+                        <p>About</p>
                     </div>
-                    <div>
-                        2018 ©
+                    <div className='splash-bottom-cr'>
+                        <p>2018 ©</p>
                     </div>
                 </div>
             </div>

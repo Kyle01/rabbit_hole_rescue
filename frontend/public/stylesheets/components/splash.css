@@ -23,7 +23,7 @@
 }
 
 .splash-bottom-bar {
-    display: inline-flex;
+    display: inline-block;
 }
 
 .splash-bottom-about {

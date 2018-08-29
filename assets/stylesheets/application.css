@@ -25,3 +25,47 @@
 .chosen-one circle {
   fill: white !important;
 }
+
+#modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 20px;
+  border: 1px solid grey;
+  border-radius: 3px;
+  width: 250px;
+  text-align: center;
+  margin-right: 50px;
+  margin-top: 50px;
+}
+
+#modal ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+#modal h3{
+  margin: 0 auto;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+#modal li {
+  width: 100%;
+  border: 1px solid lightgrey;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  border-radius: 3px;
+}
+
+#modal a{
+  display: block;
+  text-align: left;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}

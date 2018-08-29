@@ -116,7 +116,6 @@ var App = function App() {
     return _react2.default.createElement(
         'div',
         null,
-        'App page',
         _react2.default.createElement(_show2.default, null)
     );
 };
@@ -306,14 +305,23 @@ var Show = function (_React$Component) {
   }
 
   _createClass(Show, [{
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {}
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      // debugger
+      // let svg_cont = document.createElement("div");
+      // svg_cont.class = "svg-container";
+    }
   }, {
     key: 'render',
     value: function render() {
       var retDiv = _react2.default.createElement(
         'div',
         { id: 'modal' },
+        _react2.default.createElement(
+          'h3',
+          null,
+          'Websites You\'ve Visited:'
+        ),
         _react2.default.createElement('ul', { id: 'modalist' })
       );
       function radialPoint(x, y) {
@@ -322,9 +330,9 @@ var Show = function (_React$Component) {
 
       function click(d) {
         var modal_list = document.getElementById("modalist");
-        // while (modal_list.firstChild) {
-        //     modal_list.removeChild(modal_list.firstChild);
-        // }
+        while (modal_list.firstChild) {
+          modal_list.removeChild(modal_list.firstChild);
+        }
         var nodes = (0, _tree_algorithms.BFSDisplay)(d.data);
         nodes.forEach(function (node) {
           var li = document.createElement('li');
@@ -332,11 +340,12 @@ var Show = function (_React$Component) {
           link.href = node.url;
           link.appendChild(document.createTextNode(node.description));
           li.appendChild(link);
+          li.appendChild(document.createTextNode(node.website));
           modal_list.appendChild(li);
         });
       }
-
-      var svg = d3.select("body").append("svg").attr("width", 800).attr("height", 700).append("g").attr("transform", "translate(" + 800 / 2 + "," + (700 / 2 + 40) + ")");
+      // debugger
+      var svg = d3.select("#root").append("svg").attr("width", 800).attr("height", 700).append("g").attr("transform", "translate(" + 800 / 2 + "," + (700 / 2 + 40) + ")");
 
       var i = 0,
           duration = 750,
@@ -367,17 +376,17 @@ var Show = function (_React$Component) {
           return "translate(" + radialPoint(d.x, d.y) + ")";
         });
 
-        node.append("circle").attr("r", 6).on("mouseover", function (d) {
-          d3.select(this).attr("r", 12);
+        node.append("circle").attr("r", 8).on("mouseover", function (d) {
+          d3.select(this).attr("r", 15);
           d3.select(this).attr("class", "chosen-one");
         }).on("mouseout", function (d) {
           // click(d);
-          d3.select(this).attr("r", 6);
+          d3.select(this).attr("r", 8);
           d3.select(this).attr("class", " ");
         }).on("click", click);
 
         node.append("text").attr("dy", "0.31em").attr("x", function (d) {
-          return d.x < Math.PI === !d.children ? 7 : -7;
+          return d.x < Math.PI === !d.children ? 9 : -9;
         }).attr("text-anchor", function (d) {
           return d.x < Math.PI === !d.children ? "start" : "end";
         }).attr("transform", function (d) {
@@ -421,14 +430,15 @@ var BFSDisplay = exports.BFSDisplay = function BFSDisplay(node) {
   if (!node.children) {
     return [node];
   }
+  var me = Object.assign({}, node);
   var result = [];
   var children = node.children;
   children.forEach(function (child) {
     var done = BFSDisplay(child);
     result = result.concat(done);
   });
-  delete node["children"];
-  result.push(node);
+  delete me["children"];
+  result.push(me);
   return result;
 };
 

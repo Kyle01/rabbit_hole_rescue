@@ -122,13 +122,18 @@ const treeData =[
 
 class Show extends React.Component {
 
-  componentDidUpdate(){
-
+  componentWillMount(){
+    // debugger
+    // let svg_cont = document.createElement("div");
+    // svg_cont.class = "svg-container";
   }
 
   render() {
     var retDiv = (
-      <div id="modal"><ul id="modalist"></ul></div>
+      <div id="modal">
+        <h3>Websites You've Visited:</h3>
+        <ul id="modalist"></ul>
+      </div>
     );
     function radialPoint(x, y) {
       return [(y = +y) * Math.cos(x -= Math.PI / 2), y * Math.sin(x)];
@@ -136,9 +141,9 @@ class Show extends React.Component {
 
     function click(d){
       var modal_list = document.getElementById("modalist");
-      // while (modal_list.firstChild) {
-      //     modal_list.removeChild(modal_list.firstChild);
-      // }
+      while (modal_list.firstChild) {
+          modal_list.removeChild(modal_list.firstChild);
+      }
       let nodes = BFSDisplay(d.data);
       nodes.forEach(node => {
         let li = document.createElement('li');
@@ -146,11 +151,12 @@ class Show extends React.Component {
         link.href = node.url;
         link.appendChild(document.createTextNode(node.description));
         li.appendChild(link);
+        li.appendChild(document.createTextNode(node.website));
         modal_list.appendChild(li);
       });
     }
-
-    var svg = d3.select("body").append("svg")
+    // debugger
+    var svg = d3.select("#root").append("svg")
     	.attr("width", 800)
     	.attr("height", 700)
       .append("g")
@@ -189,21 +195,21 @@ class Show extends React.Component {
           .attr("transform", function(d) { return "translate(" + radialPoint(d.x, d.y) + ")"; });
 
       node.append("circle")
-        .attr("r", 6)
+        .attr("r", 8)
         .on("mouseover", function(d) {
-            d3.select(this).attr("r", 12);
+            d3.select(this).attr("r", 15);
             d3.select(this).attr("class", "chosen-one");
           })
         .on("mouseout", function(d) {
             // click(d);
-            d3.select(this).attr("r", 6);
+            d3.select(this).attr("r", 8);
             d3.select(this).attr("class", " ");
           })
         .on("click", click);
 
       node.append("text")
         .attr("dy", "0.31em")
-        .attr("x", function(d) { return d.x < Math.PI === !d.children ? 7 : -7; })
+        .attr("x", function(d) { return d.x < Math.PI === !d.children ? 9 : -9; })
         .attr("text-anchor", function(d) { return d.x < Math.PI === !d.children ? "start" : "end"; })
         .attr("transform", function(d) { return "rotate(" + (d.x < Math.PI ? d.x - Math.PI / 2 : d.x + Math.PI / 2) * 180 / Math.PI + ")"; })
         .text(function(d) { return d.data.website; });

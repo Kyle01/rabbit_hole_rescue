@@ -5,7 +5,6 @@ import Show from './show/show';
 const App = () => {
     return (
         <div>
-            App page
           <Show/ >
         </div>
     );

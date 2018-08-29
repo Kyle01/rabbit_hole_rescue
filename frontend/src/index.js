@@ -4,7 +4,7 @@ import jwt_decode from 'jwt-decode';
 import * as APIUtil from './util/session_api_util';
 //Components
 import configureStore from './store/store';
-import App from './App.js';
+import App from './App.jsx';
 import registerServiceWorker from './registerServiceWorker';
 
 document.addEventListener('DOMContentLoaded', () => {

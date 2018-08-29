@@ -2,19 +2,14 @@ import React, { Component } from 'react';
 import { Provider } from "react-redux";
 import { HashRouter } from "react-router-dom";
 
-import NavbarFeatures from "./components/NavBar/nav_bar_container";
+import Root from "./components/root";
 
 
 const App = ({ store }) => (
   <Provider store={store}>
-  <HashRouter>
-    <div>
-      <header>
-        <NavbarFeatures />
-      </header>
-      Hello world!
-    </div>
-  </HashRouter>
+    <HashRouter>
+      <Root />
+    </HashRouter>
   </Provider>
 );
 

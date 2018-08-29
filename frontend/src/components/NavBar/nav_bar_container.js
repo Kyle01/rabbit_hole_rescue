@@ -4,7 +4,7 @@ import NavbarFeatures from "./nav_bar";
 
 const mapStateToProps = ({ session }) => {
     return {
-        currentUser: session
+        currentUser: session.email
     };
 };
 

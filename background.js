@@ -31,37 +31,65 @@ chrome.runtime.onInstalled.addListener(function () {
             timeCreated: Date.now(),
             transitionType: getTransitionType(tab.url)
         }
-    }
+    };
+
+    // const addChildren = (tab) => {
+        
+    // }
 
     let savedTabs = {};
     chrome.windows.getAll({populate: true, windowTypes: ["normal"]}, function(windows){
         windows.forEach(window => {
+            savedTabs[window.id] = {};
             window.tabs.forEach(tab => {
+                // savedTabs[tab.windowId] = {};
                 let newNode = createNode(tab);
-                savedTabs[idCreator()] = newNode;
+                savedTabs[tab.windowId][tab.id] = [newNode];
             });
+            console.log(savedTabs);
+            // window.localStorage.setItem(wind.id, JSON.stringify(savedTabs));
         })
+        //windowId?
+        //set up object
+        let sessionId = Date.now();
+        window.localStorage.setItem(`${sessionId}`, JSON.stringify(savedTabs));
+        // console.log(savedTabs);
+        // console.log(window.localStorage);
         
 
         chrome.tabs.onCreated.addListener(function(tab) {
             if (tab.url === "chrome://newtab/") {return}
             
             let newNode = createNode(tab)
-            savedTabs[idCreator()] = newNode;
-            console.log(savedTabs);
+            savedTabs[tab.windowId][tab.id].push(newNode);
+            window.localStorage[sessionId] = JSON.stringify(savedTabs);
+            // console.log(savedTabs);
+            // console.log(window.localStorage);
         });
 
         chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+            
             if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
                 let newNode = createNode(tab);
-                savedTabs[idCreator()] = newNode;
-                console.log(savedTabs);
+                savedTabs[tab.windowId][tab.id].push(newNode);
+                window.localStorage[sessionId] = JSON.stringify(savedTabs);
+                // console.log(savedTabs);
+                // console.log(window.localStorage);
             }
         });
 
+
+
         
     })
-    console.log(savedTabs);
+    // chrome.tabs.getCurrent( tab => {
+    //     console.log(tab);
+    // });
+    // console.log(savedTabs);
+    // chrome.tabs.getAllInWindow(function(tabs) {
+    //     console.log(tabs);
+    // })
+
 });
 
 

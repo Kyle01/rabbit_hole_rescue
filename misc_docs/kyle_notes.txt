@@ -3,13 +3,15 @@
 
 Questions for lecture
 ~~~~~~~
-* What is registerServiceWorker? 
 * What is going on with that 'public' folder in frontend? 
 * We still don't have a 'logged in?' method 
+* How do I do scss? Isnt there an easy way w/ react? 
+
+
+* Are we sure we want to store the history as a cookie? 
 
 8/27
 -------
-* We'll need a chrome default icon 
 * What do we want our pop up to look for (probably nothing)
 * what background scripts do we need to run 
     * What listeners do we need 
@@ -40,3 +42,5 @@ Questions for lecture
 * Other resources: 
     * https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en
     * https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en
+    * https://cloud.google.com/nodejs/getting-started/authenticate-users
+    * https://github.com/jaredhanson/passport-google-oauth2

@@ -6,18 +6,32 @@ class Splash extends React.Component{
 
     render(){
         return(
-            <div>
-                <div>
-                    Example image
+            <div className='splash-main'>
+                <div className='splash-top'>
+                    <p className='splash-top-text'>Your Web History as Nature Intended</p>
+                    <img></img>
                 </div>
-                <div>
-                    Features 
+                <div className='splash-features-box'>
+                    <div>
+                        <ul>
+                            <li>Create history trees on demand</li>
+                            <li>Add notes and review them later</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                            <li>Chrome extension for ease and accessibility</li>
+                            <li>All stored locally</li>
+                        </ul>
+                    </div>
                 </div>
-                <div>
-                    About
-                </div>
-                <div>
-                    2018 ©
+                <div className='splash-bottom-bar'>
+                    <div>
+                        About
+                    </div>
+                    <div>
+                        2018 ©
+                    </div>
                 </div>
             </div>
         );      

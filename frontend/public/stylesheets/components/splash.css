@@ -1,0 +1,35 @@
+.splash-main{
+    width: 100%;
+}
+
+.splash-top{
+    background-color: #b9c6b4;
+    height: 650px;
+    display: flex;
+    justify-content: center;
+}
+
+.splash-top-text {
+    font-family: 'raleway';
+    font-size: 32px;
+    color: white;
+    margin: 0;
+    margin-top: 25px;
+}
+
+.splash-features-box { 
+    height: 225px;
+    background-color: #55664f;
+}
+
+.splash-bottom-bar {
+    display: inline-flex;
+}
+
+.splash-bottom-about {
+    float: left;
+}
+
+.splash-bottom-cr {
+    float: right;
+}

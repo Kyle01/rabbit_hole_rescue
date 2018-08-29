@@ -4,7 +4,7 @@ import { Link, withRouter, Redirect } from "react-router-dom";
 const NavbarFeatures = props => {
     if(props.currentUser){
         return(
-            <div>
+            <div className='nav-main'>
                 Signed In
             </div>
         );

@@ -20,6 +20,11 @@ html {
  * Remove the margin in all browsers.
  */
 
+header {
+  margin: 0;
+  background-color:  #34d149;
+}
+
 body {
   margin: 0;
   background-color: #ffffff;

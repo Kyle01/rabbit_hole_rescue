@@ -44,3 +44,8 @@ Questions for lecture
     * https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en
     * https://cloud.google.com/nodejs/getting-started/authenticate-users
     * https://github.com/jaredhanson/passport-google-oauth2
+
+* imported fonts: 
+    * https://fonts.google.com/specimen/Slabo+27px
+    * https://fonts.google.com/specimen/Merriweather
+    * https://fonts.google.com/specimen/Raleway

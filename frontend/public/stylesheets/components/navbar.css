@@ -1,3 +1,53 @@
-.test {
-    background-color: black;
+.nav-main {
+    background-color: #34d149;
+    width: 100%;
+    height: 60px;
+    display: inline-block;
+    justify-content: center;
+}
+
+.nav-left {
+    float: left;
+    margin-top: 15px;
+}
+
+.nav-right {
+    float: right; 
+    margin-top: 15px;
+}
+
+.nav-logo {
+    font-size: 24px;
+    color: white;
+    margin-left: 10px;
+    font-family: 'Merriweather';
+    text-decoration: none;
+}
+
+.nav-signin {
+    color: white; 
+    text-decoration: none;
+    font-size: 16px;
+    font-family: 'Raleway';
+}
+
+.nav-signin:hover {
+    color: #cfd6cd;
+}
+
+.nav-login {
+    font-family: 'Raleway';
+    color: white;
+    background-color: #d14e33;
+    border: 2px solid white;
+    border-radius: 5px;
+    padding: 8px;
+    text-decoration: none;
+    margin-right: 10px;
+    margin-left: 20px;
+    font-size: 18px;
+}
+
+.nav-login:hover {
+    background-color: #ef745b;
 }

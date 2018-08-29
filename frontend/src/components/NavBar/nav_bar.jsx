@@ -10,8 +10,14 @@ const NavbarFeatures = props => {
         );
     } else {
         return(
-            <div>
-                Signed out
+            <div className='nav-main'>
+                <div className='nav-left'>
+                    <Link to="/" className='nav-logo'>Rabbit Hole Rescue</Link>
+                </div>
+                <div className='nav-right'>
+                    <Link to="/signin" className='nav-signin'>Sign In</Link>
+                    <Link to="/signup" className='nav-login'>Get Started</Link>
+                </div>
             </div>
         );
     }

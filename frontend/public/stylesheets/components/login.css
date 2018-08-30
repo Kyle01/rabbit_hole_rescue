@@ -1,0 +1,36 @@
+.signin-main {
+    background-color: #55664f;
+    height: 875px;
+    display: flex;
+    justify-content: center;
+}
+
+.signin-container {
+    background-color: #e2e1a3;
+    max-width: 500px;
+    width: 80%;
+    border-radius: 15px;
+    border: 3px solid #ffffff;
+    margin-top: 50px;
+    display: inline-flex;
+    justify-content: center;
+    height: 500px;
+
+}
+
+
+.signin-logo {
+    height: 125px;
+    width: 125px;
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.signin-button {
+    width: 80%;
+    background-color: white;
+}
+
+.signin-form {
+}

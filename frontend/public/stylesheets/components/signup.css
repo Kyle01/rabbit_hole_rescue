@@ -1,0 +1,40 @@
+.signup-main {
+
+}
+
+.signup-first-div{
+    background-color: #b9c6b4;
+    justify-content: center;
+    display: flex;
+    height: 400px;
+}
+
+.signup-top-text {
+    font-family: 'raleway';
+    font-size: 32px;
+    color: white;
+    margin: 0;
+    padding-top: 25px;
+    display:block;
+}
+
+.signup-second-div{
+    background-color: #ffffff;
+    justify-content: center;
+    display: flex;
+    height: 400px;
+}
+
+.signup-third-div{
+    background-color: #55664f;
+    justify-content: center;
+    display: flex;
+    height: 400px;
+}
+
+.signup-fourth-div{
+    background-color: #b9c6b4;
+    justify-content: center;
+    display: flex;
+    height: 400px;
+}

@@ -122,19 +122,8 @@ const treeData =[
 
 class Show extends React.Component {
 
-  componentWillMount(){
-    // debugger
-    // let svg_cont = document.createElement("div");
-    // svg_cont.class = "svg-container";
-  }
 
-  render() {
-    var retDiv = (
-      <div id="modal">
-        <h3>Websites You've Visited:</h3>
-        <ul id="modalist"></ul>
-      </div>
-    );
+  renderTree(props){
     function radialPoint(x, y) {
       return [(y = +y) * Math.cos(x -= Math.PI / 2), y * Math.sin(x)];
     }
@@ -148,28 +137,27 @@ class Show extends React.Component {
       nodes.forEach(node => {
         let li = document.createElement('li');
         let link = document.createElement('a');
+        let span = document.createElement('span');
+        span.appendChild(document.createTextNode(node.website));
         link.href = node.url;
         link.appendChild(document.createTextNode(node.description));
+        link.appendChild(span);
         li.appendChild(link);
-        li.appendChild(document.createTextNode(node.website));
         modal_list.appendChild(li);
       });
     }
-    // debugger
-    var svg = d3.select("#root").append("svg")
+    var svg = d3.select("#svg-container").append("svg")
     	.attr("width", 800)
     	.attr("height", 700)
       .append("g")
     	.attr("transform", "translate(" + (800 / 2 ) + "," + (700 / 2 + 40) + ")");
 
-    var i = 0,
-    	duration = 750,
+    var duration = 750,
     	root;
 
     var tree = d3.tree()
     	.size([2*Math.PI, 350])
       .separation(function(a, b) {
-        // debugger
         return (a.parent == b.parent ? 1 : 2) / a.depth;
       });
 
@@ -226,6 +214,23 @@ class Show extends React.Component {
           .radius(function(d) { return d.y; }));
 
     }
+  }
+
+  componentDidMount(nextProps){
+    this.renderTree(nextProps);
+  }
+
+  render() {
+    var retDiv = (
+      <div id="showme-money" className="show-page">
+        <svg width="800" height="700" ref={node => this.node = node} id="svg-container"></svg>
+        <div id="modal">
+          <h3>Websites You've Visited:</h3>
+          <ul id="modalist"></ul>
+        </div>
+      </div>
+    );
+    
 
 
     return retDiv;

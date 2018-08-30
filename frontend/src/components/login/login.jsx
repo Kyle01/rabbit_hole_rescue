@@ -29,14 +29,18 @@ class Login extends React.Component {
         return (
         <div className="signin-main">
             <div className="signin-container">
+            <div>
                 <img src="../../../images/transparent_logo.png" className="signin-logo" />
+            </div>
+            <div>
               <form className='signin-form'>
-                <input type="text" placeholder="Username" value={this.state.username} onChange={this.handleInput("username")} />
-                <input type="password" placeholder="Password" value={this.state.password} onChange={this.handleInput("password")} />
+                <input className='signin-form-field' type="text" placeholder="username" value={this.state.username} onChange={this.handleInput("username")} />
+                <input className='signin-form-field' type="password" placeholder="password" value={this.state.password} onChange={this.handleInput("password")} />
                 <button className="signin-button" onClick={this.handleSubmit}>
                   Sign in
                 </button>
               </form>
+            </div>
             </div>
           </div>
         );

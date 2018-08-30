@@ -3,6 +3,7 @@
     height: 875px;
     display: flex;
     justify-content: center;
+    font-family: 'Raleway';
 }
 
 .signin-container {
@@ -12,7 +13,7 @@
     border-radius: 15px;
     border: 3px solid #ffffff;
     margin-top: 50px;
-    display: inline-flex;
+    display: block;
     justify-content: center;
     height: 500px;
 
@@ -20,17 +21,41 @@
 
 
 .signin-logo {
-    height: 125px;
-    width: 125px;
+    height: 150px;
+    width: 150px;
     display: flex;
     justify-content: center;
-    margin-top: 25px;
+    margin-top: 37.5px;
+    margin: 0 auto;
+    margin-bottom: 85px;
 }
 
 .signin-button {
-    width: 80%;
-    background-color: white;
+    width: 90%;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #34d149;
+    color: white; 
+    border: none;
+    font-size: 20px;
+    
+}
+
+.signin-button:hover {
+    background-color: #3e8c37;
+}
+
+.signin-form-field {
+    width: 90%; 
+    height: 40px;
+    border-radius: 5px;
+    font-size: 20px;
+    border: none;
+    margin-bottom: 20px;
 }
 
 .signin-form {
+    margin: 0 auto;
+    display: block;
+    text-align: center;
 }

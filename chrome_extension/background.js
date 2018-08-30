@@ -12,7 +12,7 @@ chrome.runtime.onInstalled.addListener(function () {
     };
     const getTransitionType = (url) => {
         chrome.history.getVisits({ url }, function (results) {
-            if (results.length === 0) {
+            if (results === undefined || url === undefined || results.length === 0) {
                 return null;
             } else {
                 return results.pop().id;
@@ -60,9 +60,10 @@ chrome.runtime.onInstalled.addListener(function () {
 
         chrome.tabs.onCreated.addListener(function(tab) {
             if (tab.url === "chrome://newtab/") {return;}
-            
-            let newNode = createNode(tab);
-            savedTabs[tab.windowId][tab.id].push(newNode);
+            console.log(tab);
+            // let newNode = createNode(tab);
+            // savedTabs[tab.windowId][tab.id] = [newNode];
+
             window.localStorage[sessionId] = JSON.stringify(savedTabs);
             // console.log(savedTabs);
             // console.log(window.localStorage);

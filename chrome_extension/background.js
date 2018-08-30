@@ -83,7 +83,6 @@ chrome.runtime.onInstalled.addListener(function () {
         })
         setCurrNode();
         let date = Math.floor(Date.now() / 216000000);
-        debugger;
         window.localStorage.setItem(`session${date}`, JSON.stringify(payload));
         
         chrome.tabs.onActivated.addListener(function() {

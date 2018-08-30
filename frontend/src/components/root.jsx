@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 
 import NavbarFeatures from "./NavBar/nav_bar_container";
+import Show from './show/show';
 import Splash from './splash/splash';
 
 const Root = () => (
@@ -19,6 +20,7 @@ const Root = () => (
         <Switch>
             <Route exact path="/login"/>
             <Route exact path="/signup"/>
+            <Route exact path='/tree'/>
             <Route exact path="/" component={Splash} />
         </Switch>
     </div>

@@ -7,9 +7,43 @@
 let i = 0;
 
 chrome.runtime.onInstalled.addListener(function () {
+    let currNode = {id: null};
+    const setCurrNode = () => {
+        chrome.tabs.query({active: true, lastFocusedWindow: true}, function(tab) {
+            let currTab = tab[0];
+            payload.windows[currTab.windowId].visits.forEach(visit => {
+                let visitObj = payload.visits[visit];
+                if (visitObj.url === currTab.url && visitObj.chromeTabId === currTab.id) {
+                    currNode = visitObj;
+                }
+            })
+        });
+    };
+
+    const historyNode = (visit) => {
+        payload.windows[visit.windowId].visits.forEach(historyItemId => {
+            let historyItem = payload.visits[historyItemId];
+            if (historyItem.chromeTabId === visit.id && historyItem.url === visit.url) {
+                currNode = historyItem;
+                return true;
+            } else {
+                setCurrNode();
+                return false;
+            }
+        })
+    }
+
+    const setChildren = (visit) => {
+        // console.log(visit);
+        let par = visit.parent;
+        if (par) {
+            payload.visits[par].children.push(visit.id);
+        }
+    };
+
     const idCreator = () => {
         return i++;
-    }
+    };
     const getTransitionType = (url) => {
         chrome.history.getVisits({ url }, function (results) {
             if (results.length === 0) {
@@ -20,72 +54,102 @@ chrome.runtime.onInstalled.addListener(function () {
         })
     };
 
+    // const createWindow = (window, vistId) => {
+    //     return {
+    //         id: window.id,
+    //         visits: [visitId]
+    //     };
+    // }
+
     const createNode = (tab) => {
-        return {
+        let id = idCreator()
+        let newNode =  {
+            id: id,
             url: tab.url,
             title: tab.title,
             chromeTabId: tab.id,
             chromeWindowId: tab.windowId,
-            parent: null,
             children: [],
             timeCreated: Date.now(),
             transitionType: getTransitionType(tab.url)
         }
+        if (currNode.chromeTabId === newNode.chromeTabId) {
+            newNode.parent = currNode.id;
+        } else {
+            newNode.parent = null;
+        }
+        return newNode;
     };
 
-    // const addChildren = (tab) => {
-        
+    // const setParent = (tab, payload) => {
+    //     let window = payload.windows[tab.windowId];
+    //     let candidateId = window.visits[window.visits.length - 1];
+    //     let candidate = payload.visits[candidateId];
+    //     if (candidate.tabId === tab.id) {
+    //         parent.
+    //     }
     // }
 
-    let savedTabs = {};
+    let payload = {windows: {}, visits: {}};
     chrome.windows.getAll({populate: true, windowTypes: ["normal"]}, function(windows){
         windows.forEach(window => {
-            savedTabs[window.id] = {};
-            window.tabs.forEach(tab => {
-                // savedTabs[tab.windowId] = {};
-                let newNode = createNode(tab);
-                savedTabs[tab.windowId][tab.id] = [newNode];
+            let windowObject = {id: window.id, visits: []}
+            window.tabs.forEach(visit => {
+                let newNode = createNode(visit);
+                // console.log(newNode);
+                windowObject.visits.push(newNode.id);
+                payload.visits[newNode.id] = newNode;
+                payload.windows[visit.windowId] = windowObject;
             });
-            console.log(savedTabs);
-            // window.localStorage.setItem(wind.id, JSON.stringify(savedTabs));
+            // console.log(payload);
+            
         })
-        //windowId?
-        //set up object
-        let sessionId = Date.now();
-        window.localStorage.setItem(`${sessionId}`, JSON.stringify(savedTabs));
-        // console.log(savedTabs);
-        // console.log(window.localStorage);
+        setCurrNode();
+        window.localStorage.setItem(`session`, JSON.stringify(payload));
         
 
-        chrome.tabs.onCreated.addListener(function(tab) {
-            if (tab.url === "chrome://newtab/") {return}
+        // chrome.tabs.onCreated.addListener(function(tab) {
+        //     if (tab.url === "chrome://newtab/") {return}
             
-            let newNode = createNode(tab)
-            savedTabs[tab.windowId][tab.id].push(newNode);
-            window.localStorage[sessionId] = JSON.stringify(savedTabs);
-            // console.log(savedTabs);
-            // console.log(window.localStorage);
-        });
-
-        chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+        //     let newNode = createNode(tab);
+        //     payload[tab.windowId][tab.id].push(newNode);
+        //     window.localStorage[sessionId] = JSON.stringify(payload);
+        //     chrome.webNavigation.getAllFrames({ tabId: tab.id }, function (frames) {
+        //         // console.log({ [tab.id]: frames })
+        //     });
+        //     // console.log(payload);
+        //     // console.log(window.localStorage);
+        // });
+        chrome.tabs.onActivated.addListener(function() {
+            setCurrNode();
+        })
+        chrome.tabs.onUpdated.addListener(function(visitId, changeInfo, visit) {
             
             if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
-                let newNode = createNode(tab);
-                savedTabs[tab.windowId][tab.id].push(newNode);
-                window.localStorage[sessionId] = JSON.stringify(savedTabs);
-                // console.log(savedTabs);
+                // console.log(visit.url);
+                let newNode = createNode(visit);
+
+                //check if tab and url already exist and reset current node
+                historyNode(visit)
+                    
+                payload.windows[visit.windowId].visits.push(newNode.id);
+                payload.visits[newNode.id] = newNode;
+                setChildren(newNode);
+                
+                window.localStorage.session = JSON.stringify(payload);
+                console.log(payload);
                 // console.log(window.localStorage);
             }
         });
 
 
-
+        
         
     })
     // chrome.tabs.getCurrent( tab => {
     //     console.log(tab);
     // });
-    // console.log(savedTabs);
+    // console.log(payload);
     // chrome.tabs.getAllInWindow(function(tabs) {
     //     console.log(tabs);
     // })

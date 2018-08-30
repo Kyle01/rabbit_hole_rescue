@@ -1,0 +1,81 @@
+.node circle {
+  fill: #51B423;
+}
+
+.node text {
+  font: 14px sans-serif;
+  /* fill: #51B423 !important; */
+}
+
+.node--internal circle {
+  fill: darkgreen;
+}
+
+.node--internal text {
+  text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+}
+
+.link {
+  fill: none;
+  stroke: #51B423;
+  stroke-opacity: 0.4;
+  stroke-width: 1.5px;
+}
+
+.chosen-one circle {
+  fill: white !important;
+}
+#showme-money{
+  display: flex;
+  justify-content: space-evenly;
+}
+#modal {
+
+  align-self: flex-start;
+  display: block;
+  padding: 20px;
+  border: 1px solid grey;
+  border-radius: 3px;
+  width: 250px;
+  text-align: center;
+  margin-top: 30px;
+}
+
+#modal ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+#modal h3{
+  margin: 0 auto;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+#modal li {
+  width: 100%;
+  border: 1px solid lightgrey;
+  
+
+  margin-bottom: 5px;
+  border-radius: 3px;
+}
+
+#modal a{
+  text-align: left;
+  width: 95%;
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  text-decoration: none;
+  margin: 5px;
+  color: black;
+}
+
+.show-page div{
+  display: flex;
+  justify-content: space-evenly;
+}

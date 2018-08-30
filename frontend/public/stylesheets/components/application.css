@@ -25,25 +25,27 @@
 .chosen-one circle {
   fill: white !important;
 }
-
+#showme-money{
+  display: flex;
+  justify-content: space-evenly;
+}
 #modal {
-  position: absolute;
-  top: 0;
-  right: 0;
+
+  align-self: flex-start;
+  display: block;
   padding: 20px;
   border: 1px solid grey;
   border-radius: 3px;
   width: 250px;
   text-align: center;
-  margin-right: 50px;
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 #modal ul{
   list-style-type: none;
   margin: 0;
   padding: 0;
-  display: inline;
+  display: block;
 }
 
 #modal h3{
@@ -55,17 +57,25 @@
 #modal li {
   width: 100%;
   border: 1px solid lightgrey;
-  padding: 5px;
-  display: flex;
-  justify-content: space-between;
+  
+
   margin-bottom: 5px;
   border-radius: 3px;
 }
 
 #modal a{
-  display: block;
   text-align: left;
-  width: 100%;
+  width: 95%;
   height: 100%;
   z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  text-decoration: none;
+  margin: 5px;
+  color: black;
+}
+
+.show-page div{
+  display: flex;
+  justify-content: space-evenly;
 }

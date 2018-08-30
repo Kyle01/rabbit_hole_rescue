@@ -8,6 +8,7 @@ Questions for lecture
 * How do I do scss? Isnt there an easy way w/ react? 
 
 
+=======
 * Are we sure we want to store the history as a cookie? 
 
 8/27
@@ -49,3 +50,4 @@ Questions for lecture
     * https://fonts.google.com/specimen/Slabo+27px
     * https://fonts.google.com/specimen/Merriweather
     * https://fonts.google.com/specimen/Raleway
+>>>>>>> 374009dbecc8c266cee4192da2c6e4c5e49bf20b

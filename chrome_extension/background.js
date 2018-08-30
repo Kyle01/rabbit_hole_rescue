@@ -82,7 +82,9 @@ chrome.runtime.onInstalled.addListener(function () {
             
         })
         setCurrNode();
-        window.localStorage.setItem(`session`, JSON.stringify(payload));
+        let date = Math.floor(Date.now() / 216000000);
+        debugger;
+        window.localStorage.setItem(`session${date}`, JSON.stringify(payload));
         
         chrome.tabs.onActivated.addListener(function() {
             setCurrNode();
@@ -100,8 +102,8 @@ chrome.runtime.onInstalled.addListener(function () {
                      payload.visits[newNode.id] = newNode;
                      setChildren(newNode);
                  }
-                window.localStorage.session = JSON.stringify(payload);
-                console.log(payload);
+                window.localStorage[`session${date}`] = JSON.stringify(payload);
+                // console.log(payload);
             }
         });
 

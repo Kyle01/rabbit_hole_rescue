@@ -8,6 +8,8 @@ class Login extends React.Component {
             username: "",
             password: ""
         };
+
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleInput(type) {
@@ -18,12 +20,14 @@ class Login extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.login(this.state).then(() => this.props.history.push("/dashboard"));
+        this.props.login(this.state);
+        this.props.history.push("/tree");
     }
 
 
     render() {
-        return <div className="signin-main">
+        return (
+        <div className="signin-main">
             <div className="signin-container">
                 <img src="../../../images/transparent_logo.png" className="signin-logo" />
               <form className='signin-form'>
@@ -34,7 +38,8 @@ class Login extends React.Component {
                 </button>
               </form>
             </div>
-          </div>;
+          </div>
+        );
     }
 }
 

@@ -4,7 +4,7 @@
     "description": "",
     "main": "./frontend/index.js",
     "scripts": {
-        "start": "node app.js",
+        "start": "node --inspect app.js",
         "server": "nodemon app.js",
         "webpack": "webpack --mode=development --watch",
         "frontend-install": "npm install --prefix frontend",

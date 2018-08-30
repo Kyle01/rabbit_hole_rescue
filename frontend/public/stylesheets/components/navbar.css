@@ -56,3 +56,17 @@
 .nav-login:hover {
     background-color: #ef745b;
 }
+
+.nav-signout-link {
+    color: white; 
+    text-decoration: none;
+    font-size: 16px;
+    font-family: 'Raleway';
+    background: none;
+    border: none;
+    padding-right: 25px;
+}
+
+.nav-signout-link:hover {
+    color: #cfd6cd;
+}

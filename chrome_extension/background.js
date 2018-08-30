@@ -91,7 +91,6 @@ chrome.runtime.onInstalled.addListener(function () {
             
             if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
                 let newNode = createNode(visit);
-                
                 let histNode = historyNode(visit);
                  if (histNode){
                      currNode = histNode;

@@ -8,7 +8,6 @@ chrome.runtime.onInstalled.addListener(function () {
     const setCurrNode = () => {
         chrome.tabs.query({active: true, windowId: currNode.chromeWindowId}, function(tab) {
             let currTab = tab[0];
-            debugger;
             payload.windows[currTab.windowId].visits.forEach(visit => {
                 let visitObj = payload.visits[visit];
                 if (visitObj.url === currTab.url && visitObj.chromeTabId === currTab.id) {
@@ -30,7 +29,6 @@ chrome.runtime.onInstalled.addListener(function () {
     };
 
     const historyNode = (visit) => {
-        debugger;
         let historyIds = payload.windows[visit.windowId].visits
         for (let i = 0; i < historyIds.length; i++) {
             let historyItem = payload.visits[historyIds[i]];
@@ -93,7 +91,6 @@ chrome.runtime.onInstalled.addListener(function () {
             
             if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
                 let newNode = createNode(visit);
-                debugger;
                 let histNode = historyNode(visit);
                  if (histNode){
                      currNode = histNode;

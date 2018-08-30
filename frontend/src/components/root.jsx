@@ -20,7 +20,7 @@ const Root = () => (
         <Switch>
             <Route exact path="/login"/>
             <Route exact path="/signup"/>
-            <Route exact path='/tree'/>
+            <Route exact path='/tree' component={Show}/>
             <Route exact path="/" component={Splash} />
         </Switch>
     </div>

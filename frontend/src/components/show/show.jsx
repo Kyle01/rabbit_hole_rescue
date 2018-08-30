@@ -137,10 +137,12 @@ class Show extends React.Component {
       nodes.forEach(node => {
         let li = document.createElement('li');
         let link = document.createElement('a');
+        let span = document.createElement('span');
+        span.appendChild(document.createTextNode(node.website));
         link.href = node.url;
         link.appendChild(document.createTextNode(node.description));
+        link.appendChild(span);
         li.appendChild(link);
-        li.appendChild(document.createTextNode(node.website));
         modal_list.appendChild(li);
       });
     }
@@ -220,7 +222,7 @@ class Show extends React.Component {
 
   render() {
     var retDiv = (
-      <div className="show-page">
+      <div id="showme-money" className="show-page">
         <svg width="800" height="700" ref={node => this.node = node} id="svg-container"></svg>
         <div id="modal">
           <h3>Websites You've Visited:</h3>

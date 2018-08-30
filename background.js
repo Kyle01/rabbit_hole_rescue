@@ -1,15 +1,46 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
 
 'use strict';
 
 let i = 0;
 
 chrome.runtime.onInstalled.addListener(function () {
+    let currNode = {id: null};
+    const setCurrNode = () => {
+        chrome.tabs.query({active: true, windowId: currNode.chromeWindowId}, function(tab) {
+            let currTab = tab[0];
+            debugger;
+            payload.windows[currTab.windowId].visits.forEach(visit => {
+                let visitObj = payload.visits[visit];
+                if (visitObj.url === currTab.url && visitObj.chromeTabId === currTab.id) {
+                    currNode = visitObj;
+                }
+            })
+        });
+    };
+
+    const setChildren = (visit) => {
+        let par = visit.parent;
+        if (par) {
+            payload.visits[par].children.push(visit.id);
+        }
+    };
+
     const idCreator = () => {
         return i++;
-    }
+    };
+
+    const historyNode = (visit) => {
+        debugger;
+        let historyIds = payload.windows[visit.windowId].visits
+        for (let i = 0; i < historyIds.length; i++) {
+            let historyItem = payload.visits[historyIds[i]];
+            if (historyItem.chromeTabId === visit.id && historyItem.url === visit.url) {
+                return historyItem;
+            }
+        };
+        return null;
+    };
+
     const getTransitionType = (url) => {
         chrome.history.getVisits({ url }, function (results) {
             if (results.length === 0) {
@@ -21,131 +52,71 @@ chrome.runtime.onInstalled.addListener(function () {
     };
 
     const createNode = (tab) => {
-        return {
+        let id = idCreator()
+        let newNode =  {
+            id: id,
             url: tab.url,
             title: tab.title,
             chromeTabId: tab.id,
             chromeWindowId: tab.windowId,
-            parent: null,
             children: [],
             timeCreated: Date.now(),
             transitionType: getTransitionType(tab.url)
         }
+        if (currNode.chromeTabId === newNode.chromeTabId) {
+            newNode.parent = currNode.id;
+        } else {
+            newNode.parent = null;
+        }
+        return newNode;
     };
 
-    // const addChildren = (tab) => {
-        
-    // }
-
-    let savedTabs = {};
+    let payload = {windows: {}, visits: {}};
     chrome.windows.getAll({populate: true, windowTypes: ["normal"]}, function(windows){
         windows.forEach(window => {
-            savedTabs[window.id] = {};
-            window.tabs.forEach(tab => {
-                // savedTabs[tab.windowId] = {};
-                let newNode = createNode(tab);
-                savedTabs[tab.windowId][tab.id] = [newNode];
+            let windowObject = {id: window.id, visits: []}
+            window.tabs.forEach(visit => {
+                let newNode = createNode(visit);
+                windowObject.visits.push(newNode.id);
+                payload.visits[newNode.id] = newNode;
+                payload.windows[visit.windowId] = windowObject;
             });
-            console.log(savedTabs);
-            // window.localStorage.setItem(wind.id, JSON.stringify(savedTabs));
-        })
-        //windowId?
-        //set up object
-        let sessionId = Date.now();
-        window.localStorage.setItem(`${sessionId}`, JSON.stringify(savedTabs));
-        // console.log(savedTabs);
-        // console.log(window.localStorage);
-        
-
-        chrome.tabs.onCreated.addListener(function(tab) {
-            if (tab.url === "chrome://newtab/") {return}
             
-            let newNode = createNode(tab)
-            savedTabs[tab.windowId][tab.id].push(newNode);
-            window.localStorage[sessionId] = JSON.stringify(savedTabs);
-            // console.log(savedTabs);
-            // console.log(window.localStorage);
-        });
-
-        chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+        })
+        setCurrNode();
+        window.localStorage.setItem(`session`, JSON.stringify(payload));
+        
+        chrome.tabs.onActivated.addListener(function() {
+            setCurrNode();
+        })
+        chrome.tabs.onUpdated.addListener(function(visitId, changeInfo, visit) {
             
             if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
-                let newNode = createNode(tab);
-                savedTabs[tab.windowId][tab.id].push(newNode);
-                window.localStorage[sessionId] = JSON.stringify(savedTabs);
-                // console.log(savedTabs);
-                // console.log(window.localStorage);
+                let newNode = createNode(visit);
+                debugger;
+                let histNode = historyNode(visit);
+                 if (histNode){
+                     currNode = histNode;
+                 } else {
+                     setCurrNode();
+                     payload.windows[visit.windowId].visits.push(newNode.id);
+                     payload.visits[newNode.id] = newNode;
+                     setChildren(newNode);
+                 }
+                window.localStorage.session = JSON.stringify(payload);
+                console.log(payload);
             }
         });
 
 
-
+        
         
     })
-    // chrome.tabs.getCurrent( tab => {
-    //     console.log(tab);
-    // });
-    // console.log(savedTabs);
-    // chrome.tabs.getAllInWindow(function(tabs) {
-    //     console.log(tabs);
-    // })
 
 });
 
 
-// dates have windows
-
-// windows have tabs 
-
-// parent tabs have children tabs
 
 
-// what to check for in node
-
-//createWindow = new Window
-
-//createTab = new Node
-
-//updateTab = new Node with old Node as parent
-
-//newTab BUT from link, where to put on tree
-
-//save Node to folders?
-
-//Node info
-    //node_id*
-    //website_url*
-    //chrome_window_id*
-    //chrome_tab_id*
-    //website title*
-    //website desc?
-    //parent*
-    //children*
-    //currentNode
-    //timeCreated*
-    //timeRevisited?
-    //timeUpdated?
-    //timeLeft?
-    //totalTime?
-    //totalViews?
-    //transitionType*
-    //Notes?
-    //favorite/save?
 
 
-//Initial Node Info
-    //id
-    //web_url
-    //chrome_window_id
-    //chrome_tab_id
-    //web_title
-    //parent
-    //children
-    //timeCreated
-    //transitionType
-
-//listeners
-    //createWindow
-    //createTab
-    //updateTab
-    //changeTab/currentTab

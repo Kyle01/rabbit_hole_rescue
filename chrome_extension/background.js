@@ -9,7 +9,7 @@ let i = 0;
 chrome.runtime.onInstalled.addListener(function () {
     const idCreator = () => {
         return i++;
-    }
+    };
     const getTransitionType = (url) => {
         chrome.history.getVisits({ url }, function (results) {
             if (results.length === 0) {
@@ -17,7 +17,7 @@ chrome.runtime.onInstalled.addListener(function () {
             } else {
                 return results.pop().id;
             }
-        })
+        });
     };
 
     const createNode = (tab) => {
@@ -30,7 +30,7 @@ chrome.runtime.onInstalled.addListener(function () {
             children: [],
             timeCreated: Date.now(),
             transitionType: getTransitionType(tab.url)
-        }
+        };
     };
 
     // const addChildren = (tab) => {
@@ -46,9 +46,10 @@ chrome.runtime.onInstalled.addListener(function () {
                 let newNode = createNode(tab);
                 savedTabs[tab.windowId][tab.id] = [newNode];
             });
-            console.log(savedTabs);
             // window.localStorage.setItem(wind.id, JSON.stringify(savedTabs));
-        })
+        });
+        console.log(savedTabs);
+
         //windowId?
         //set up object
         let sessionId = Date.now();
@@ -58,9 +59,9 @@ chrome.runtime.onInstalled.addListener(function () {
         
 
         chrome.tabs.onCreated.addListener(function(tab) {
-            if (tab.url === "chrome://newtab/") {return}
+            if (tab.url === "chrome://newtab/") {return;}
             
-            let newNode = createNode(tab)
+            let newNode = createNode(tab);
             savedTabs[tab.windowId][tab.id].push(newNode);
             window.localStorage[sessionId] = JSON.stringify(savedTabs);
             // console.log(savedTabs);
@@ -70,10 +71,16 @@ chrome.runtime.onInstalled.addListener(function () {
         chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
             
             if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
+               console.log(savedTabs);
+
                 let newNode = createNode(tab);
-                savedTabs[tab.windowId][tab.id].push(newNode);
+                if (savedTabs[tab.windowId][tab.id] !== undefined) {
+                  savedTabs[tab.windowId][tab.id].push(newNode);
+                } else {
+                  savedTabs[tab.windowId][tab.id] = [newNode];
+                }
                 window.localStorage[sessionId] = JSON.stringify(savedTabs);
-                // console.log(savedTabs);
+                console.log(savedTabs);
                 // console.log(window.localStorage);
             }
         });
@@ -81,7 +88,7 @@ chrome.runtime.onInstalled.addListener(function () {
 
 
         
-    })
+    });
     // chrome.tabs.getCurrent( tab => {
     //     console.log(tab);
     // });

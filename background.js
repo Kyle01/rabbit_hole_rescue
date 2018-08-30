@@ -1,6 +1,3 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
 
 'use strict';
 
@@ -34,7 +31,6 @@ chrome.runtime.onInstalled.addListener(function () {
     }
 
     const setChildren = (visit) => {
-        // console.log(visit);
         let par = visit.parent;
         if (par) {
             payload.visits[par].children.push(visit.id);
@@ -53,13 +49,6 @@ chrome.runtime.onInstalled.addListener(function () {
             }
         })
     };
-
-    // const createWindow = (window, vistId) => {
-    //     return {
-    //         id: window.id,
-    //         visits: [visitId]
-    //     };
-    // }
 
     const createNode = (tab) => {
         let id = idCreator()
@@ -81,27 +70,16 @@ chrome.runtime.onInstalled.addListener(function () {
         return newNode;
     };
 
-    // const setParent = (tab, payload) => {
-    //     let window = payload.windows[tab.windowId];
-    //     let candidateId = window.visits[window.visits.length - 1];
-    //     let candidate = payload.visits[candidateId];
-    //     if (candidate.tabId === tab.id) {
-    //         parent.
-    //     }
-    // }
-
     let payload = {windows: {}, visits: {}};
     chrome.windows.getAll({populate: true, windowTypes: ["normal"]}, function(windows){
         windows.forEach(window => {
             let windowObject = {id: window.id, visits: []}
             window.tabs.forEach(visit => {
                 let newNode = createNode(visit);
-                // console.log(newNode);
                 windowObject.visits.push(newNode.id);
                 payload.visits[newNode.id] = newNode;
                 payload.windows[visit.windowId] = windowObject;
             });
-            // console.log(payload);
             
         })
         setCurrNode();
@@ -126,7 +104,6 @@ chrome.runtime.onInstalled.addListener(function () {
         chrome.tabs.onUpdated.addListener(function(visitId, changeInfo, visit) {
             
             if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
-                // console.log(visit.url);
                 let newNode = createNode(visit);
 
                 //check if tab and url already exist and reset current node
@@ -138,7 +115,6 @@ chrome.runtime.onInstalled.addListener(function () {
                 
                 window.localStorage.session = JSON.stringify(payload);
                 console.log(payload);
-                // console.log(window.localStorage);
             }
         });
 
@@ -146,33 +122,10 @@ chrome.runtime.onInstalled.addListener(function () {
         
         
     })
-    // chrome.tabs.getCurrent( tab => {
-    //     console.log(tab);
-    // });
-    // console.log(payload);
-    // chrome.tabs.getAllInWindow(function(tabs) {
-    //     console.log(tabs);
-    // })
 
 });
 
 
-// dates have windows
-
-// windows have tabs 
-
-// parent tabs have children tabs
-
-
-// what to check for in node
-
-//createWindow = new Window
-
-//createTab = new Node
-
-//updateTab = new Node with old Node as parent
-
-//newTab BUT from link, where to put on tree
 
 //save Node to folders?
 
@@ -213,3 +166,5 @@ chrome.runtime.onInstalled.addListener(function () {
     //createTab
     //updateTab
     //changeTab/currentTab
+
+

@@ -6,8 +6,9 @@ let i = 0;
 chrome.runtime.onInstalled.addListener(function () {
     let currNode = {id: null};
     const setCurrNode = () => {
-        chrome.tabs.query({active: true, lastFocusedWindow: true}, function(tab) {
+        chrome.tabs.query({active: true, windowId: currNode.chromeWindowId}, function(tab) {
             let currTab = tab[0];
+            debugger;
             payload.windows[currTab.windowId].visits.forEach(visit => {
                 let visitObj = payload.visits[visit];
                 if (visitObj.url === currTab.url && visitObj.chromeTabId === currTab.id) {
@@ -16,19 +17,6 @@ chrome.runtime.onInstalled.addListener(function () {
             })
         });
     };
-
-    const historyNode = (visit) => {
-        payload.windows[visit.windowId].visits.forEach(historyItemId => {
-            let historyItem = payload.visits[historyItemId];
-            if (historyItem.chromeTabId === visit.id && historyItem.url === visit.url) {
-                currNode = historyItem;
-                return true;
-            } else {
-                setCurrNode();
-                return false;
-            }
-        })
-    }
 
     const setChildren = (visit) => {
         let par = visit.parent;
@@ -40,6 +28,19 @@ chrome.runtime.onInstalled.addListener(function () {
     const idCreator = () => {
         return i++;
     };
+
+    const historyNode = (visit) => {
+        debugger;
+        let historyIds = payload.windows[visit.windowId].visits
+        for (let i = 0; i < historyIds.length; i++) {
+            let historyItem = payload.visits[historyIds[i]];
+            if (historyItem.chromeTabId === visit.id && historyItem.url === visit.url) {
+                return historyItem;
+            }
+        };
+        return null;
+    };
+
     const getTransitionType = (url) => {
         chrome.history.getVisits({ url }, function (results) {
             if (results.length === 0) {
@@ -85,19 +86,6 @@ chrome.runtime.onInstalled.addListener(function () {
         setCurrNode();
         window.localStorage.setItem(`session`, JSON.stringify(payload));
         
-
-        // chrome.tabs.onCreated.addListener(function(tab) {
-        //     if (tab.url === "chrome://newtab/") {return}
-            
-        //     let newNode = createNode(tab);
-        //     payload[tab.windowId][tab.id].push(newNode);
-        //     window.localStorage[sessionId] = JSON.stringify(payload);
-        //     chrome.webNavigation.getAllFrames({ tabId: tab.id }, function (frames) {
-        //         // console.log({ [tab.id]: frames })
-        //     });
-        //     // console.log(payload);
-        //     // console.log(window.localStorage);
-        // });
         chrome.tabs.onActivated.addListener(function() {
             setCurrNode();
         })
@@ -105,14 +93,16 @@ chrome.runtime.onInstalled.addListener(function () {
             
             if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
                 let newNode = createNode(visit);
-
-                //check if tab and url already exist and reset current node
-                historyNode(visit)
-                    
-                payload.windows[visit.windowId].visits.push(newNode.id);
-                payload.visits[newNode.id] = newNode;
-                setChildren(newNode);
-                
+                debugger;
+                let histNode = historyNode(visit);
+                 if (histNode){
+                     currNode = histNode;
+                 } else {
+                     setCurrNode();
+                     payload.windows[visit.windowId].visits.push(newNode.id);
+                     payload.visits[newNode.id] = newNode;
+                     setChildren(newNode);
+                 }
                 window.localStorage.session = JSON.stringify(payload);
                 console.log(payload);
             }
@@ -127,44 +117,6 @@ chrome.runtime.onInstalled.addListener(function () {
 
 
 
-//save Node to folders?
 
-//Node info
-    //node_id*
-    //website_url*
-    //chrome_window_id*
-    //chrome_tab_id*
-    //website title*
-    //website desc?
-    //parent*
-    //children*
-    //currentNode
-    //timeCreated*
-    //timeRevisited?
-    //timeUpdated?
-    //timeLeft?
-    //totalTime?
-    //totalViews?
-    //transitionType*
-    //Notes?
-    //favorite/save?
-
-
-//Initial Node Info
-    //id
-    //web_url
-    //chrome_window_id
-    //chrome_tab_id
-    //web_title
-    //parent
-    //children
-    //timeCreated
-    //transitionType
-
-//listeners
-    //createWindow
-    //createTab
-    //updateTab
-    //changeTab/currentTab
 
 

@@ -1,7 +1,51 @@
-
-to do today 
+8/28
 -------
-Turn in linkedin/github/angel list/ resume 
-make sure gradesheet is in my two projects 
-do rabbithole stuff 
-relaxxx   
+
+Questions for lecture
+~~~~~~~
+* What is going on with that 'public' folder in frontend? 
+* We still don't have a 'logged in?' method 
+* How do I do scss? Isnt there an easy way w/ react? 
+
+
+* Are we sure we want to store the history as a cookie? 
+
+8/27
+-------
+* What do we want our pop up to look for (probably nothing)
+* what background scripts do we need to run 
+    * What listeners do we need 
+    * what permissions do we need 
+        *tabs, window, history, identity
+* confirm we wont need a content script, because our site uses react with a backend so our extension will never modify the dom
+* Options page as an additional mvp 
+* Do we need to use the storage api or the html5 web storage api to get post calls to our server? 
+* need to check for incognito mode 
+
+
+* Working through localStorage
+    * Really easy to do basics. Built into HTML5 and on the window always 
+    * You can only store 10mb, which it is unlikely a user will ever hit (appx 5000 pages), but we'll need to deal with it if it happens. 
+    * Store things as K, V pairs. VALUE MUST BE A STRING. 
+    * functions setItem, getItem, removeItem, key, length
+    * Need to check if you have a room, write a storage_available method 
+
+
+* Working through google auth 
+    * Firebase console: https://console.firebase.google.com/project/rabbit-hole-rescue/authentication/users
+    * Firebase notes: 
+        * https://firebase.google.com/docs/web/setup?authuser=0
+        * https://firebase.google.com/docs/web/setup
+        * https://firebase.google.com/docs/auth/web/start
+
+
+* Other resources: 
+    * https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en
+    * https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en
+    * https://cloud.google.com/nodejs/getting-started/authenticate-users
+    * https://github.com/jaredhanson/passport-google-oauth2
+
+* imported fonts: 
+    * https://fonts.google.com/specimen/Slabo+27px
+    * https://fonts.google.com/specimen/Merriweather
+    * https://fonts.google.com/specimen/Raleway

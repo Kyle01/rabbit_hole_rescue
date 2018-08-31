@@ -1,0 +1,71 @@
+.signin-main {
+    background-color: #55664f;
+    height: 875px;
+    display: flex;
+    justify-content: center;
+    font-family: 'Raleway';
+}
+
+.signin-container {
+    background-color: #e2e1a3;
+    max-width: 500px;
+    width: 80%;
+    border-radius: 15px;
+    border: 3px solid #ffffff;
+    margin-top: 50px;
+    display: block;
+    justify-content: center;
+    height: 500px;
+
+}
+
+
+.signin-logo {
+    height: 150px;
+    width: 150px;
+    display: flex;
+    margin-top: 37.5px;
+    margin: 0 auto;
+}
+
+.signin-welcome {
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 36px;
+    text-align: center;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.signin-button {
+    width: 90%;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #34d149;
+    color: white; 
+    border: none;
+    font-size: 20px;
+    
+}
+
+.signin-button:hover {
+    background-color: #3e8c37;
+}
+
+.signin-form-field {
+    width: 90%; 
+    height: 40px;
+    border-radius: 5px;
+    font-size: 20px;
+    border: none;
+    margin-bottom: 20px;
+    padding-left: 12px;
+}
+
+.signin-form {
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+}

@@ -1,19 +1,38 @@
 
 'use strict';
 
+chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
+    chrome.declarativeContent.onPageChanged.addRules([{
+        conditions: [new chrome.declarativeContent.PageStateMatcher({
+        })
+        ],
+        actions: [new chrome.declarativeContent.ShowPageAction()]
+    }]);
+});
+
 let i = 0;
 
-chrome.runtime.onInstalled.addListener(function () {
-    let currNode = {id: null};
+chrome.runtime.onMessage.addListener(function(message){
+    console.log("add listener is running");
+    if (message.sender === "start") {
+        record();
+    }
+    if (message.sender === "stop") {
+        chrome.tabs.onUpdated.removeListener();
+    }
+});
+
+function record() {
+    let currNode = { id: null };
     const setCurrNode = () => {
-        chrome.tabs.query({active: true, windowId: currNode.chromeWindowId}, function(tab) {
+        chrome.tabs.query({ active: true, windowId: currNode.chromeWindowId }, function (tab) {
             let currTab = tab[0];
             payload.windows[currTab.windowId].visits.forEach(visit => {
                 let visitObj = payload.visits[visit];
                 if (visitObj.url === currTab.url && visitObj.chromeTabId === currTab.id) {
                     currNode = visitObj;
                 }
-            })
+            });
         });
     };
 
@@ -29,13 +48,13 @@ chrome.runtime.onInstalled.addListener(function () {
     };
 
     const historyNode = (visit) => {
-        let historyIds = payload.windows[visit.windowId].visits
+        let historyIds = payload.windows[visit.windowId].visits;
         for (let i = 0; i < historyIds.length; i++) {
             let historyItem = payload.visits[historyIds[i]];
             if (historyItem.chromeTabId === visit.id && historyItem.url === visit.url) {
                 return historyItem;
             }
-        };
+        }
         return null;
     };
 
@@ -46,12 +65,12 @@ chrome.runtime.onInstalled.addListener(function () {
             } else {
                 return results.pop().id;
             }
-        })
+        });
     };
 
     const createNode = (tab) => {
-        let id = idCreator()
-        let newNode =  {
+        let id = idCreator();
+        let newNode = {
             id: id,
             url: tab.url,
             title: tab.title,
@@ -60,7 +79,7 @@ chrome.runtime.onInstalled.addListener(function () {
             children: [],
             timeCreated: Date.now(),
             transitionType: getTransitionType(tab.url)
-        }
+        };
         if (currNode.chromeTabId === newNode.chromeTabId) {
             newNode.parent = currNode.id;
         } else {
@@ -69,48 +88,48 @@ chrome.runtime.onInstalled.addListener(function () {
         return newNode;
     };
 
-    let payload = {windows: {}, visits: {}};
-    chrome.windows.getAll({populate: true, windowTypes: ["normal"]}, function(windows){
+    let payload = { windows: {}, visits: {} };
+    chrome.windows.getAll({ populate: true, windowTypes: ["normal"] }, function (windows) {
         windows.forEach(window => {
-            let windowObject = {id: window.id, visits: []}
+            let windowObject = { id: window.id, visits: [] }
             window.tabs.forEach(visit => {
                 let newNode = createNode(visit);
                 windowObject.visits.push(newNode.id);
                 payload.visits[newNode.id] = newNode;
                 payload.windows[visit.windowId] = windowObject;
             });
-            
-        })
+
+        });
         setCurrNode();
         window.localStorage.setItem(`session`, JSON.stringify(payload));
-        
-        chrome.tabs.onActivated.addListener(function() {
+
+        chrome.tabs.onActivated.addListener(function () {
             setCurrNode();
         })
-        chrome.tabs.onUpdated.addListener(function(visitId, changeInfo, visit) {
-            
+        chrome.tabs.onUpdated.addListener(function (visitId, changeInfo, visit) {
+
             if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
                 let newNode = createNode(visit);
                 let histNode = historyNode(visit);
-                 if (histNode){
-                     currNode = histNode;
-                 } else {
-                     setCurrNode();
-                     payload.windows[visit.windowId].visits.push(newNode.id);
-                     payload.visits[newNode.id] = newNode;
-                     setChildren(newNode);
-                 }
+                if (histNode) {
+                    currNode = histNode;
+                } else {
+                    setCurrNode();
+                    payload.windows[visit.windowId].visits.push(newNode.id);
+                    payload.visits[newNode.id] = newNode;
+                    setChildren(newNode);
+                }
                 window.localStorage.session = JSON.stringify(payload);
                 console.log(payload);
             }
         });
 
 
-        
-        
-    })
 
-});
+
+    });
+
+};
 
 
 

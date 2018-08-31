@@ -1,13 +1,21 @@
 body {
-    width: 200px;
-    height: 300px;
+    width: 240px;
+    height: 200px;
     background-color: #34d149;
 }
 
-nav-logo-image {
+.header {
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-logo-image {
+    margin-top: 10px;
     padding-left: 10px;
-    height: 45px;
-    width: 45px;
+}
+
+.logo {
+  margin-top: 30px;
 }
 
 .nav-logo {
@@ -20,12 +28,15 @@ nav-logo-image {
 
 button {
     background-color: #b9c6b4;
-    height: 50px; 
-    width: 150px;
+    margin-left: 20px;
+    height: 35px; 
+    width: 200px;
     color: white;
     text-decoration: none;
     font-family: 'Raleway';
     font-size: 16px;
     margin-top: 20px;
+    border-radius: 3px; 
+    cursor: pointer;
 }
 

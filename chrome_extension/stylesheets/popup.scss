@@ -1,4 +1,31 @@
 body {
     width: 200px;
     height: 300px;
+    background-color: #34d149;
 }
+
+nav-logo-image {
+    padding-left: 10px;
+    height: 45px;
+    width: 45px;
+}
+
+.nav-logo {
+    font-size: 20px;
+    color: white;
+    margin-left: 10px;
+    font-family: 'Merriweather';
+    text-decoration: none;
+}
+
+button {
+    background-color: #b9c6b4;
+    height: 50px; 
+    width: 150px;
+    color: white;
+    text-decoration: none;
+    font-family: 'Raleway';
+    font-size: 16px;
+    margin-top: 20px;
+}
+

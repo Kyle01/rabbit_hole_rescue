@@ -120,7 +120,6 @@ chrome.runtime.onMessage.addListener(function(message){
 
             });
             setCurrNode();
-            // let date = Math.floor(Date.now() / 216000000);
             let date = getYMDDate();
             window.localStorage.setItem(`session${date}`, JSON.stringify(payload));
 

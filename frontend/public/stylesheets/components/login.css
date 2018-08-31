@@ -24,10 +24,19 @@
     height: 150px;
     width: 150px;
     display: flex;
-    justify-content: center;
     margin-top: 37.5px;
     margin: 0 auto;
-    margin-bottom: 85px;
+}
+
+.signin-welcome {
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 36px;
+    text-align: center;
+    margin-top: 16px;
+    margin-bottom: 16px;
 }
 
 .signin-button {
@@ -52,6 +61,7 @@
     font-size: 20px;
     border: none;
     margin-bottom: 20px;
+    padding-left: 12px;
 }
 
 .signin-form {

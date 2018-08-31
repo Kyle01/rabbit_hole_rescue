@@ -31,6 +31,7 @@ class Login extends React.Component {
             <div className="signin-container">
             <div>
                 <img src="../../../images/transparent_logo.png" className="signin-logo" />
+                <p className='signin-welcome'>Welcome Back</p>
             </div>
             <div>
               <form className='signin-form'>

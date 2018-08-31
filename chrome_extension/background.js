@@ -19,6 +19,8 @@ chrome.runtime.onMessage.addListener(function(message){
     }
     if (message.sender === "stop") {
         chrome.tabs.onUpdated.removeListener();
+        
+        chrome.runtime.reload();
     }
 });
 
@@ -101,9 +103,10 @@ function record() {
 
         });
         setCurrNode();
-        window.localStorage.setItem(`session`, JSON.stringify(payload));
-
-        chrome.tabs.onActivated.addListener(function () {
+        let date = Math.floor(Date.now() / 216000000);
+        window.localStorage.setItem(`session${date}`, JSON.stringify(payload));
+        
+        chrome.tabs.onActivated.addListener(function() {
             setCurrNode();
         })
         chrome.tabs.onUpdated.addListener(function (visitId, changeInfo, visit) {
@@ -111,16 +114,16 @@ function record() {
             if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
                 let newNode = createNode(visit);
                 let histNode = historyNode(visit);
-                if (histNode) {
-                    currNode = histNode;
-                } else {
-                    setCurrNode();
-                    payload.windows[visit.windowId].visits.push(newNode.id);
-                    payload.visits[newNode.id] = newNode;
-                    setChildren(newNode);
-                }
-                window.localStorage.session = JSON.stringify(payload);
-                console.log(payload);
+                 if (histNode){
+                     currNode = histNode;
+                 } else {
+                     setCurrNode();
+                     payload.windows[visit.windowId].visits.push(newNode.id);
+                     payload.visits[newNode.id] = newNode;
+                     setChildren(newNode);
+                 }
+                window.localStorage[`session${date}`] = JSON.stringify(payload);
+                // console.log(payload);
             }
         });
 

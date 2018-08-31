@@ -8,12 +8,17 @@
 
 .nav-left {
     float: left;
-    margin-top: 15px;
 }
 
 .nav-right {
     float: right; 
     margin-top: 18px;
+}
+
+.nav-logo-image {
+    padding-left: 10px;
+    height: 45px;
+    width: 45px;
 }
 
 .nav-logo {
@@ -22,8 +27,8 @@
     margin-left: 10px;
     font-family: 'Merriweather';
     text-decoration: none;
+    margin-bottom: 10px;
 }
-
 .nav-signin {
     color: white; 
     text-decoration: none;
@@ -50,4 +55,18 @@
 
 .nav-login:hover {
     background-color: #ef745b;
+}
+
+.nav-signout-link {
+    color: white; 
+    text-decoration: none;
+    font-size: 16px;
+    font-family: 'Raleway';
+    background: none;
+    border: none;
+    padding-right: 25px;
+}
+
+.nav-signout-link:hover {
+    color: #cfd6cd;
 }

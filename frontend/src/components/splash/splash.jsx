@@ -12,25 +12,17 @@ class Splash extends React.Component{
                     <img></img>
                 </div>
                 <div className='splash-features-box'>
-                    <div>
-                        <ul>
-                            <li>Create history trees on demand</li>
-                            <li>Add notes and review them later</li>
+                    <div className='splash-list-left'>
+                        <ul className='splash-ul'>
+                            <li className='splash-li'>Create history trees on demand</li>
+                            <li className='splash-li'>Add notes and review them later</li>
                         </ul>
                     </div>
-                    <div>
-                        <ul>
-                            <li>Chrome extension for ease and accessibility</li>
-                            <li>All stored locally</li>
+                    <div className='splash-list-right'>
+                        <ul className='splash-ul'>
+                            <li className='splash-li'>Chrome extension for ease and accessibility</li>
+                            <li className='splash-li'>All stored locally: control your privacy</li>
                         </ul>
-                    </div>
-                </div>
-                <div className='splash-bottom-bar'>
-                    <div className='splash-bottom-about'>
-                        <p>About</p>
-                    </div>
-                    <div className='splash-bottom-cr'>
-                        <p>2018 ©</p>
                     </div>
                 </div>
             </div>

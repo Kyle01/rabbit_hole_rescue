@@ -4,28 +4,28 @@ import { BFSDisplay } from './tree_algorithms';
 
 const treeData =[
   {
-    "website": "Slack",
+    "webname": "Slack",
     "id": 12,
     "url": "https://app-academy.slack.com/messages/GCG2HBD5M/details/",
     "description": "Group3 | Slack",
     "parent": "null",
     "children": [
       {
-        "website": "Slack",
+        "webname": "Slack",
         "id": 13,
         "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
         "description": "Group5 | Slack",
         "parent": 12,
         "children": [
           {
-            "website": "Slack",
+            "webname": "Slack",
             "id": 14,
             "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
             "description": "Group8 | Slack",
             "parent": 13,
           },
           {
-            "website": "StackOverflow",
+            "webname": "StackOverflow",
             "id": 15,
             "url": "https://stackoverflow.com/questions/38776517/how-to-discard-local-changes-and-pull-latest-from-github-repository",
             "description": "Group5 | Slack",
@@ -34,35 +34,35 @@ const treeData =[
         ]
       },
       {
-        "website": "Slack",
+        "webname": "Slack",
         "id": 16,
         "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
         "description": "Kavian Mojabe | Slack",
         "parent": 12,
       },
       {
-        "website": "Youtube",
+        "webname": "Youtube",
         "id": 17,
         "url": "https://youtube.com",
         "description": "Kavian Mojabe | Youtube",
         "parent": 12,
         "children":[
           {
-            "website": "Slack",
+            "webname": "Slack",
             "id": 24,
             "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
             "description": "Group8 | Slack",
             "parent": 17,
           },
           {
-            "website": "Youtube",
+            "webname": "Youtube",
             "id": 25,
             "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
             "description": "Group8 | Slack",
             "parent": 17,
           },
           {
-            "website": "Youtube",
+            "webname": "Youtube",
             "id": 26,
             "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
             "description": "Group8 | Slack",
@@ -71,42 +71,42 @@ const treeData =[
         ]
       },
       {
-        "website": "Google",
+        "webname": "Google",
         "id": 18,
         "url": "https://www.google.com/search?q=why&oq=why&sourceid=chrome&ie=UTF-8",
         "description": "why - Google Search",
         "parent": 12,
       },
       {
-        "website": "Myspace",
+        "webname": "Myspace",
         "id": 19,
         "url": "https://www.google.com/search?q=why&oq=why&sourceid=chrome&ie=UTF-8",
         "description": "Kevinho - Myspace",
         "parent": 12,
         "children": [
           {
-            "website": "Slack",
+            "webname": "Slack",
             "id": 20,
             "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
             "description": "Group8 | Slack",
             "parent": 19,
           },
           {
-            "website": "StackOverflow",
+            "webname": "StackOverflow",
             "id": 21,
             "url": "https://stackoverflow.com/questions/38776517/how-to-discard-local-changes-and-pull-latest-from-github-repository",
             "description": "Group5 | Slack",
             "parent": 19,
             "children": [
               {
-                "website": "Yahoo",
+                "webname": "Yahoo",
                 "id": 22,
                 "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
                 "description": "Group8 | Slack",
                 "parent": 21,
               },
               {
-                "website": "Yahoo",
+                "webname": "Yahoo",
                 "id": 23,
                 "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
                 "description": "Group8 | Slack",
@@ -138,7 +138,7 @@ class Show extends React.Component {
         let li = document.createElement('li');
         let link = document.createElement('a');
         let span = document.createElement('span');
-        span.appendChild(document.createTextNode(node.website));
+        span.appendChild(document.createTextNode(node.webname));
         link.href = node.url;
         link.appendChild(document.createTextNode(node.description));
         link.appendChild(span);
@@ -200,7 +200,7 @@ class Show extends React.Component {
         .attr("x", function(d) { return d.x < Math.PI === !d.children ? 9 : -9; })
         .attr("text-anchor", function(d) { return d.x < Math.PI === !d.children ? "start" : "end"; })
         .attr("transform", function(d) { return "rotate(" + (d.x < Math.PI ? d.x - Math.PI / 2 : d.x + Math.PI / 2) * 180 / Math.PI + ")"; })
-        .text(function(d) { return d.data.website; });
+        .text(function(d) { return d.data.webname; });
 
       svg.selectAll(".link")
         .data(links)

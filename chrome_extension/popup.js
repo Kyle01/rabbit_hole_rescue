@@ -1,15 +1,15 @@
-let changeColor = document.getElementById('changeColor');
 
-chrome.storage.sync.get('color', function (data) {
-    changeColor.style.backgroundColor = data.color;
-    changeColor.setAttribute('value', data.color);
+document.addEventListener('DOMContentLoaded', function () {
+    let start = document.getElementById('start');
+    start.addEventListener('click', function() {
+        chrome.runtime.sendMessage({sender: "start"});
+    });
 });
 
-changeColor.onclick = function (element) {
-    let color = element.target.value;
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.executeScript(
-            tabs[0].id,
-            { code: 'document.body.style.backgroundColor = "' + color + '";' });
+
+document.addEventListener('DOMContentLoaded', function () {
+    let stop = document.getElementById('stop');
+    stop.addEventListener('click', function () {
+        chrome.runtime.sendMessage({sender: "stop"});
     });
-};
+});

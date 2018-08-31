@@ -1,10 +1,20 @@
 'use strict';
 
+chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
+    chrome.declarativeContent.onPageChanged.addRules([{
+        conditions: [new chrome.declarativeContent.PageStateMatcher({
+        })
+        ],
+        actions: [new chrome.declarativeContent.ShowPageAction()]
+    }]);
+});
 
 let i = 0;
 
-chrome.runtime.onInstalled.addListener(function () {
+chrome.runtime.onMessage.addListener(function(message){
+    let payload = { windows: {}, visits: {} };
     let currNode = { id: null };
+
     const setCurrNode = () => {
         chrome.tabs.query({ active: true, windowId: currNode.chromeWindowId }, function (tab) {
             let currTab = tab[0];
@@ -13,7 +23,7 @@ chrome.runtime.onInstalled.addListener(function () {
                 if (visitObj.url === currTab.url && visitObj.chromeTabId === currTab.id) {
                     currNode = visitObj;
                 }
-            })
+            });
         });
     };
 
@@ -29,13 +39,13 @@ chrome.runtime.onInstalled.addListener(function () {
     };
 
     const historyNode = (visit) => {
-        let historyIds = payload.windows[visit.windowId].visits
+        let historyIds = payload.windows[visit.windowId].visits;
         for (let i = 0; i < historyIds.length; i++) {
             let historyItem = payload.visits[historyIds[i]];
             if (historyItem.chromeTabId === visit.id && historyItem.url === visit.url) {
                 return historyItem;
             }
-        };
+        }
         return null;
     };
 
@@ -46,11 +56,11 @@ chrome.runtime.onInstalled.addListener(function () {
             } else {
                 return results.pop().id;
             }
-        })
+        });
     };
 
     const createNode = (tab) => {
-        let id = idCreator()
+        let id = idCreator();
         let newNode = {
             id: id,
             url: tab.url,
@@ -60,7 +70,7 @@ chrome.runtime.onInstalled.addListener(function () {
             children: [],
             timeCreated: Date.now(),
             transitionType: getTransitionType(tab.url)
-        }
+        };
         if (currNode.chromeTabId === newNode.chromeTabId) {
             newNode.parent = currNode.id;
         } else {
@@ -69,65 +79,74 @@ chrome.runtime.onInstalled.addListener(function () {
         return newNode;
     };
 
-    let payload = { windows: {}, visits: {} };
-    chrome.windows.getAll({ populate: true, windowTypes: ["normal"] }, function (windows) {
-        windows.forEach(window => {
-            let windowObject = { id: window.id, visits: [] }
-            window.tabs.forEach(visit => {
-                let newNode = createNode(visit);
-                windowObject.visits.push(newNode.id);
-                payload.visits[newNode.id] = newNode;
-                payload.windows[visit.windowId] = windowObject;
-            });
-
-        })
+    const activatedListener = () => {
         setCurrNode();
-        let date = Math.floor(Date.now() / 216000000);
-        chrome.storage.sync.set({[`session${date}`]: JSON.stringify(payload)}, function(){});
+    };
 
-        chrome.tabs.onActivated.addListener(function () {
-            setCurrNode();
-        })
-        chrome.tabs.onUpdated.addListener(function (visitId, changeInfo, visit) {
+    const updatedListener = (visitId, changeInfo, visit) => {
 
-            if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
-                let newNode = createNode(visit);
-                let histNode = historyNode(visit);
-                if (histNode) {
-                    currNode = histNode;
-                } else {
-                    setCurrNode();
-                    payload.windows[visit.windowId].visits.push(newNode.id);
-                    payload.visits[newNode.id] = newNode;
-                    setChildren(newNode);
-                }
-                window.localStorage[`session${date}`] = JSON.stringify(payload);
+        if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
+            let newNode = createNode(visit);
+            let histNode = historyNode(visit);
+            if (histNode) {
+                currNode = histNode;
+            } else {
+                setCurrNode();
+                payload.windows[visit.windowId].visits.push(newNode.id);
+                payload.visits[newNode.id] = newNode;
+                setChildren(newNode);
             }
+            // let date = Math.floor(Date.now() / 216000000);
+            let date = getYMDDate();
+
+            window.localStorage[`session${date}`] = JSON.stringify(payload);
+            console.log(payload);
+        }
+    };
+
+    console.log(message.sender);
+    if (message.sender === "start") {
+
+        chrome.windows.getAll({ populate: true, windowTypes: ["normal"] }, function (windows) {
+            windows.forEach(window => {
+                let windowObject = { id: window.id, visits: [] };
+                window.tabs.forEach(visit => {
+                    let newNode = createNode(visit);
+                    windowObject.visits.push(newNode.id);
+                    payload.visits[newNode.id] = newNode;
+                    payload.windows[visit.windowId] = windowObject;
+                });
+
+            });
+            setCurrNode();
+            // let date = Math.floor(Date.now() / 216000000);
+            let date = getYMDDate();
+            window.localStorage.setItem(`session${date}`, JSON.stringify(payload));
+
+            chrome.tabs.onActivated.addListener(activatedListener);
+            chrome.tabs.onUpdated.addListener(updatedListener);
+
         });
-
-    })
-
+    }
     
-
+    if (message.sender === "stop") {
+        chrome.tabs.onUpdated.removeListener(activatedListener);
+        chrome.tabs.onActivated.removeListener(updatedListener);
+        chrome.runtime.reload();
+    }
 });
 
-const getStorage = (date) => {
-    let dateNum = Math.floor(Date.parse(date) / 216000000);
-    console.log(dateNum);
-    chrome.storage.sync.get([`session${dateNum}`], function (res) {
-        console.log(res);
-    });
-};
+function getYMDDate() {
+    let date = new Date();
 
-getStorage("August 30 2018");
-
-// module.exports = {getStorage};
-
-
-
-
-
-
+    let yyyy = date.getFullYear();
+    let mm = date.getMonth() + 1;
+    let dd = date.getDate();
+    let yyyymmdd = [yyyy,
+        (mm > 9 ? '' : '0') + mm,
+        (dd > 9 ? '' : '0') + dd].join('');
+    return yyyymmdd;
+}
 
 
 

@@ -97,7 +97,10 @@ chrome.runtime.onMessage.addListener(function(message){
                 payload.visits[newNode.id] = newNode;
                 setChildren(newNode);
             }
-            window.localStorage.session = JSON.stringify(payload);
+            // let date = Math.floor(Date.now() / 216000000);
+            let date = getYMDDate();
+
+            window.localStorage[`session${date}`] = JSON.stringify(payload);
             console.log(payload);
         }
     };
@@ -117,7 +120,9 @@ chrome.runtime.onMessage.addListener(function(message){
 
             });
             setCurrNode();
-            window.localStorage.setItem(`session`, JSON.stringify(payload));
+            // let date = Math.floor(Date.now() / 216000000);
+            let date = getYMDDate();
+            window.localStorage.setItem(`session${date}`, JSON.stringify(payload));
 
             chrome.tabs.onActivated.addListener(activatedListener);
             chrome.tabs.onUpdated.addListener(updatedListener);
@@ -132,6 +137,17 @@ chrome.runtime.onMessage.addListener(function(message){
     }
 });
 
+function getYMDDate() {
+    let date = new Date();
+
+    let yyyy = date.getFullYear();
+    let mm = date.getMonth() + 1;
+    let dd = date.getDate();
+    let yyyymmdd = [yyyy,
+        (mm > 9 ? '' : '0') + mm,
+        (dd > 9 ? '' : '0') + dd].join('');
+    return yyyymmdd;
+}
 
 
 

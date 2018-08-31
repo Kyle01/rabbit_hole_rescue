@@ -13,17 +13,9 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
 let i = 0;
 
 chrome.runtime.onMessage.addListener(function(message){
-    console.log("add listener is running");
-    if (message.sender === "start") {
-        record();
-    }
-    if (message.sender === "stop") {
-        chrome.tabs.onUpdated.removeListener();
-    }
-});
-
-function record() {
+    let payload = { windows: {}, visits: {} };
     let currNode = { id: null };
+
     const setCurrNode = () => {
         chrome.tabs.query({ active: true, windowId: currNode.chromeWindowId }, function (tab) {
             let currTab = tab[0];
@@ -88,48 +80,57 @@ function record() {
         return newNode;
     };
 
-    let payload = { windows: {}, visits: {} };
-    chrome.windows.getAll({ populate: true, windowTypes: ["normal"] }, function (windows) {
-        windows.forEach(window => {
-            let windowObject = { id: window.id, visits: [] }
-            window.tabs.forEach(visit => {
-                let newNode = createNode(visit);
-                windowObject.visits.push(newNode.id);
-                payload.visits[newNode.id] = newNode;
-                payload.windows[visit.windowId] = windowObject;
-            });
-
-        });
+    const activatedListener = () => {
         setCurrNode();
-        window.localStorage.setItem(`session`, JSON.stringify(payload));
+    };
 
-        chrome.tabs.onActivated.addListener(function () {
-            setCurrNode();
-        })
-        chrome.tabs.onUpdated.addListener(function (visitId, changeInfo, visit) {
+    const updatedListener = (visitId, changeInfo, visit) => {
 
-            if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
-                let newNode = createNode(visit);
-                let histNode = historyNode(visit);
-                if (histNode) {
-                    currNode = histNode;
-                } else {
-                    setCurrNode();
-                    payload.windows[visit.windowId].visits.push(newNode.id);
-                    payload.visits[newNode.id] = newNode;
-                    setChildren(newNode);
-                }
-                window.localStorage.session = JSON.stringify(payload);
-                console.log(payload);
+        if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
+            let newNode = createNode(visit);
+            let histNode = historyNode(visit);
+            if (histNode) {
+                currNode = histNode;
+            } else {
+                setCurrNode();
+                payload.windows[visit.windowId].visits.push(newNode.id);
+                payload.visits[newNode.id] = newNode;
+                setChildren(newNode);
             }
+            window.localStorage.session = JSON.stringify(payload);
+            console.log(payload);
+        }
+    };
+
+    console.log(message.sender);
+    if (message.sender === "start") {
+
+        chrome.windows.getAll({ populate: true, windowTypes: ["normal"] }, function (windows) {
+            windows.forEach(window => {
+                let windowObject = { id: window.id, visits: [] };
+                window.tabs.forEach(visit => {
+                    let newNode = createNode(visit);
+                    windowObject.visits.push(newNode.id);
+                    payload.visits[newNode.id] = newNode;
+                    payload.windows[visit.windowId] = windowObject;
+                });
+
+            });
+            setCurrNode();
+            window.localStorage.setItem(`session`, JSON.stringify(payload));
+
+            chrome.tabs.onActivated.addListener(activatedListener);
+            chrome.tabs.onUpdated.addListener(updatedListener);
+
         });
-
-
-
-
-    });
-
-};
+    }
+    
+    if (message.sender === "stop") {
+        chrome.tabs.onUpdated.removeListener(activatedListener);
+        chrome.tabs.onActivated.removeListener(updatedListener);
+        chrome.runtime.reload();
+    }
+});
 
 
 

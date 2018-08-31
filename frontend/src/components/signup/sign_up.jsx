@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 
 class SignUp extends React.Component {
 
@@ -27,11 +28,16 @@ class SignUp extends React.Component {
               </div>
             </div>
             <div className="signup-third-div">
-              3. Click record to create session.
+              <div className='signup-second-left'>
+                <p className="signup-number">3</p>
+                <p className='signup-third-text'>Use the extension to start and stop recording a session</p>
+              </div>
+              <div className="signup-third-modal" >
+              </div>
             </div>
             <div className="signup-fourth-div">
-              4. Click 'Stop' when you're done exploring the web. Come
-              back to see your explored session.
+                <p className='signup-fourth-text'>Come back to see your explored session!</p>
+                <Link to='tree' className='signup-fourth-link'>Here!</Link>
             </div>
           </div>;
     }

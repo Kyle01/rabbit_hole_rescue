@@ -1,12 +1,12 @@
-
 'use strict';
+
 
 let i = 0;
 
 chrome.runtime.onInstalled.addListener(function () {
-    let currNode = {id: null};
+    let currNode = { id: null };
     const setCurrNode = () => {
-        chrome.tabs.query({active: true, windowId: currNode.chromeWindowId}, function(tab) {
+        chrome.tabs.query({ active: true, windowId: currNode.chromeWindowId }, function (tab) {
             let currTab = tab[0];
             payload.windows[currTab.windowId].visits.forEach(visit => {
                 let visitObj = payload.visits[visit];
@@ -51,7 +51,7 @@ chrome.runtime.onInstalled.addListener(function () {
 
     const createNode = (tab) => {
         let id = idCreator()
-        let newNode =  {
+        let newNode = {
             id: id,
             url: tab.url,
             title: tab.title,
@@ -69,49 +69,64 @@ chrome.runtime.onInstalled.addListener(function () {
         return newNode;
     };
 
-    let payload = {windows: {}, visits: {}};
-    chrome.windows.getAll({populate: true, windowTypes: ["normal"]}, function(windows){
+    let payload = { windows: {}, visits: {} };
+    chrome.windows.getAll({ populate: true, windowTypes: ["normal"] }, function (windows) {
         windows.forEach(window => {
-            let windowObject = {id: window.id, visits: []}
+            let windowObject = { id: window.id, visits: [] }
             window.tabs.forEach(visit => {
                 let newNode = createNode(visit);
                 windowObject.visits.push(newNode.id);
                 payload.visits[newNode.id] = newNode;
                 payload.windows[visit.windowId] = windowObject;
             });
-            
+
         })
         setCurrNode();
         let date = Math.floor(Date.now() / 216000000);
-        window.localStorage.setItem(`session${date}`, JSON.stringify(payload));
-        
-        chrome.tabs.onActivated.addListener(function() {
+        chrome.storage.sync.set({[`session${date}`]: JSON.stringify(payload)}, function(){});
+
+        chrome.tabs.onActivated.addListener(function () {
             setCurrNode();
         })
-        chrome.tabs.onUpdated.addListener(function(visitId, changeInfo, visit) {
-            
+        chrome.tabs.onUpdated.addListener(function (visitId, changeInfo, visit) {
+
             if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
                 let newNode = createNode(visit);
                 let histNode = historyNode(visit);
-                 if (histNode){
-                     currNode = histNode;
-                 } else {
-                     setCurrNode();
-                     payload.windows[visit.windowId].visits.push(newNode.id);
-                     payload.visits[newNode.id] = newNode;
-                     setChildren(newNode);
-                 }
+                if (histNode) {
+                    currNode = histNode;
+                } else {
+                    setCurrNode();
+                    payload.windows[visit.windowId].visits.push(newNode.id);
+                    payload.visits[newNode.id] = newNode;
+                    setChildren(newNode);
+                }
                 window.localStorage[`session${date}`] = JSON.stringify(payload);
-                // console.log(payload);
             }
         });
 
-
-        
-        
     })
 
+    
+
 });
+
+const getStorage = (date) => {
+    let dateNum = Math.floor(Date.parse(date) / 216000000);
+    console.log(dateNum);
+    chrome.storage.sync.get([`session${dateNum}`], function (res) {
+        console.log(res);
+    });
+};
+
+getStorage("August 30 2018");
+
+// module.exports = {getStorage};
+
+
+
+
+
 
 
 

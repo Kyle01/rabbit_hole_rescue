@@ -11,6 +11,9 @@ import {
 import NavbarFeatures from "./NavBar/nav_bar_container";
 import ShowContainer from './show/show_container';
 import Splash from './splash/splash';
+import getStorage from '../chrome_extension/background';
+
+getStorage("August 30 2018");
 
 const Root = () => (
     <div>

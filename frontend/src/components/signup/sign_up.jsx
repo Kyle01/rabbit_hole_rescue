@@ -37,7 +37,7 @@ class SignUp extends React.Component {
             </div>
             <div className="signup-fourth-div">
                 <p className='signup-fourth-text'>Come back to see your explored session</p>
-                <Link to='tree' className='signup-fourth-link'>Here!</Link>
+                <Link to='history' className='signup-fourth-link'>Here!</Link>
             </div>
           </div>;
     }

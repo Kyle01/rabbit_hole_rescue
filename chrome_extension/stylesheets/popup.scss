@@ -1,6 +1,6 @@
 body {
     width: 280px;
-    height: 210px;
+    height: 450px;
     background-color: #34d149;
 }
 
@@ -28,7 +28,7 @@ body {
 
 button {
     background-color: #b9c6b4;
-    margin-left: 40px;
+    margin-left: 30px;
     height: 40px; 
     width: 220px;
     color: white;
@@ -40,3 +40,12 @@ button {
     cursor: pointer;
 }
 
+.notice {
+    font-family: 'Raleway';
+    font-size: 12px;
+    text-decoration: none;
+    color: white;
+    margin-left: 20px;
+    margin-top: 25px;
+    width: 180 px;
+}

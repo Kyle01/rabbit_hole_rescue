@@ -1,6 +1,7 @@
 import React from 'react';
 import * as d3 from 'd3';
 import { BFSDisplay } from './tree_algorithms';
+import { createTree } from '../../reducers/tree_organizer';
 
 const treeData =[
   {

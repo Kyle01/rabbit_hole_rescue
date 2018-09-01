@@ -50,20 +50,20 @@ router.post('/login', (req, res) => {
         return res.status(400).json(errors);
     }
 
-    const email = req.body.email;
+    const username = req.body.username;
     const password = req.body.password;
 
     User.findOne({ username })
         .then(user => {
             if (!user) {
-                errors.email = 'User not found';
+                errors.username = "User not found";
                 return res.status(404).json(errors);
             }
 
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
                     if (isMatch) {
-                        const payload = { id: user.id, name: user.name };
+                        const payload = { id: user.id, username: user.username, email: user.email };
 
                         jsonwebtoken.sign(
                             payload,
@@ -73,7 +73,9 @@ router.post('/login', (req, res) => {
                             (err, token) => {
                                 res.json({
                                     success: true,
-                                    token: 'Bearer ' + token
+                                    token: 'Bearer ' + token,
+                                    username: user.username,
+                                    email: user.email
                                 });
                             });
                     } else {

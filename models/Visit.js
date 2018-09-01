@@ -21,18 +21,18 @@ const VisitSchema = new Schema({
   parent: {
     type: Number,
     // ref: "visits",
-    required: true
+    required: false
   },
   children: [
     {
       type: Number,
       // ref: "visits",
-      required: true
+      required: false
     },
   ],
   timeCreated: {
     type: Date,
-    default: new Date()
+    required: false
   }
 });
 

@@ -3,12 +3,11 @@ const isEmpty = require("./is-empty");
 
 module.exports = function validateLoginInput(data) {
     let errors = {};
-
-    data.username = !Validator.isEmpty(data.username) ? data.username : "";
-    data.password = !Validator.isEmpty(data.password) ? data.password : "";
+    data.username = !isEmpty(data.username) ? data.username : "";
+    data.password = !isEmpty(data.password) ? data.password : "";
 
     if (Validator.isEmpty(data.username)) {
-      errors.email = "Email field is required";
+      errors.username = "Email field is required";
     }
 
     if (Validator.isEmpty(data.password)) {
@@ -17,6 +16,6 @@ module.exports = function validateLoginInput(data) {
 
     return {
         errors,
-        isValid: Validator.isEmpty(errors)
+        isValid: isEmpty(errors)
     };
 };

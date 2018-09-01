@@ -68,7 +68,7 @@ chrome.runtime.onMessage.addListener(function(message){
             chromeTabId: tab.id,
             chromeWindowId: tab.windowId,
             children: [],
-            timeCreated: Date.now(),
+            timeCreated: new Date(),
             transitionType: getTransitionType(tab.url)
         };
         if (currNode.chromeTabId === newNode.chromeTabId) {
@@ -99,7 +99,7 @@ chrome.runtime.onMessage.addListener(function(message){
             // let date = Math.floor(Date.now() / 216000000);
             let date = getYMDDate();
 
-            window.localStorage[`session${date}`] = JSON.stringify(payload);
+            window.localStorage[`session${date}`] = payload;
             console.log(payload);
         }
     };
@@ -121,7 +121,7 @@ chrome.runtime.onMessage.addListener(function(message){
             setCurrNode();
             // let date = Math.floor(Date.now() / 216000000);
             let date = getYMDDate();
-            window.localStorage.setItem(`session${date}`, JSON.stringify(payload));
+            window.localStorage.setItem(`session${date}`, payload);
 
             chrome.tabs.onActivated.addListener(activatedListener);
             chrome.tabs.onUpdated.addListener(updatedListener);

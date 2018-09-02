@@ -5,9 +5,13 @@
   "dependencies": {
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+<<<<<<< HEAD
+    "react-scripts": "^1.1.5"
+=======
     "react-scripts": "1.1.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0"
+>>>>>>> f96c0b41256e331464897b2afe0a82fb298c30ec
   },
   "scripts": {
     "start": "react-scripts start",

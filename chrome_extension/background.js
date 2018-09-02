@@ -1,5 +1,8 @@
-
 'use strict';
+// import createVisit from '../frontend/src/util/visit_util2.js';
+
+let xhr = new XMLHttpRequest()
+console.log(xhr)
 
 chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
     chrome.declarativeContent.onPageChanged.addRules([{
@@ -32,6 +35,9 @@ chrome.runtime.onMessage.addListener(function(message){
         let par = visit.parent;
         if (par) {
             payload.visits[par].children.push(visit.id);
+            // xhr.open("PATCH", `localhost:5000/api/visits/${par.id}`, true);
+            // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            // xhr.send(`${visit}`);
         }
     };
 
@@ -69,7 +75,7 @@ chrome.runtime.onMessage.addListener(function(message){
             chromeTabId: tab.id,
             chromeWindowId: tab.windowId,
             children: [],
-            timeCreated: Date.now(),
+            timeCreated: new Date(),
             transitionType: getTransitionType(tab.url)
         };
         if (currNode.chromeTabId === newNode.chromeTabId) {
@@ -84,6 +90,8 @@ chrome.runtime.onMessage.addListener(function(message){
         setCurrNode();
     };
 
+
+
     const updatedListener = (visitId, changeInfo, visit) => {
 
         if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
@@ -93,14 +101,18 @@ chrome.runtime.onMessage.addListener(function(message){
                 currNode = histNode;
             } else {
                 setCurrNode();
+                console.log(currNode);
                 payload.windows[visit.windowId].visits.push(newNode.id);
                 payload.visits[newNode.id] = newNode;
                 setChildren(newNode);
+                xhr.open("POST", "http://localhost:5000/api/visits/", true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send(`${newNode}`);
             }
             // let date = Math.floor(Date.now() / 216000000);
             let date = getYMDDate();
 
-            window.localStorage[`session${date}`] = JSON.stringify(payload);
+            window.localStorage[`session${date}`] = payload;
             console.log(payload);
         }
     };
@@ -108,20 +120,36 @@ chrome.runtime.onMessage.addListener(function(message){
     console.log(message.sender);
     if (message.sender === "start") {
 
+        const sleep = (time) => {
+            let start = new Date().getTime();
+            while (new Date().getTime() < start + time);
+        }
+
         chrome.windows.getAll({ populate: true, windowTypes: ["normal"] }, function (windows) {
             windows.forEach(window => {
                 let windowObject = { id: window.id, visits: [] };
                 window.tabs.forEach(visit => {
                     let newNode = createNode(visit);
                     windowObject.visits.push(newNode.id);
+                    
+                    // console.log(`title=${newNode.title}&url=${newNode.url}&chromeTabId=${newNode.chromeTabId}&chromeWindowId=${newNode.chromeWindowId}&parent=${newNode.parent}&timeCreated=${newNode.timeCreated}`)
+                    // xhr.send(`title=${newNode.title}&url=${newNode.url}&chromeTabId=${newNode.chromeTabId}&chromeWindowId=${newNode.chromeWindowId}&parent=${newNode.parent}&timeCreated=${newNode.timeCreated}`);
+                    let parent = newNode.parent ? newNode.parent : -1;
+                    let str = `title=${newNode.title}&url=${newNode.url}&chromeTabId=${newNode.chromeTabId}&chromeWindowId=${newNode.chromeWindowId}&parent=${parent}&children=${newNode.children}&timeCreated=${newNode.timeCreated}`;
+                    // let str = `title=hello&url=url&chromeTabId=4&chromeWindowId=5&parent=7`;
+                    console.log("hello");
+                    xhr.open("POST", "http://localhost:5000/api/visits/", true);
+                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhr.send(str);
+                    sleep(250);
                     payload.visits[newNode.id] = newNode;
                     payload.windows[visit.windowId] = windowObject;
+                    
                 });
-
             });
             setCurrNode();
             let date = getYMDDate();
-            window.localStorage.setItem(`session${date}`, JSON.stringify(payload));
+            window.localStorage.setItem(`session${date}`, payload);
 
             chrome.tabs.onActivated.addListener(activatedListener);
             chrome.tabs.onUpdated.addListener(updatedListener);

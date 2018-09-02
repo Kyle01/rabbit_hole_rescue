@@ -16,7 +16,7 @@ router.get('/:windowId', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    Visit.findOne({id: req.body.id})
+    Visit.findOne({url: req.body.url, chromeTabId: req.body.chromeTabId})
         .then (visit => {
             if (!visit) {
                 const newVisit = new Visit({
@@ -27,6 +27,7 @@ router.post('/', (req, res) => {
                     chromeWindowId: req.body.chromeWindowId,
                     parent: req.body.parent,
                     children: req.body.children,
+                    username: req.body.username,
                     timeCreated: req.body.timeCreated
                 });
 

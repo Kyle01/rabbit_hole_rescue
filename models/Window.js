@@ -11,7 +11,7 @@ const WindowSchema = new Schema({
             // type: Object.Type.ObjectId,
             // ref: "visits"
             type: Number,
-            required: true
+            required: false
         }
     ],
     username: {

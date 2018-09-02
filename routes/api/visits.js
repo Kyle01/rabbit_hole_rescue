@@ -4,9 +4,6 @@ const Visit = require("../../models/Visit");
 const jsonwebtoken = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
-router.get('/test', (req, res) => {
-    console.log("hello world")
-})
 
 router.get('/:windowId', (req, res) => {
     Visit.find({"chromeWindowId": req.params.windowId})
@@ -19,7 +16,7 @@ router.get('/:windowId', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    Visit.findOne({id: req.body.id})
+    Visit.findOne({url: req.body.url, chromeTabId: req.body.chromeTabId})
         .then (visit => {
             if (!visit) {
                 const newVisit = new Visit({
@@ -29,7 +26,8 @@ router.post('/', (req, res) => {
                     chromeTabId: req.body.chromeTabId,
                     chromeWindowId: req.body.chromeWindowId,
                     parent: req.body.parent,
-                    // children: req.body.children,
+                    children: req.body.children,
+                    username: req.body.username,
                     timeCreated: req.body.timeCreated
                 });
 
@@ -43,15 +41,12 @@ router.post('/', (req, res) => {
 })
 
 router.patch('/update', (req, res) => {
-    console.log("hell");
     Visit.findOne({id: req.body.id})
         .then(visit => {
             if (visit) {
-                console.log(visit);
                 if (!visit.children.includes(req.body.children)) {
                     visit.children.push(req.body.children);
                 }
-                console.log(visit.children);
                 visit.save()
                     .then(visit => res.json(visit))
                     .catch(err => console.log(err));

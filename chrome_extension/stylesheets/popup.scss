@@ -1,6 +1,6 @@
 body {
     width: 280px;
-    height: 450px;
+    height: 550px;
     background-color: #34d149;
 }
 
@@ -26,6 +26,37 @@ body {
     text-decoration: none;
 }
 
+.login-notice {
+    width: 250px;
+}
+
+.notice {
+    font-family: 'Raleway';
+    font-size: 12px;
+    text-decoration: none;
+    color: white;
+    margin-left: 30px;
+    margin-top: 15px;
+}
+
+
+input {
+    border-radius: 4px;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+label {
+    margin-top: 10px;
+    padding: 10px;
+    font-family: 'Raleway';
+    color: white; 
+    text-decoration: none; 
+    font-size: 16px; 
+    margin-left: 20px;
+    width: 150px;
+}
+
 button {
     background-color: #b9c6b4;
     margin-left: 30px;
@@ -40,12 +71,4 @@ button {
     cursor: pointer;
 }
 
-.notice {
-    font-family: 'Raleway';
-    font-size: 12px;
-    text-decoration: none;
-    color: white;
-    margin-left: 20px;
-    margin-top: 25px;
-    width: 180 px;
-}
+

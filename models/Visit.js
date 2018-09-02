@@ -34,6 +34,10 @@ const VisitSchema = new Schema({
       required: false
     },
   ],
+  username: {
+    type: String,
+    required: true
+  },
   timeCreated: {
     type: Date,
     required: false

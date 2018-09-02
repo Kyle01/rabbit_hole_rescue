@@ -37,5 +37,5 @@ app.listen(port, () => console.log(`Server is running on port ${port}`));
 
 app.use("/api/users", users);
 app.use("/api/visits", visits);
-app.use("api/windows", windows);
+app.use("/api/windows", windows);
 

@@ -8,10 +8,16 @@ const WindowSchema = new Schema({
     },
     visits: [
         {
-            type: Object.Type.ObjectId,
-            ref: "visits"
+            // type: Object.Type.ObjectId,
+            // ref: "visits"
+            type: Number,
+            required: true
         }
     ],
+    username: {
+        type: String,
+        required: true
+    },
     date: {
         type: Date,
         default: Date.now

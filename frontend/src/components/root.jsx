@@ -22,7 +22,7 @@ const Root = () => (
     <Switch>
       <Route exact path="/signin" component={LoginContainer} />
       <Route exact path="/signup" component={SignUp} />
-      <Route exact path="/tree" component={ShowContainer} />
+      <Route exact path="/history" component={ShowContainer} />
       <Route exact path="/" component={Splash} />
     </Switch>
     <div className="splash-bottom-bar">

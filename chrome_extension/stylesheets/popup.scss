@@ -71,10 +71,13 @@ button {
     cursor: pointer;
 }
 
-button:hover, input:hover {
+button:hover, input:hover  {
     box-shadow: 2px 2px 2px #999;
 }
 
+.nav-logo:hover {
+    color: #D3D3D3;	
+}
 .disabled, .disabled:hover {
   color: rgba(255,255,255,0.25);
   background-color: ##C8C8C8	;

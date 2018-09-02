@@ -75,6 +75,15 @@ let sampleState = {
 
 }
 
-export const createTree = function({windows, visits, date}){
-
+export const createTree = function({windows, visits, date}, dateId){
+    let windowIds = date[dateId];
+    let tree = {};
+    tree["webname"] = dateId;
+    tree["url"] = "";
+    tree["description"] = "Browse Windows Sessions";
+    tree["children"] = [];
+    windowIds.forEach( winId => {
+        tree["children"].push(windows[winId]);
+    });
+    return tree;
 };

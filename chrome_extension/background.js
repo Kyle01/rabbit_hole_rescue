@@ -1,8 +1,4 @@
 'use strict';
-// import createVisit from '../frontend/src/util/visit_util2.js';
-
-let xhr = new XMLHttpRequest();
-console.log(xhr);
 
 chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
     chrome.declarativeContent.onPageChanged.addRules([{
@@ -14,10 +10,15 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
 });
 
 let i = 0;
+let username;
 
 chrome.runtime.onMessage.addListener(function(message){
     let payload = { windows: {}, visits: {} };
     let currNode = { id: null };
+
+    if (message.sender === "login") {
+        username = message.username;
+    }
 
     const setCurrNode = () => {
         chrome.tabs.query({ active: true, windowId: currNode.chromeWindowId }, function (tab) {
@@ -33,14 +34,13 @@ chrome.runtime.onMessage.addListener(function(message){
 
     const setChildren = (visit) => {
         let par = visit.parent;
-        console.log(this);
         if (par) {
-            let xhr2 = new XMLHttpRequest();
+            let xhr = new XMLHttpRequest();
             payload.visits[par].children.push(visit.id);
             let str = `id=${par}&children=${visit.id}`;
-            xhr2.open("PATCH", `http://localhost:5000/api/visits/update`, true);
-            xhr2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhr2.send(str);
+            xhr.open("PATCH", `http://localhost:5000/api/visits/update`, true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.send(str);
         }
     };
 
@@ -49,6 +49,7 @@ chrome.runtime.onMessage.addListener(function(message){
         let str = `id=${visit.chromeWindowId}&visits=${visit.id}`
         xhr.open("PATCH", `http://localhost:5000/api/windows/update`, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(str);
     }
 
     const idCreator = () => {
@@ -66,18 +67,9 @@ chrome.runtime.onMessage.addListener(function(message){
         return null;
     };
 
-    const getTransitionType = (url) => {
-        chrome.history.getVisits({ url }, function (results) {
-            if (results.length === 0) {
-                return null;
-            } else {
-                return results.pop().id;
-            }
-        });
-    };
-
     const createNode = (tab) => {
         let id = idCreator();
+        console.log(username);
         let newNode = {
             id: id,
             url: tab.url,
@@ -85,6 +77,7 @@ chrome.runtime.onMessage.addListener(function(message){
             chromeTabId: tab.id,
             chromeWindowId: tab.windowId,
             children: [],
+            username: username,
             timeCreated: new Date()
         };
         if (currNode.chromeTabId === newNode.chromeTabId) {
@@ -109,13 +102,15 @@ chrome.runtime.onMessage.addListener(function(message){
             if (histNode) {
                 currNode = histNode;
             } else {
+                let xhr = new XMLHttpRequest();
                 setCurrNode();
                 payload.windows[visit.windowId].visits.push(newNode.id);
                 payload.visits[newNode.id] = newNode;
                 setChildren(newNode);
-                setVisits(newNode);
+                addVisits(newNode);
                 let parent = newNode.parent ? newNode.parent : -1;
-                let str = `id=${newNode.id}&title=${newNode.title}&url=${newNode.url}&chromeTabId=${newNode.chromeTabId}&chromeWindowId=${newNode.chromeWindowId}&parent=${parent}&children=${newNode.children}&userId=4&timeCreated=${newNode.timeCreated}`;
+                console.log(username);
+                let str = `id=${newNode.id}&title=${newNode.title}&url=${newNode.url}&chromeTabId=${newNode.chromeTabId}&chromeWindowId=${newNode.chromeWindowId}&parent=${parent}&children=${newNode.children}&username=${username}&timeCreated=${newNode.timeCreated}`;
                 xhr.open("POST", "http://localhost:5000/api/visits/", true);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhr.send(str);
@@ -127,12 +122,6 @@ chrome.runtime.onMessage.addListener(function(message){
     };
 
     console.log(message.sender);
-
-    let username;
-
-    if (message.sender === "login") {
-        username = message.username;
-    }
     
     if (message.sender === "start") {
 
@@ -143,13 +132,15 @@ chrome.runtime.onMessage.addListener(function(message){
 
         chrome.windows.getAll({ populate: true, windowTypes: ["normal"] }, function (windows) {
             windows.forEach(window => {
-                let xhr = XMLHttpRequest();
-                let windowObject = { id: window.id, visits: [], userId: 4 };
-                let str = `id=${window.id}&visits=${window.visits}&username${window.username}`
-                xhr.open("POST", "http://localhost:5000/api/windows");
+                let xhr = new XMLHttpRequest();
+                console.log(username);
+                let windowObject = { id: window.id, visits: [], username: username };
+                let str = `id=${window.id}&visits=${[]}&username=${username}`
+                xhr.open("POST", "http://localhost:5000/api/windows/");
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhr.send(str);
                 window.tabs.forEach(visit => {
+                    let xhr = new XMLHttpRequest();
                     let newNode = createNode(visit);
                     windowObject.visits.push(newNode.id);
                     addVisits(newNode);
@@ -157,7 +148,7 @@ chrome.runtime.onMessage.addListener(function(message){
                     // console.log(`title=${newNode.title}&url=${newNode.url}&chromeTabId=${newNode.chromeTabId}&chromeWindowId=${newNode.chromeWindowId}&parent=${newNode.parent}&timeCreated=${newNode.timeCreated}`)
                     // xhr.send(`title=${newNode.title}&url=${newNode.url}&chromeTabId=${newNode.chromeTabId}&chromeWindowId=${newNode.chromeWindowId}&parent=${newNode.parent}&timeCreated=${newNode.timeCreated}`);
                     let parent = newNode.parent ? newNode.parent : -1;
-                    let str = `id=${newNode.id}&title=${newNode.title}&url=${newNode.url}&chromeTabId=${newNode.chromeTabId}&chromeWindowId=${newNode.chromeWindowId}&parent=${parent}&children=${newNode.children}&timeCreated=${newNode.timeCreated}`;
+                    let str = `id=${newNode.id}&title=${newNode.title}&url=${newNode.url}&chromeTabId=${newNode.chromeTabId}&chromeWindowId=${newNode.chromeWindowId}&parent=${parent}&children=${newNode.children}&username=${username}&timeCreated=${newNode.timeCreated}`;
                     // let str = `title=hello&url=url&chromeTabId=4&chromeWindowId=5&parent=7`;
                     console.log("hello");
                     xhr.open("POST", "http://localhost:5000/api/visits/", true);

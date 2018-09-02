@@ -11,7 +11,11 @@ const WindowSchema = new Schema({
             type: Object.Type.ObjectId,
             ref: "visits"
         }
-    ]
+    ],
+    date: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 module.exports = Window = mongoose.model("window", WindowSchema);

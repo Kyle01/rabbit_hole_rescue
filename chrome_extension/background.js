@@ -2,7 +2,7 @@
 // import createVisit from '../frontend/src/util/visit_util2.js';
 
 let xhr = new XMLHttpRequest();
-console.log(xhr)
+console.log(xhr);
 
 chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
     chrome.declarativeContent.onPageChanged.addRules([{
@@ -33,11 +33,17 @@ chrome.runtime.onMessage.addListener(function(message){
 
     const setChildren = (visit) => {
         let par = visit.parent;
+        console.log(this);
         if (par) {
+            let xhr2 = new XMLHttpRequest();
             payload.visits[par].children.push(visit.id);
-            // xhr.open("PATCH", `localhost:5000/api/visits/${par.id}`, true);
-            // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            // xhr.send(`${visit}`);
+            let str = `id=${par}&children=${visit.id}`;
+            // console.log(par.id);
+            console.log(str);
+            xhr2.open("PATCH", `http://localhost:5000/api/visits/update`, true);
+            console.log(xhr);
+            xhr2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr2.send(str);
         }
     };
 
@@ -101,19 +107,21 @@ chrome.runtime.onMessage.addListener(function(message){
                 currNode = histNode;
             } else {
                 setCurrNode();
-                console.log(currNode);
+                // console.log(currNode);
                 payload.windows[visit.windowId].visits.push(newNode.id);
                 payload.visits[newNode.id] = newNode;
                 setChildren(newNode);
+                let parent = newNode.parent ? newNode.parent : -1;
+                let str = `id=${newNode.id}&title=${newNode.title}&url=${newNode.url}&chromeTabId=${newNode.chromeTabId}&chromeWindowId=${newNode.chromeWindowId}&parent=${parent}&children=${newNode.children}&userId=4&timeCreated=${newNode.timeCreated}`;
                 xhr.open("POST", "http://localhost:5000/api/visits/", true);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhr.send(`${newNode}`);
+                xhr.send(str);
             }
             // let date = Math.floor(Date.now() / 216000000);
             let date = getYMDDate();
 
             window.localStorage[`session${date}`] = payload;
-            console.log(payload);
+            // console.log(payload);
         }
     };
 
@@ -127,7 +135,7 @@ chrome.runtime.onMessage.addListener(function(message){
 
         chrome.windows.getAll({ populate: true, windowTypes: ["normal"] }, function (windows) {
             windows.forEach(window => {
-                let windowObject = { id: window.id, visits: [] };
+                let windowObject = { id: window.id, visits: [], userId: 4};
                 window.tabs.forEach(visit => {
                     let newNode = createNode(visit);
                     windowObject.visits.push(newNode.id);
@@ -135,7 +143,7 @@ chrome.runtime.onMessage.addListener(function(message){
                     // console.log(`title=${newNode.title}&url=${newNode.url}&chromeTabId=${newNode.chromeTabId}&chromeWindowId=${newNode.chromeWindowId}&parent=${newNode.parent}&timeCreated=${newNode.timeCreated}`)
                     // xhr.send(`title=${newNode.title}&url=${newNode.url}&chromeTabId=${newNode.chromeTabId}&chromeWindowId=${newNode.chromeWindowId}&parent=${newNode.parent}&timeCreated=${newNode.timeCreated}`);
                     let parent = newNode.parent ? newNode.parent : -1;
-                    let str = `title=${newNode.title}&url=${newNode.url}&chromeTabId=${newNode.chromeTabId}&chromeWindowId=${newNode.chromeWindowId}&parent=${parent}&children=${newNode.children}&timeCreated=${newNode.timeCreated}`;
+                    let str = `id=${newNode.id}&title=${newNode.title}&url=${newNode.url}&chromeTabId=${newNode.chromeTabId}&chromeWindowId=${newNode.chromeWindowId}&parent=${parent}&children=${newNode.children}&timeCreated=${newNode.timeCreated}`;
                     // let str = `title=hello&url=url&chromeTabId=4&chromeWindowId=5&parent=7`;
                     console.log("hello");
                     xhr.open("POST", "http://localhost:5000/api/visits/", true);

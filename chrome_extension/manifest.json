@@ -2,7 +2,7 @@
   "name": "Rabbit Hole Rescue",
   "version": "1.0",
   "description": "Visualize and save your history to make navigating your research easier!",
-  "permissions": ["activeTab", "declarativeContent", "storage", "history", "tabs", "webNavigation"],
+  "permissions": ["activeTab", "declarativeContent", "storage", "history", "tabs", "webNavigation", "http://localhost:5000/*"],
   "background": {
     "scripts": ["background.js"],
     "persistent": false

@@ -49,7 +49,9 @@ The Chrome extension, once installed, is activated by clicking on its icon in th
 
 ![A web page with the popup superimposed](https://github.com/Kyle01/rabbit_hole_rescue/blob/master/screenshots/popup_screenshot.png)
 
+#### Background script 
 
+The extension's background.js script contains the code that does the tracking. The extension, on loading, installs a listener for the start and stop butttons. When the start button in the popup is clicked, listeners are added to Chrome's onUpdated and onActivated actions, and all open tabs are logged in a visit structure.
 
 
 ### Web application

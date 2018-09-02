@@ -6,6 +6,7 @@ const db = require("./config/keys").mongoURI;
 const users = require("./routes/api/users");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const visits = require("./routes/api/visits");
 const path = require("path");
 
 require("./config/passport")(passport);
@@ -34,4 +35,5 @@ app.use(passport.initialize());
 app.listen(port, () => console.log(`Server is running on port ${port}`));
 
 app.use("/api/users", users);
+app.use("/api/visits", visits);
 

@@ -1,7 +1,7 @@
 'use strict';
 // import createVisit from '../frontend/src/util/visit_util2.js';
 
-let xhr = new XMLHttpRequest()
+let xhr = new XMLHttpRequest();
 console.log(xhr)
 
 chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {

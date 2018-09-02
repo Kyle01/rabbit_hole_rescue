@@ -3,11 +3,18 @@
 let loggedIn = false; 
 let recording = false;
 
+let navlogo = document.getElementById("nav-logo");
 let signup = document.getElementById("signup");
 let login = document.getElementById('login');
 let start = document.getElementById('start');
 let stop = document.getElementById('stop');
 let visualization = document.getElementById("visualization");
+
+document.addEventListener("DOMContentLoaded", function() {
+    navlogo.addEventListener("click", function() {
+        window.open("rabbit-hole-rescue.herokuapp.com");
+    });
+});
 
 document.addEventListener("DOMContentLoaded", function() {
   let xhr = new XMLHttpRequest();

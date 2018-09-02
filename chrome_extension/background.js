@@ -135,6 +135,7 @@ chrome.runtime.onMessage.addListener(function(message){
     }
     
     if (message.sender === "start") {
+        console.log(message.sender);
 
         const sleep = (time) => {
             let start = new Date().getTime();
@@ -180,6 +181,7 @@ chrome.runtime.onMessage.addListener(function(message){
     }
     
     if (message.sender === "stop") {
+        console.log(payload);
         chrome.tabs.onUpdated.removeListener(activatedListener);
         chrome.tabs.onActivated.removeListener(updatedListener);
         chrome.runtime.reload();

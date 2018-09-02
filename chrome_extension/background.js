@@ -127,6 +127,13 @@ chrome.runtime.onMessage.addListener(function(message){
     };
 
     console.log(message.sender);
+
+    let username;
+
+    if (message.sender === "login") {
+        username = message.username;
+    }
+    
     if (message.sender === "start") {
 
         const sleep = (time) => {

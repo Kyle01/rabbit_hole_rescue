@@ -12,13 +12,19 @@
             <a class="nav-logo" href="#/">Rabbit Hole Rescue</a>
           </div>
         </div>
+        <button id="signup">No account? Sign up!</button>
+        <div class="login-notice">
+          <p class="notice">You must be logged in to save sessions and view visualizations.</p>
+        </div>
+        <form id="login/signup">
+          <label>Username: <input type="text" id="username"></label>
+          <label>Password: <input type="password" id="password"></label>
+        </form>
+        <button id="login">Log In</button>
         <button id="start">Start recording session</button>
         <button id="stop">Stop recording session</button>
         <button id="visualization">Open visualization page</button>
-        <button id="login">Go to login page</button>
-        <button id="signup">Go to signup page</button>
 
-        <p class="notice">You must be logged in to save sessions and view visualizations.</p>
       </div>
       <script src="popup.js"></script>
     </body>

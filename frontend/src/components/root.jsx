@@ -11,7 +11,7 @@ import {
 import NavbarFeatures from "./NavBar/nav_bar_container";
 import ShowContainer from './show/show_container';
 import Splash from './splash/splash';
-import SignUp from './signup/sign_up';
+import SignUp from './signup/sign_up_container';
 import LoginContainer from './login/login_container';
 
 const Root = () => (

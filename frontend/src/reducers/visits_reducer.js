@@ -9,7 +9,8 @@ const visitsReducer = (state={}, action) => {
         case RECEIVE_VISIT:
             return merge({}, state, { [action.visit.id]: action.visit });
         case RECEIVE_VISITS:
-            return merge({}, state, action.visits);
+            let visits = action.visits.data.visits;
+            return merge({}, state, visits);
         default:
             return state;
     }

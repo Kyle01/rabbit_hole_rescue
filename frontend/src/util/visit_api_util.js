@@ -7,7 +7,7 @@ export const RECEIVE_VISIT = 'RECEIVE_VISIT';
 
 export const fetchVisits = (windowId) => dispatch => {
     axios
-        .get(`api/visits/`, windowId)
+        .get(`api/visits/${windowId}`)
         .then(res => {
             dispatch(receieveVisits(res));
         })

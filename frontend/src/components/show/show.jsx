@@ -128,7 +128,7 @@ class Show extends React.Component {
     this.state = {
       treeData: {},
       windows: props.windows,
-      views: props.views
+      visits: props.visits
     };
   }
 
@@ -227,7 +227,8 @@ class Show extends React.Component {
 
   componentDidMount(nextProps){
     this.renderTree(nextProps);
-    
+    this.props.fetchVisits(32);
+    console.log(this.state);
     // Promise.all([
     //   this.props.fetchWindows(this.props.date)
     // ]).then(

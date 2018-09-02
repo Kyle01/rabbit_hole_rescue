@@ -10,10 +10,19 @@ const visitsReducer = (state={}, action) => {
             return merge({}, state, { [action.visit.id]: action.visit });
         case RECEIVE_VISITS:
             let visits = action.visits.data.visits;
-            return merge({}, state, visits);
+            let visitObject = parseVisits(visits);
+            return merge({}, state, visitObject);
         default:
             return state;
     }
 }
 
 export default visitsReducer;
+
+const parseVisits = function(visit_array){
+    let visitObject = {};
+    visit_array.forEach( visit => {
+        visitObject[visit.id] = visit;
+    })
+    return visitObject;
+}

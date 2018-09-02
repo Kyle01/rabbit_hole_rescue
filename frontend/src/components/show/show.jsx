@@ -1,7 +1,7 @@
 import React from 'react';
 import * as d3 from 'd3';
 import { BFSDisplay } from './tree_algorithms';
-import { createTree } from '../../reducers/tree_organizer';
+import { createTree, getVisits } from '../../reducers/tree_organizer';
 
 const treeData =[
   {
@@ -125,14 +125,14 @@ class Show extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      treeData: {},
-      windows: props.windows,
-      visits: props.visits
-    };
+
   }
 
   renderTree(props){
+    let sampleVisits = [25, 45, 52];
+    let visitTree = getVisits(sampleVisits, this.props.visits);
+    console.log(visitTree);
+
     function radialPoint(x, y) {
       return [(y = +y) * Math.cos(x -= Math.PI / 2), y * Math.sin(x)];
     }
@@ -198,7 +198,6 @@ class Show extends React.Component {
             d3.select(this).attr("class", "chosen-one");
           })
         .on("mouseout", function(d) {
-            // click(d);
             d3.select(this).attr("r", 8);
             d3.select(this).attr("class", " ");
           })
@@ -225,18 +224,12 @@ class Show extends React.Component {
     }
   }
 
-  componentDidMount(nextProps){
-    this.renderTree(nextProps);
+  componentWillMount(){
     this.props.fetchVisits(32);
-    console.log(this.state);
-    // Promise.all([
-    //   this.props.fetchWindows(this.props.date)
-    // ]).then(
-    //   ([res1]) => {
-    //     Object.keys(this.state.windows).forEach(windowId => {
-    //       this.props.fetchVisits(windowId);
-    //     });
-    //   });
+  }
+
+  componentDidMount(nextProps){
+
   }
 
   render() {
@@ -249,9 +242,12 @@ class Show extends React.Component {
         </div>
       </div>
     );
+    if (!(Object.keys(this.props.visits).length > 0)){
+      return retDiv;
+    }
+    this.renderTree(this.props);
     
-
-
+    
     return retDiv;
   }
 }

@@ -5,9 +5,9 @@ export const GET_WINDOW_ERRORS = 'GET_WINDOW_ERRORS';
 export const CLEAR_WINDOW_ERRORS = 'CLEAR_WINDOW_ERRORS';
 export const RECEIVE_WINDOWS = 'RECEIVE_WINDOWS';
 
-export const fetchWindows = (date) => dispatch => {
+export const fetchWindows = (username) => dispatch => {
     axios
-        .get(`api/windows/`, date)
+        .get(`api/windows/${username}`)
         .then(res => {
             dispatch(receieveWindows(res));
         })

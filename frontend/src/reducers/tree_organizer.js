@@ -61,15 +61,25 @@ export const createTree = function({windows, visits, date}, dateId){
     return tree;
 };
 
-const getVisits = function(visitIds, visit_state){
+export const getVisits = function(visitIds, visit_state){
     if ( visitIds.length == 0 ) {
         return [];
     }
     let result = [];
     visitIds.forEach( vid => {
-        let curr_visit = visit_state[vid];
-        curr_visit["children"] = getVisits(curr_visit["children"], visit_state);
+        let curr_visit = Object.assign({},visit_state[vid]);
+        let children = curr_visit["children"].filter(onlyUnique);
+        // curr_visit["description"] = curr_visit["title"];
+        curr_visit["children"] = getVisits(children, visit_state);
         result.push(curr_visit);
     });
     return result;
 }
+
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
+// usage example:
+// var a = ['a', 1, 'a', 2, '1'];
+// var unique = a.filter( onlyUnique );

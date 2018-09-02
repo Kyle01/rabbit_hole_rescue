@@ -1,34 +1,12 @@
-8/28
--------
 
-Questions for lecture
-~~~~~~~
-* What is going on with that 'public' folder in frontend? 
-* We still don't have a 'logged in?' method 
-* How do I do scss? Isnt there an easy way w/ react? 
-
-
-<<<<<<< HEAD
-to do today
--------
-Turn in linkedin/github/angel list/ resume
-make sure gradesheet is in my two projects
-do rabbithole stuff
-relaxxx  
 =======
 * Are we sure we want to store the history as a cookie? 
 
 8/27
 -------
-* What do we want our pop up to look for (probably nothing)
-* what background scripts do we need to run 
-    * What listeners do we need 
-    * what permissions do we need 
-        *tabs, window, history, identity
 * confirm we wont need a content script, because our site uses react with a backend so our extension will never modify the dom
 * Options page as an additional mvp 
 * Do we need to use the storage api or the html5 web storage api to get post calls to our server? 
-* need to check for incognito mode 
 
 
 * Working through localStorage

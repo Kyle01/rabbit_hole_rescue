@@ -11,19 +11,26 @@ import {
 import NavbarFeatures from "./NavBar/nav_bar_container";
 import ShowContainer from './show/show_container';
 import Splash from './splash/splash';
+import SignUp from './signup/sign_up';
+import LoginContainer from './login/login_container';
 
 const Root = () => (
-    <div>
-        <header>
-            <NavbarFeatures />
-        </header>
-        <Switch>
-            <Route exact path="/login"/>
-            <Route exact path="/signup"/>
-            <Route exact path='/tree' component={ShowContainer}/>
-            <Route exact path="/" component={Splash} />
-        </Switch>
+  <div>
+    <header>
+      <NavbarFeatures />
+    </header>
+    <Switch>
+      <Route exact path="/signin" component={LoginContainer} />
+      <Route exact path="/signup" component={SignUp} />
+      <Route exact path="/history" component={ShowContainer} />
+      <Route exact path="/" component={Splash} />
+    </Switch>
+    <div className="splash-bottom-bar">
+      <div className="splash-bottom-cr">
+        <p>2018 ©</p>
+      </div>
     </div>
+  </div>
 );
 
 export default Root;

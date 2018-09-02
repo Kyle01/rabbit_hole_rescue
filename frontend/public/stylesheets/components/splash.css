@@ -20,16 +20,42 @@
 .splash-features-box { 
     height: 225px;
     background-color: #55664f;
+    color: white;
+    list-style: none;
+    font-family: 'Merriweather';
+    font-size: 24px;
+    display:flex;
+}
+
+.splash-list-left {
+    justify-content: center;
+    width: 50%;
+}
+
+.splash-list-right{
+    justify-content: center;
+    width: 50%;
+}
+
+
+.splash-li {
+    list-style: none;
+    padding-top: 40px;
+}
+
+.splash-ul {
+    margin: 0;
 }
 
 .splash-bottom-bar {
-    display: inline-block;
-}
-
-.splash-bottom-about {
-    float: left;
+    display: right;
 }
 
 .splash-bottom-cr {
     float: right;
+    font-size: 12px;
+    padding-right: 20px;
+    margin-top: 0px;
+    font-family: 'Slabo';
+    color: #717571;
 }

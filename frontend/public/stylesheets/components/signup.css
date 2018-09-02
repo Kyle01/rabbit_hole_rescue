@@ -1,0 +1,163 @@
+
+.signup-main {
+
+}
+
+.signup-first-div{
+    background-color: #b9c6b4;
+    display: block;
+    height: 400px;
+}
+
+.signup-top-text {
+    font-family: 'raleway';
+    font-size: 32px;
+    color: white;
+    margin: 0;
+    padding-top: 25px;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
+
+.signup-first-summary {
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 80%;
+    
+}
+
+.signup-first-left{
+    margin-left: 10px;
+    justify-content: center;
+    width: 50%;
+}
+
+.signup-number {
+    display: inline-flex; 
+    font-size: 305px;
+    color: #b6efba;
+    font-family: 'Slabo';
+}
+
+.signup-first-text{
+    display: inline-flex;
+    color: #55664f;
+    font-size: 28px;
+    max-width: 300px;
+    float: right;
+    margin-top: 125px;
+    font-family: 'Merriweather';
+}
+
+.signup-first-modal {
+    margin-right: 45px;
+    height: 75%;
+    width: 37.5%;
+    background-color: #e2e1a3;
+    border-radius: 5px;
+    border: 2px solid white; 
+}
+
+.signup-second-div{
+    background-color: #ffffff;
+    justify-content: center;
+    display: flex;
+    height: 400px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.signup-second-left{
+    width:50%;
+    float:left;
+    margin-left: 25px;
+    justify-content: center;
+}
+
+.signup-second-text {
+    display: inline-flex;
+    color: #55664f;
+    font-size: 28px;
+    max-width: 300px;
+    float: right;
+    margin-top: 110px;
+    margin-right: 35px;
+    font-family: 'Merriweather';
+}
+
+.signup-second-modal {
+    margin-right: 45px;
+    margin-top: 65px;
+    height: 60%;
+    width: 37.5%;
+    background-color: #55664f;
+    border-radius: 5px;
+    border: 2px solid #e2e1a3; 
+}
+
+.signup-third-div{
+    background-color: #55664f;
+    justify-content: center;
+    display: flex;
+    height: 400px;
+    justify-content: space-between;
+}
+
+.signup-third-text {
+    display: inline-flex;
+    color: white;
+    font-size: 28px;
+    max-width: 300px;
+    float: right;
+    margin-top: 110px;
+    margin-right: 35px;
+    font-family: 'Merriweather';
+}
+
+.signup-third-modal {
+    margin-right: 45px;
+    margin-top: 65px;
+    height: 60%;
+    width: 37.5%;
+    background-color: white;
+    border-radius: 5px;
+    border: 2px solid #b6efba; 
+}
+
+.signup-fourth-div{
+    background-color: #b9c6b4;
+    height: 150px;
+    color: #55664f;
+    font-family: 'Merriweather';
+    font-size: 36px;
+    display: block;
+}
+
+.signup-fourth-text {
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 20px;
+}
+
+.signup-fourth-link {
+    font-family: 'Raleway';
+    color: white;
+    background-color: #d14e33;
+    border: 2px solid white;
+    border-radius: 5px;
+    padding: 8px;
+    text-decoration: none;
+    font-size: 24px;
+    margin-left: 45%;
+    padding-left: 50px;
+    padding-right: 50px;
+
+}
+
+
+.signup-fourth-link:hover {
+    background-color: #ef745b;
+}

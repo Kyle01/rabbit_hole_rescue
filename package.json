@@ -4,12 +4,13 @@
     "description": "",
     "main": "./frontend/index.js",
     "scripts": {
-        "start": "node app.js",
+        "start": "node --inspect app.js",
         "server": "nodemon app.js",
         "webpack": "webpack --mode=development --watch",
         "frontend-install": "npm install --prefix frontend",
         "frontend": "npm start --prefix frontend",
-        "dev": "concurrently \"npm run server\" \"npm run frontend\""
+        "dev": "concurrently \"npm run server\" \"npm run frontend\"",
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
     },
     "author": "",
     "license": "MIT",
@@ -27,20 +28,17 @@
         "jsonwebtoken": "^8.3.0",
         "jwt-decode": "^2.2.0",
         "lodash": "^4.17.10",
-        "mongoose": "^5.2.10",
+        "mongoose": "^5.2.9",
         "passport": "^0.4.0",
         "passport-jwt": "^4.0.0",
         "react": "^16.4.2",
         "react-dom": "^16.4.2",
         "react-redux": "^5.0.7",
         "react-router-dom": "^4.3.1",
-        "react-scripts": "^1.1.5",
         "redux": "^4.0.0",
         "redux-logger": "^3.0.6",
         "redux-thunk": "^2.3.0",
-        "validator": "^10.7.0",
-        "webpack": "^4.17.1",
-        "webpack-cli": "^3.1.0"
+        "validator": "^10.7.0"
     },
     "devDependencies": {
         "nodemon": "^1.18.4"

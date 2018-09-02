@@ -123,6 +123,14 @@ const treeData =[
 
 class Show extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      treeData: {},
+      windows: props.windows,
+      views: props.views
+    };
+  }
 
   renderTree(props){
     function radialPoint(x, y) {
@@ -219,6 +227,15 @@ class Show extends React.Component {
 
   componentDidMount(nextProps){
     this.renderTree(nextProps);
+    
+    // Promise.all([
+    //   this.props.fetchWindows(this.props.date)
+    // ]).then(
+    //   ([res1]) => {
+    //     Object.keys(this.state.windows).forEach(windowId => {
+    //       this.props.fetchVisits(windowId);
+    //     });
+    //   });
   }
 
   render() {

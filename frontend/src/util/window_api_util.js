@@ -19,9 +19,11 @@ export const fetchWindows = (date) => dispatch => {
         );
 }
 
-export const receieveWindows = windows => {
+///need a dayId for the date reducer
+export const receieveWindows = (windows, dayId) => {
     return {
         type: RECEIVE_WINDOWS,
-        windows: windows
+        windows: windows,
+        dayId: dayId
     };
 };

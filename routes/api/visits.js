@@ -8,6 +8,16 @@ router.get('/test', (req, res) => {
     console.log("hello world")
 })
 
+router.get('/:windowId', (req, res) => {
+    Visit.find({"chromeWindowId": req.params.windowId})
+        .then(visits => {
+            res.json({
+                success: true,
+                visits
+            });
+        })
+})
+
 router.post('/', (req, res) => {
     Visit.findOne({id: req.body.id})
         .then (visit => {

@@ -9,19 +9,45 @@ router.get('/test', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    const newVisit = new Visit({
-        title: req.body.title,
-        url: req.body.url,
-        chromeTabId: req.body.chromeTabId,
-        chromeWindowId: req.body.chromeWindowId,
-        parent: req.body.parent,
-        // children: req.body.children,
-        timeCreated: req.body.timeCreated
-    });
+    Visit.findOne({id: req.body.id})
+        .then (visit => {
+            if (!visit) {
+                const newVisit = new Visit({
+                    id: req.body.id,
+                    title: req.body.title,
+                    url: req.body.url,
+                    chromeTabId: req.body.chromeTabId,
+                    chromeWindowId: req.body.chromeWindowId,
+                    parent: req.body.parent,
+                    // children: req.body.children,
+                    timeCreated: req.body.timeCreated
+                });
 
-    newVisit.save()
-        .then(visit => res.json(visit))
-        .catch(err => console.log(err));
+                newVisit.save()
+                    .then(visit => res.json(visit))
+                    .catch(err => console.log(err));
+            }
+        }
+
+    )
+})
+
+router.patch('/update', (req, res) => {
+    console.log("hell");
+    Visit.findOne({id: req.body.id})
+        .then(visit => {
+            if (visit) {
+                console.log(visit);
+                if (!visit.children.includes(req.body.children)) {
+                    visit.children.push(req.body.children);
+                }
+                console.log(visit.children);
+                visit.save()
+                    .then(visit => res.json(visit))
+                    .catch(err => console.log(err));
+            }
+        })
+        
 })
 
 

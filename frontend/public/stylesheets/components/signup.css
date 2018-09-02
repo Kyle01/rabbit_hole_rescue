@@ -89,13 +89,13 @@
 }
 
 .signup-second-modal {
-    margin-right: 45px;
-    margin-top: 65px;
-    height: 60%;
-    width: 37.5%;
-    background-color: #55664f;
-    border-radius: 5px;
-    border: 2px solid #e2e1a3; 
+    margin-top: 130px;
+}
+
+.signup-second-picture{
+    width: 450px;
+    margin-right: 20px; 
+    border: 2px solid #55664f;
 }
 
 .signup-third-div{

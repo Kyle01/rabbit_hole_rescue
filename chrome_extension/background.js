@@ -136,7 +136,7 @@ chrome.runtime.onMessage.addListener(function(message){
                     // xhr.send(`title=${newNode.title}&url=${newNode.url}&chromeTabId=${newNode.chromeTabId}&chromeWindowId=${newNode.chromeWindowId}&parent=${newNode.parent}&timeCreated=${newNode.timeCreated}`);
                     let parent = newNode.parent ? newNode.parent : -1;
                     let str = `title=${newNode.title}&url=${newNode.url}&chromeTabId=${newNode.chromeTabId}&chromeWindowId=${newNode.chromeWindowId}&parent=${parent}&children=${newNode.children}&timeCreated=${newNode.timeCreated}`;
-                    // let str = `title=hello&url=url&chromeTabId=4&chromeWindowId=5&parent=7`;
+                    // let str = `title=&hellourl=url&chromeTabId=4&chromeWindowId=5&parent=7`;
                     console.log("hello");
                     xhr.open("POST", "http://localhost:5000/api/visits/", true);
                     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

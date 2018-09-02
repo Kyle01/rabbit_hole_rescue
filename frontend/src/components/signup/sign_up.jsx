@@ -24,7 +24,10 @@ class SignUp extends React.Component {
                 <p className="signup-number">2</p>
                 <p className='signup-second-text'>Download our Google Chrome Extension from the Google Chrome Store</p>
               </div>
-              <div className="signup-second-modal" >
+              <div className='signup-second-modal'>
+              <a href='https://chrome.google.com/webstore/detail/rabbit-hole-rescue/lhcoogckbmpeijhnnniaohgcplmgfmie'>
+                 <img src="../../../images/extension.png" className='signup-second-picture'/>
+               </a>
               </div>
             </div>
             <div className="signup-third-div">

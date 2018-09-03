@@ -44,6 +44,6 @@ export const receieveVisit = visit => {
 export const getVisitError = err => {
     return {
         type: GET_VISIT_ERRORS,
-        payload: err.response.data
+        payload: err
     };
 };

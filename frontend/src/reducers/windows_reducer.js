@@ -5,6 +5,7 @@ const windowsReducer = (state={}, action) => {
     Object.freeze(state);
     switch (action.type) {
         case RECEIVE_WINDOWS:
+            // debugger
             let windows = action.windows.data.windows;
             let windowObject = parseWindows(windows);
 
@@ -25,6 +26,7 @@ const parseWindows = function(window_array){
         window["webname"] = `Window${window.id}`;
         window["url"] = "";
         window["description"] = `Browse Window Visits`;
+
         windowObject[window.id] = window;
     })
     return windowObject;

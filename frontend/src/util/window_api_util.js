@@ -14,7 +14,7 @@ export const fetchWindows = (username) => dispatch => {
         .catch(err => 
             dispatch({
                 type: GET_WINDOW_ERRORS,
-                payload: err.response.data
+                payload: err
             })
         );
 }

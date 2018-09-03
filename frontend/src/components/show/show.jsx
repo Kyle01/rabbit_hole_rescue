@@ -206,8 +206,8 @@ class Show extends React.Component {
         .attr("dy", "0.31em")
         .attr("x", function(d) { return d.x < Math.PI === !d.children ? 9 : -9; })
         .attr("text-anchor", function(d) { return d.x < Math.PI === !d.children ? "start" : "end"; })
-        .attr("transform", function(d) { return "rotate(" + (d.x < Math.PI ? d.x - Math.PI / 2 : d.x + Math.PI / 2) * 180 / Math.PI + ")"; })
-        .text(function(d) { return d.data.webname; });
+        .attr("transform", function(d) { return "rotate(" + (d.x < Math.PI ? d.x - Math.PI / 2 : d.x + Math.PI / 2) * 180 / Math.PI + ")"; });
+        // .text(function(d) { return d.data.webname; });
 
       svg.selectAll(".link")
         .data(links)
@@ -254,7 +254,6 @@ class Show extends React.Component {
       this.receiveVisits();
       return retDiv;
     }
-    // debugger
     this.renderTree(this.props);
     
     return retDiv;

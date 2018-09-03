@@ -7,6 +7,7 @@ const users = require("./routes/api/users");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const visits = require("./routes/api/visits");
+const windows = require("./routes/api/windows");
 const path = require("path");
 
 require("./config/passport")(passport);
@@ -36,4 +37,5 @@ app.listen(port, () => console.log(`Server is running on port ${port}`));
 
 app.use("/api/users", users);
 app.use("/api/visits", visits);
+app.use("/api/windows", windows);
 

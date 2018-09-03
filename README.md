@@ -1,147 +1,103 @@
-# Rabbithole
+# Rabbit Hole Rescue 
 
-### Rabbithole 
+[Link to Chrome Store](https://chrome.google.com/webstore/detail/rabbit-hole-rescue/lhcoogckbmpeijhnnniaohgcplmgfmie)
 
-Rabbithole is a Chrome Extension that lets you analyze your browsing habits. 
+[Link to Website splash/demo page](rabbit-hole-rescue.herokuapp.com/)
 
-## Background and Overview
+## Overview 
 
-Sometimes, when you’re doing research, you don’t just want to save a page; you want to save a whole group of tabs. If you get somewhere interesting, you may ask yourself, “How did I get here?” Rabbithole will tell you how, and let you save those paths.git 
+Rabbit Hole Rescue is an extension that lets you record your Web browsing sessions at the click of a button. When you're logged in to your account, you can save these sessions, and view them on a Web page in the form of a tree diagram. This way, you can see the paths your browsing took, and how you ended up at any given page.
 
-Rabbithole will be accompanied by a Web application which lets a user visualize and interact with these saved paths. Potentially add a favorites feature -- favorite an entire tree/subtree: a RABBITHOLE! 
-
-We will need to: 
-  * Make a Chrome extension that collects data 
-  * Build a database to store user and browsing data
-  * Construct a Web application for visualization of and interaction with the collected browser data
-  * Decide how to handle privacy issues: ideally, store data on user machines and give them options to delete unwanted data
-
-## Functionality & MVP
-
-   - [ ] Chrome extension with landing page in new tab for login 
-   - [ ] User authorization: sign up and log in
-   - [ ] Saving of user browsing data to database
-   - [ ] Interactive web page with data visualization of user browsing history
-   - [ ] Display popups with capsule information about links when clicking on a node in the visualization
-   - [ ] Search functionality of web page nodes
-   - [ ] Production README
-
-
-#### Bonus Features
-   - [ ] Note functionality within data visualization feature
-   - [ ] Chrome Extension that visualizes data as a folder tree structure
-   - [ ] Hosted on Chrome marketplace
-
-## WireFrames
-User Auth Modal
-![alt text](https://github.com/Kyle01/rabbit_hole_rescue/blob/master/images/user_auth_modal.jpg)
-
-Chrome Extension View
-![alt text](https://github.com/Kyle01/rabbit_hole_rescue/blob/master/images/chrome_extension.jpg)
-
-History View Page
-![alt text](https://github.com/Kyle01/rabbit_hole_rescue/blob/master/images/view_page.png)
-
-
-## Technologies & Technical Challenges
-
-Rabbithole’s core application is a Chrome extension, with a back end built on MongoDB to save user auth and browsing data. The extension will populate the database. The data will be collected using methods from various Chrome API’s: Tabs, History, Sessions, Windows and Storage are the most likely candidates. 
-
-  ##### Google Chrome Extension
-  ##### Backend: MongoDB/Express
-  ##### Frontend: React/Node.js and D3 visualization library
-
-#### Google Chrome Extension 
+### How does it work?
  
-The Chrome extension will be a basic landing page where the user will log in and authorize the extension to collect data. It will be implemented as a home page, like the App Academy Chrome extension. Using the Chrome API’s, the extension will collect and organize browsing data.
+This extension installs a simple button and popup. First, click the signup button (or the login button, once you have created an account) to be taken to the signup page. Once you have done this, you can begin saving sessions.
 
-Technical challenges: 
+Click the start button to begin recording, and all open Chrome tabs will be saved. Each new address you navigate to will be added to the session until you click the stop button.
 
-Collecting all url’s of open tabs in all open windows and storing in our database 
-Collecting other information (e.g., time and date tab opened) from the objects returned by API methods
-Handling changes to the structure of the tree when a user moves or closes a tab. The chrome.tabs API has methods that can listen for such moves. 
-Testing the window type before putting a url in the database. The default setting should be to ignore popups; a user may be able to change this setting.
+Click the visualization button to be taken to your visualizations page, where you can view eye-catching diagrams of your saved browsing sessions. 
 
-##### Backend: MongoDB/Express 
+### Who is it for?
 
-The browser data will be stored as nodes in a tree structure. Each node object will contain the following properties: 
+Anyone who does research on the Web, or anyone who has ever clicked on a page, and then wondered how their browsing led them down that Rabbit Hole. 
 
-time accessed 
-URL 
-parent_node 
-array of children nodes 
-base_domain_name
-webpage_label 
-note (string for description)
+## Technologies Used 
 
-The trees will belong to tabs, which will belong to windows, which will belong to a date.
+Rabbit Hole Rescue has two parts: a Chrome extension and a MERN-stack Web application. The first does the tracking, and the second does the user authorization, storage, and visualization.
 
-Technical challenges: 
+### Chrome Extension 
 
-Connecting the Chrome extension’s data collection to the MongoDB database 
+The Chrome extension makes use of Google's Chrome API's to gather browsing data, in particular the `chrome.storage`, `chrome.history`, `chrome.tabs`, and `chrome.webNavigation` API's. 
 
-##### Frontend: React/Node.js 
-
-The data will be visualized in a Web application using the D3 library. The visualization will take the form of linked circles. The Web app will also provide search capability
-
-Technical challenges: 
-  - Reading data from MongoDB database and organizing for display 
-  - Constructing visualization using D3 
-  - Fetching data to build a popup for each node
-  - Implementing effective search 
+### Web application 
 
 
-## Accomplished over the Weekend
+#### MERN Stack 
 
-  - All members of the team read the Chrome and MERN tutorials
-  - Set up database
-  - Wrote proposal Readme and planned work for the week
-  - Implement user authorization on database backend - **Kyle** and **Nick** (completed on Sunday)
+The Web application is built using the MERN stack: MongoDB, Express, React, and Node.js. User authorization information and browser session data is stored in a MongoDB database, and the Web site is composed of React pages.
 
+#### D3.js 
 
-## Group Members & Work Breakdown
+D3.js is used to display the stored browser sessions in an attractive, easy-to-read tree diagram format.
 
-**Nick Bielak**,
-**Kyle McVeigh**,
-**Kavian Mojabe**,
-**Jeremiah Steele**
+## Implementation details 
 
-### August 26 - August 27
-  - Build skeleton React site -  **Kyle**
-  - Build the skeleton Chrome extension - **Nick**
-  - Investigate Google API methods and test collection of data - **Jeremiah** 
-  - Begin setting up D3 visualization - **Kavian** 
+### Chrome Extension
 
-### August 27 
-  - Continue and complete the basic work from Sunday - **All**
-  - Build login view on Chrome extension - **Nick/Jeremiah**
-  - Decide which data to save in database, and how to structure it **All will discuss**
-  - Write and test methods to save browser data to database - **Jeremiah/Nick**
+The Chrome extension, once installed, is activated by clicking on its icon in the toolbar. A popup appears, and the user clicks on a button to be taken to the signup or login page. Once logged in, the user can click the record button, and have a session's browsing history saved. The recording stops when the user clicks the stop button.
 
-### Day 2
-
-  - Connect user authorization database to Chrome front end - **Kyle**
-  - Connect React-based Web application to database - **Kyle/Kavian**
-  - Meet to decide duties for next three days
-
-### Day 3
-  - Continue implementation of visualization on Web application using D3 library 
-  - Add methods to fetch data for popups in visualization
-  - Run tests of completed Chrome extension
-
-### Day 4
-  - Complete visualization of data on Web application 
-  - Add popups to visualization
-  - Make seed/demo data and visualizations for guest user
-
-### Day 5
-  - Add search capability to Web application
-  - Add search capability to Chrome extension 
-  - Make demo page (required for Chrome extensions -- may not be required since this project has a live page too)
-
-### Day 6
-  - Complete Production README.md - **Jeremiah** 
-  - Refine design/CSS 
-  - Finish testing and debugging - **All team members** 
+#### Background script (`background.js`)
 
 
+#### Popup (`popup.js`)
+
+![A web page with the popup superimposed](https://github.com/Kyle01/rabbit_hole_rescue/blob/master/screenshots/popup_screenshot.png)
+
+Before the user logs in, most of the popup's buttons are disabled. 
+
+![Web page with logged-in popup superimposed](https://github.com/Kyle01/rabbit_hole_rescue/blob/master/screenshots/popup_screenshot_logged_in.png)
+
+Once the user logs in, more buttons are enabled.
+
+This is done in the start button's event listener: 
+
+```javascript
+if (xhr.status === 200) {
+    chrome.runtime.sendMessage({sender: "login", username: username});
+    if (start.classList.contains('disabled')) {
+        start.classList.remove('disabled');
+    }
+    if (visualization.classList.contains('disabled')) {
+        visualization.classList.remove('disabled');
+    }
+    if (logout.classList.contains('disabled')) {
+        logout.classList.remove('disabled');
+    }
+    loggedIn = "true";
+    window.localStorage.setItem("loggedIn", "true");
+} 
+```
+
+The display of the buttons is changed by adding or removing the class 'disabled', while their functioning depends on the flag variables `loggedIn` and `recording`. These variables are set and stored in `localStorage` when the relevant buttons are clicked, and 
+they are reset upon logout. 
+
+#### Background script 
+
+The extension's `background.js` script contains the code that does the tracking. The extension, on loading, installs a listener for the start and stop buttons. When the start button in the popup is clicked, listeners are added to Chrome's `onUpdated` and `onActivated` actions, and all open tabs are logged in a visit structure.
+
+Information is sent from the chrome extension to the database through XML Http Requests and stored with the current user's `username`.
+
+
+
+### Web application
+
+
+
+## Design documents
+
+  [Proposal README.md](https://github.com/Kyle01/rabbit_hole_rescue/tree/master/misc_docs/README.md)
+
+## Projected features 
+  - Add popups to visualization that display URL's and titles
+  - Let users add notes to entries
+  - Add search capability to Web site and extension
+  - Folder tree structure visualization in Chrome extension

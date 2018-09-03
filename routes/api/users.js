@@ -49,7 +49,7 @@ router.post('/login', (req, res) => {
     if (!isValid) {
         return res.status(400).json(errors);
     }
-
+   
     const username = req.body.username;
     const password = req.body.password;
 
@@ -82,9 +82,9 @@ router.post('/login', (req, res) => {
                         errors.password = 'Incorrect password'
                         return res.status(400).json(errors);
                     }
-                })
-        })
-})
+                });
+        });
+});
 
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.json({
@@ -92,7 +92,7 @@ router.get('/current', passport.authenticate('jwt', { session: false }), (req, r
         username: req.user.username,
         email: req.user.email
     });
-})
+});
 
 
 module.exports = router;

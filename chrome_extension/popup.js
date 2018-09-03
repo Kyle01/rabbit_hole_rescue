@@ -124,6 +124,8 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
+// Logout button resets localStorage loggedIn to false and stops recording
+
 document.addEventListener("DOMContentLoaded", function() {
   let xhr = new XMLHttpRequest();
 

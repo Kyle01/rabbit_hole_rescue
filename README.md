@@ -87,6 +87,7 @@ The extension's `background.js` script contains the code that does the tracking.
 Information is sent from the chrome extension to the database through XML Http Requests and stored with the current user's `username`.
 
 
+
 ### Web application
 
 

@@ -26,7 +26,7 @@ Rabbit Hole Rescue has two parts: a Chrome extension and a MERN-stack Web applic
 
 ### Chrome Extension 
 
-The Chrome extension makes use of Google's Chrome API's to gather browsing data, in particular the chrome.storage, chrome.history, chrome.tabs, and chrome.webNavigation API's. 
+The Chrome extension makes use of Google's Chrome API's to gather browsing data, in particular the `chrome.storage`, `chrome.history`, `chrome.tabs`, and `chrome.webNavigation` API's. 
 
 ### Web application 
 
@@ -45,18 +45,47 @@ D3.js is used to display the stored browser sessions in an attractive, easy-to-r
 
 The Chrome extension, once installed, is activated by clicking on its icon in the toolbar. A popup appears, and the user clicks on a button to be taken to the signup or login page. Once logged in, the user can click the record button, and have a session's browsing history saved. The recording stops when the user clicks the stop button.
 
-#### Popup
+#### Background script (`background.js`)
+
+
+#### Popup (`popup.js`)
 
 ![A web page with the popup superimposed](https://github.com/Kyle01/rabbit_hole_rescue/blob/master/screenshots/popup_screenshot.png)
 
 Before the user logs in, most of the popup's buttons are disabled. 
 
+![Web page with logged-in popup superimposed](https://github.com/Kyle01/rabbit_hole_rescue/blob/master/screenshots/popup_screenshot_logged_in.png)
+
+Once the user logs in, more buttons are enabled.
+
+This is done in the start button's event listener: 
+
+```javascript
+if (xhr.status === 200) {
+    chrome.runtime.sendMessage({sender: "login", username: username});
+    if (start.classList.contains('disabled')) {
+        start.classList.remove('disabled');
+    }
+    if (visualization.classList.contains('disabled')) {
+        visualization.classList.remove('disabled');
+    }
+    if (logout.classList.contains('disabled')) {
+        logout.classList.remove('disabled');
+    }
+    loggedIn = "true";
+    window.localStorage.setItem("loggedIn", "true");
+} 
+```
+
+The display of the buttons is changed by adding or removing the class 'disabled', while their functioning depends on the flag variables `loggedIn` and `recording`. These variables are set and stored in `localStorage` when the relevant buttons are clicked, and 
+they are reset upon logout. 
 
 #### Background script 
 
-The extension's background.js script contains the code that does the tracking. The extension, on loading, installs a listener for the start and stop buttons. When the start button in the popup is clicked, listeners are added to Chrome's onUpdated and onActivated actions, and all open tabs are logged in a visit structure.
+The extension's `background.js` script contains the code that does the tracking. The extension, on loading, installs a listener for the start and stop buttons. When the start button in the popup is clicked, listeners are added to Chrome's `onUpdated` and `onActivated` actions, and all open tabs are logged in a visit structure.
 
-Information is sent from the chrome extension to the database through XML Http Requests and stored with the current user's username.
+Information is sent from the chrome extension to the database through XML Http Requests and stored with the current user's `username`.
+
 
 
 ### Web application

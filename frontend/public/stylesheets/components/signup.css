@@ -68,7 +68,7 @@
     font-size: 20px;
     border: none;
     padding-left: 12px;
-    margin-top: 15px;
+    margin-top: 18px;
 }
 
 .signup-field-button {
@@ -79,7 +79,7 @@
     color: white; 
     border: none;
     font-size: 20px;
-    margin-top: 15px;
+    margin-top: 18px;
 }
 
 .signup-second-div{
@@ -115,17 +115,19 @@
 
 .signup-second-picture{
     width: 450px;
-    margin-right: 20px; 
-    border: 2px solid #55664f;
+    margin-right: 35px; 
+    border: 5px solid #55664f;
     padding-top: 25px;
+    border-radius: 25px;
     padding-left: 25px;
+
 }
 
 .signup-third-div{
     background-color: #55664f;
     justify-content: center;
     display: flex;
-    height: 400px;
+    height: 800px;
     justify-content: space-between;
 }
 
@@ -140,11 +142,19 @@
     font-family: 'Merriweather';
 }
 
+.signup-third-left {
+    width:50%;
+    float:left;
+    margin-left: 25px;
+    justify-content: center;
+    margin-top: 200px;
+}
+
 .signup-third-modal {
     margin-right: 45px;
     margin-top: 65px;
-    height: 60%;
-    width: 37.5%;
+    height: 600px;
+    width: 295px%;
     background-color: white;
     border-radius: 5px;
     border: 2px solid #b6efba; 

@@ -10,7 +10,7 @@ class SignUp extends React.Component {
       username: "",
       password: "",
       email: "",
-      secondPassword: ""
+      password2: ""
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,7 +25,7 @@ class SignUp extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.registerUser(this.state);
+    // this.props.registerUser(this.state);
   }
 
   render() {
@@ -38,17 +38,17 @@ class SignUp extends React.Component {
               <div className="signup-first-left">
                 <p className="signup-number">1</p>
                 <p className="signup-first-text">
-                  Create an Account using the right panel
+                  Create an account using the right panel
                 </p>
               </div>
               <div className="signup-first-modal">
                 <form className="signin-form">
-                  <input className='signup-field-form' type="text" placeholder="email" value={this.state.email} onChange={this.handleInput("email")} />
-                  <input className='signup-field-form' type="text" placeholder="username" value={this.state.username} onChange={this.handleInput("username")} />
-                  <input className='signup-field-form' type="password" placeholder="password" value={this.state.password} onChange={this.handleInput("password")} />
-                  <input className='signup-field-form' type="password" placeholder="confirm password" value={this.state.secondPassword} onChange={this.handleInput("secondPassword")} />
-                 <button className='signup-field-button' onClick={this.handleSubmit}>
-                    Sign in
+                  <input className="signup-field-form" type="text" placeholder="email" value={this.state.email} onChange={this.handleInput("email")} />
+                  <input className="signup-field-form" type="text" placeholder="username" value={this.state.username} onChange={this.handleInput("username")} />
+                  <input className="signup-field-form" type="password" placeholder="password" value={this.state.password} onChange={this.handleInput("password")} />
+                  <input className="signup-field-form" type="password" placeholder="confirm password" value={this.state.password2} onChange={this.handleInput("password2")} />
+                  <button className="signup-field-button" onClick={this.handleSubmit}>
+                    Create Account
                   </button>
                 </form>
               </div>
@@ -69,13 +69,15 @@ class SignUp extends React.Component {
             </div>
           </div>
           <div className="signup-third-div">
-            <div className="signup-second-left">
+            <div className="signup-third-left">
               <p className="signup-number">3</p>
               <p className="signup-third-text">
                 Use the extension to start and stop recording a session
               </p>
             </div>
-            <div className="signup-third-modal" />
+            <div className="signup-third-modal">
+            <img src="../../../images/popup.png" className="signup-third-picture" />
+            </div>
           </div>
           <div className="signup-fourth-div">
             <p className="signup-fourth-text">

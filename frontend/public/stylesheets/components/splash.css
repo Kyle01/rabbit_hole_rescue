@@ -3,18 +3,24 @@
 }
 
 .splash-top{
-    background-color: #b9c6b4;
+    background-color: white;
     height: 650px;
-    display: flex;
+    display: inline-block;
     justify-content: center;
+    width: 100%;
 }
 
 .splash-top-text {
     font-family: 'raleway';
     font-size: 32px;
-    color: white;
+    color: #55664f;
     margin: 0;
     margin-top: 25px;
+    text-align: center;
+}
+
+.splash-image {
+    margin-left: 15%;
 }
 
 .splash-features-box { 

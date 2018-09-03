@@ -11,8 +11,10 @@ import {
 import NavbarFeatures from "./NavBar/nav_bar_container";
 import ShowContainer from './show/show_container';
 import Splash from './splash/splash';
-import SignUp from './signup/sign_up';
+import SignUp from './signup/sign_up_container';
 import LoginContainer from './login/login_container';
+import { ProtectedRoute } from "../util/route_util";
+import NotFound from './not_found/not_found';
 
 const Root = () => (
   <div>
@@ -22,8 +24,9 @@ const Root = () => (
     <Switch>
       <Route exact path="/signin" component={LoginContainer} />
       <Route exact path="/signup" component={SignUp} />
-      <Route exact path="/history" component={ShowContainer} />
+      <ProtectedRoute exact path="/history" component={ShowContainer} />
       <Route exact path="/" component={Splash} />
+      <Route path="/*" component={NotFound} />
     </Switch>
     <div className="splash-bottom-bar">
       <div className="splash-bottom-cr">

@@ -9,7 +9,7 @@ class Splash extends React.Component{
             <div className='splash-main'>
                 <div className='splash-top'>
                     <p className='splash-top-text'>Your Web History as Nature Intended</p>
-                    <img></img>
+                    <img className='splash-image'src='../../../images/home_screen.png'></img>
                 </div>
                 <div className='splash-features-box'>
                     <div className='splash-list-left'>

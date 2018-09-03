@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function () {
         
         xhr.send(str);
         if (xhr.status === 200) {
-            localStorage.setItem("jwt", xhr.response);
             chrome.runtime.sendMessage({sender: "login", username: username});
             if (start.classList.contains('disabled')) {
                 start.classList.remove('disabled');
@@ -131,18 +130,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
   logout.addEventListener("click", function() {
       if (loggedIn === "true") {
-          xhr.open("POST", "http://localhost:5000/api/users/login/", false);
-          xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-          let str = `username=${username}&password=${password}`;
 
-          xhr.send(str);
           window.localStorage.setItem("loggedIn", "false");
           if (recording === "true") {
             window.localStorage.setItem("recording", "false");
           }
           chrome.runtime.sendMessage({sender: "stop"});
       }
-  })
-})
+  });
+});
 
 

@@ -26,7 +26,7 @@ Rabbit Hole Rescue has two parts: a Chrome extension and a MERN-stack Web applic
 
 ### Chrome Extension 
 
-The Chrome extension makes use of Google's Chrome API's to gather browsing data, in particular the chrome.storage, chrome.history, chrome.tabs, and chrome.webNavigation API's. 
+The Chrome extension makes use of Google's Chrome API's to gather browsing data, in particular the `chrome.storage`, `chrome.history`, `chrome.tabs`, and `chrome.webNavigation` API's. 
 
 ### Web application 
 
@@ -46,7 +46,9 @@ D3.js is used to display the stored browser sessions in an attractive, easy-to-r
 The Chrome extension, once installed, is activated by clicking on its icon in the toolbar. A popup appears, and the user clicks on a button to be taken to the signup or login page. Once logged in, the user can click the record button, and have a session's browsing history saved. The recording stops when the user clicks the stop button.
 
 #### Background script (`background.js`)
-#### Popup
+
+
+#### Popup (`popup.js)
 
 ![A web page with the popup superimposed](https://github.com/Kyle01/rabbit_hole_rescue/blob/master/screenshots/popup_screenshot.png)
 
@@ -80,9 +82,9 @@ they are reset upon logout.
 
 #### Background script 
 
-The extension's background.js script contains the code that does the tracking. The extension, on loading, installs a listener for the start and stop buttons. When the start button in the popup is clicked, listeners are added to Chrome's onUpdated and onActivated actions, and all open tabs are logged in a visit structure.
+The extension's `background.js` script contains the code that does the tracking. The extension, on loading, installs a listener for the start and stop buttons. When the start button in the popup is clicked, listeners are added to Chrome's `onUpdated` and `onActivated` actions, and all open tabs are logged in a visit structure.
 
-Information is sent from the chrome extension to the database through XML Http Requests and stored with the current user's username.
+Information is sent from the chrome extension to the database through XML Http Requests and stored with the current user's `username`.
 
 
 ### Web application

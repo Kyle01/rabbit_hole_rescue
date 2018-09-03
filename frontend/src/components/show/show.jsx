@@ -1,129 +1,20 @@
 import React from 'react';
 import * as d3 from 'd3';
 import { BFSDisplay } from './tree_algorithms';
+import { createTree, getVisits } from '../../reducers/tree_organizer';
 
-const treeData =[
-  {
-    "webname": "Slack",
-    "id": 12,
-    "url": "https://app-academy.slack.com/messages/GCG2HBD5M/details/",
-    "description": "Group3 | Slack",
-    "parent": "null",
-    "children": [
-      {
-        "webname": "Slack",
-        "id": 13,
-        "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
-        "description": "Group5 | Slack",
-        "parent": 12,
-        "children": [
-          {
-            "webname": "Slack",
-            "id": 14,
-            "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
-            "description": "Group8 | Slack",
-            "parent": 13,
-          },
-          {
-            "webname": "StackOverflow",
-            "id": 15,
-            "url": "https://stackoverflow.com/questions/38776517/how-to-discard-local-changes-and-pull-latest-from-github-repository",
-            "description": "Group5 | Slack",
-            "parent": 13,
-          }
-        ]
-      },
-      {
-        "webname": "Slack",
-        "id": 16,
-        "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
-        "description": "Kavian Mojabe | Slack",
-        "parent": 12,
-      },
-      {
-        "webname": "Youtube",
-        "id": 17,
-        "url": "https://youtube.com",
-        "description": "Kavian Mojabe | Youtube",
-        "parent": 12,
-        "children":[
-          {
-            "webname": "Slack",
-            "id": 24,
-            "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
-            "description": "Group8 | Slack",
-            "parent": 17,
-          },
-          {
-            "webname": "Youtube",
-            "id": 25,
-            "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
-            "description": "Group8 | Slack",
-            "parent": 17,
-          },
-          {
-            "webname": "Youtube",
-            "id": 26,
-            "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
-            "description": "Group8 | Slack",
-            "parent": 17,
-          }
-        ]
-      },
-      {
-        "webname": "Google",
-        "id": 18,
-        "url": "https://www.google.com/search?q=why&oq=why&sourceid=chrome&ie=UTF-8",
-        "description": "why - Google Search",
-        "parent": 12,
-      },
-      {
-        "webname": "Myspace",
-        "id": 19,
-        "url": "https://www.google.com/search?q=why&oq=why&sourceid=chrome&ie=UTF-8",
-        "description": "Kevinho - Myspace",
-        "parent": 12,
-        "children": [
-          {
-            "webname": "Slack",
-            "id": 20,
-            "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
-            "description": "Group8 | Slack",
-            "parent": 19,
-          },
-          {
-            "webname": "StackOverflow",
-            "id": 21,
-            "url": "https://stackoverflow.com/questions/38776517/how-to-discard-local-changes-and-pull-latest-from-github-repository",
-            "description": "Group5 | Slack",
-            "parent": 19,
-            "children": [
-              {
-                "webname": "Yahoo",
-                "id": 22,
-                "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
-                "description": "Group8 | Slack",
-                "parent": 21,
-              },
-              {
-                "webname": "Yahoo",
-                "id": 23,
-                "url": "https://app-academy.slack.com/messages/GCG2HBD5M/",
-                "description": "Group8 | Slack",
-                "parent": 21,
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-];
 
 class Show extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+  }
 
   renderTree(props){
+    let treeStruct = createTree(this.props,"Sun Sep 02 2018");
+    console.log(treeStruct);
+    var treeData = [treeStruct];
     function radialPoint(x, y) {
       return [(y = +y) * Math.cos(x -= Math.PI / 2), y * Math.sin(x)];
     }
@@ -189,7 +80,6 @@ class Show extends React.Component {
             d3.select(this).attr("class", "chosen-one");
           })
         .on("mouseout", function(d) {
-            // click(d);
             d3.select(this).attr("r", 8);
             d3.select(this).attr("class", " ");
           })
@@ -199,8 +89,8 @@ class Show extends React.Component {
         .attr("dy", "0.31em")
         .attr("x", function(d) { return d.x < Math.PI === !d.children ? 9 : -9; })
         .attr("text-anchor", function(d) { return d.x < Math.PI === !d.children ? "start" : "end"; })
-        .attr("transform", function(d) { return "rotate(" + (d.x < Math.PI ? d.x - Math.PI / 2 : d.x + Math.PI / 2) * 180 / Math.PI + ")"; })
-        .text(function(d) { return d.data.webname; });
+        .attr("transform", function(d) { return "rotate(" + (d.x < Math.PI ? d.x - Math.PI / 2 : d.x + Math.PI / 2) * 180 / Math.PI + ")"; });
+        // .text(function(d) { return d.data.webname; });
 
       svg.selectAll(".link")
         .data(links)
@@ -216,8 +106,18 @@ class Show extends React.Component {
     }
   }
 
+  componentWillMount(){
+    this.props.fetchWindows(this.props.username);
+  }
+
+  receiveVisits(){
+    Object.keys(this.props.windows).forEach( windowId => {
+      this.props.fetchVisits(windowId);
+    })
+  }
+
   componentDidMount(nextProps){
-    this.renderTree(nextProps);
+
   }
 
   render() {
@@ -230,9 +130,15 @@ class Show extends React.Component {
         </div>
       </div>
     );
+
+    if (!(Object.keys(this.props.windows).length > 0)){
+      return retDiv;
+    } else if ((Object.keys(this.props.windows).length > 0) && (!(Object.keys(this.props.visits).length > 0))){
+      this.receiveVisits();
+      return retDiv;
+    }
+    this.renderTree(this.props);
     
-
-
     return retDiv;
   }
 }

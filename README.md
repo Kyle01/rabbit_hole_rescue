@@ -51,7 +51,9 @@ The Chrome extension, once installed, is activated by clicking on its icon in th
 
 #### Background script 
 
-The extension's background.js script contains the code that does the tracking. The extension, on loading, installs a listener for the start and stop butttons. When the start button in the popup is clicked, listeners are added to Chrome's onUpdated and onActivated actions, and all open tabs are logged in a visit structure.
+The extension's background.js script contains the code that does the tracking. The extension, on loading, installs a listener for the start and stop buttons. When the start button in the popup is clicked, listeners are added to Chrome's onUpdated and onActivated actions, and all open tabs are logged in a visit structure.
+
+Information is sent from the chrome extension to the database through XML Http Requests and stored with the current user's username.
 
 
 ### Web application

@@ -13,7 +13,7 @@ export const createVisit = visitData => dispatch => {
         .catch(err =>
             dispatch({
                 type: GET_VISIT_ERRORS,
-                payload: err.response.data
+                payload: err
             })
             
         );

@@ -12,6 +12,9 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
 let i = 0;
 let username;
 
+// window.localStorage.setItem("loggedIn", "false");
+// window.localStorage.setItem("recording", "false");
+
 chrome.runtime.onMessage.addListener(function(message){
     let payload = { windows: {}, visits: {} };
     let currNode = { id: null };

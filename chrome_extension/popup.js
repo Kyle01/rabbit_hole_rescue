@@ -16,7 +16,7 @@ let logout = document.getElementById('logout');
 
 document.addEventListener("DOMContentLoaded", function() {
     navlogo.addEventListener("click", function() {
-        window.open("rabbit-hole-rescue.herokuapp.com");
+        window.open("https://rabbit-hole-rescue.herokuapp.com");
     });
 });
 
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
   let xhr = new XMLHttpRequest();
 
   signup.addEventListener("click", function() {
-    window.open("rabbit-hole-rescue.herokuapp.com/signup", "_blank");
+    window.open("https://rabbit-hole-rescue.herokuapp.com/signup", "_blank");
   });
 });
 
@@ -63,8 +63,8 @@ document.addEventListener('DOMContentLoaded', function () {
         let str = `username=${username}&password=${password}`;
         
         xhr.send(str);
-            
         if (xhr.status === 200) {
+            localStorage.setItem("jwt", xhr.response);
             chrome.runtime.sendMessage({sender: "login", username: username});
             if (start.classList.contains('disabled')) {
                 start.classList.remove('disabled');
@@ -119,14 +119,21 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener("DOMContentLoaded", function() {
   visualization.addEventListener("click", function() {
     if (loggedIn === "true") {
-        window.open("rabbit-hole-rescue.herokuapp.com/history", "_blank");
+        window.open("https://rabbit-hole-rescue.herokuapp.com/history", "_blank");
     }
   });
 });
 
 document.addEventListener("DOMContentLoaded", function() {
+  let xhr = new XMLHttpRequest();
+
   logout.addEventListener("click", function() {
       if (loggedIn === "true") {
+          xhr.open("POST", "http://localhost:5000/api/users/login/", false);
+          xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          let str = `username=${username}&password=${password}`;
+
+          xhr.send(str);
           window.localStorage.setItem("loggedIn", "false");
           if (recording === "true") {
             window.localStorage.setItem("recording", "false");

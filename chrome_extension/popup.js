@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     stop.addEventListener('click', function () {
-      if (loggedIn && recording) {
+      if (loggedIn === "true" && recording == "true") {
         recording = false;
         loggedIn = false;
         window.localStorage.setItem("recording", "false");

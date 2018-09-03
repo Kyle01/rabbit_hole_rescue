@@ -22,6 +22,11 @@ export default visitsReducer;
 const parseVisits = function(visit_array){
     let visitObject = {};
     visit_array.forEach( visit => {
+        if (visit.children[0] === null){
+            visit.children.shift();
+        }
+        visit["webname"] = visit.url.split('/')[2];
+        visit["description"] = visit.title;
         visitObject[visit.id] = visit;
     })
     return visitObject;

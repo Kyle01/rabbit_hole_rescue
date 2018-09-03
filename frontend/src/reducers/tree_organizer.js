@@ -68,6 +68,9 @@ export const getVisits = function(visitIds, visit_state){
     let result = [];
     visitIds.forEach( vid => {
         let curr_visit = Object.assign({},visit_state[vid]);
+        if (typeof curr_visit.children === 'undefined'){
+            return [];
+        }
         let children = curr_visit["children"].filter(onlyUnique);
         // curr_visit["description"] = curr_visit["title"];
         curr_visit["children"] = getVisits(children, visit_state);
@@ -79,7 +82,3 @@ export const getVisits = function(visitIds, visit_state){
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
 }
-
-// usage example:
-// var a = ['a', 1, 'a', 2, '1'];
-// var unique = a.filter( onlyUnique );

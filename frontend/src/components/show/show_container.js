@@ -5,10 +5,11 @@ import Show from './show';
 import {selectVisits, selectWindows} from '../../reducers/selectors';
 
 const msp = (state) => {
-  let date = Date.now();
+  let date = state.date;
   let windows = state.windows;
   let visits = state.visits;
-  return {date, windows, visits};
+  let username = state.session.username;
+  return {date, windows, visits, username};
 };
 
 const mdp = dispatch => {

@@ -48,7 +48,7 @@ The Chrome extension, once installed, is activated by clicking on its icon in th
 #### Background script (`background.js`)
 
 
-#### Popup (`popup.js)
+#### Popup (`popup.js`)
 
 ![A web page with the popup superimposed](https://github.com/Kyle01/rabbit_hole_rescue/blob/master/screenshots/popup_screenshot.png)
 

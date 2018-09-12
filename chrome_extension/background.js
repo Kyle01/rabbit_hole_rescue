@@ -15,13 +15,14 @@ let windowObject = { id: null, visits: [], username: username };
 
 chrome.runtime.onMessage.addListener(function(message) {
   let payload = { windows: {}, visits: {} };
-  let currNode = { id: null };
+  let currNode = { _id: null };
 
   if (message.sender === "login") {
     username = message.username;
   }
 
   const setCurrNode = () => {
+    // GET request
     chrome.tabs.query(
       { active: true, windowId: currNode.chromeWindowId },
       function(tab) {
@@ -45,26 +46,74 @@ chrome.runtime.onMessage.addListener(function(message) {
       let xhr = new XMLHttpRequest();
       payload.visits[par].children.push(visit.id);
       let str = `id=${par}&children=${visit.id}`;
-      xhr.open("PATCH", `http://localhost:5000/api/visits/update`, true);
+      xhr.open("PATCH", `http://localhost:5000/api/visits/update`);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.send(str);
+
+      xhr.onload = function () {
+        if (xhr.readyState === xhr.DONE) {
+          if (xhr.status === 200) {
+            let response = xhr.response;
+            if (response.includes("No Alert")) {
+              console.log("No alert");
+            } else {
+              console.log("Alert");
+            }
+          }
+          else {
+            console.log("Could not make a determination");
+          }
+        }
+      };
     }
   };
 
   const createWindow = windowId => {
     let xhr = new XMLHttpRequest();
     let str = `id=${windowId}&visits=${[]}&username=${username}`;
-    xhr.open("POST", "http://localhost:5000/api/windows/", true);
+    xhr.open("POST", "http://localhost:5000/api/windows/");
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(str);
+
+    xhr.onload = function () {
+      if (xhr.readyState === xhr.DONE) {
+        if (xhr.status === 200) {
+          let response = xhr.response;
+          if (response.includes("No Alert")) {
+            console.log("No alert");
+          } else {
+            console.log("Alert");
+          }
+        }
+        else {
+          console.log("Could not make a determination");
+        }
+      }
+    };
   };
 
   const addVisits = visit => {
     let xhr = new XMLHttpRequest();
     let str = `id=${visit.chromeWindowId}&visits=${visit.id}`;
-    xhr.open("PATCH", `http://localhost:5000/api/windows/update`, true);
+    xhr.open("PATCH", `http://localhost:5000/api/windows/update`);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(str);
+
+    xhr.onload = function () {
+      if (xhr.readyState === xhr.DONE) {
+        if (xhr.status === 200) {
+          let response = xhr.response;
+          if (response.includes("No Alert")) {
+            console.log("No alert");
+          } else {
+            console.log("Alert");
+          }
+        }
+        else {
+          console.log("Could not make a determination");
+        }
+      }
+    };
   };
 
   const idCreator = () => {
@@ -102,6 +151,7 @@ chrome.runtime.onMessage.addListener(function(message) {
     } else {
       newNode.parent = null;
     }
+    console.log(newNode);
     return newNode;
   };
 
@@ -120,9 +170,25 @@ chrome.runtime.onMessage.addListener(function(message) {
       visit.children
     }&username=${username}&timeCreated=${visit.timeCreated}`;
 
-    xhr.open("POST", "http://localhost:5000/api/visits/", true);
+    xhr.open("POST", "http://localhost:5000/api/visits/");
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(str);
+
+    xhr.onload = function () {
+      if (xhr.readyState === xhr.DONE) {
+        if (xhr.status === 200) {
+          let response = xhr.response;
+          if (response.includes("No Alert")) {
+            console.log("No alert");
+          } else {
+            console.log("Alert");
+          }
+        }
+        else {
+          console.log("Could not make a determination");
+        }
+      }
+    };
   };
 
   const activatedListener = () => {
@@ -152,8 +218,9 @@ chrome.runtime.onMessage.addListener(function(message) {
       window.localStorage[`session${date}`] = payload;
     }
   };
-
+  console.log(message);
   if (message.sender === "start") {
+    console.log("Hello friend");
     const sleep = time => {
       let start = new Date().getTime();
       while (new Date().getTime() < start + time);

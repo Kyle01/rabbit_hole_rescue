@@ -19,8 +19,8 @@ const VisitSchema = new Schema({
     required: true
   },
   chromeWindowId: {
-    type: Schema.Types.ObjectId,
-    ref: "windows"
+    type: Number,
+    require: true
   },
   parent: {
     type: Schema.Types.ObjectId,

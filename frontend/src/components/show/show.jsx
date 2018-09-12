@@ -12,7 +12,9 @@ class Show extends React.Component {
   }
 
   renderTree(props){
+    console.log("in render tree")
     let treeStruct = createTree(this.props,"Sun Sep 02 2018");
+    
     console.log(treeStruct);
     var treeData = [treeStruct];
     function radialPoint(x, y) {
@@ -25,7 +27,7 @@ class Show extends React.Component {
           modal_list.removeChild(modal_list.firstChild);
       }
       let nodes = BFSDisplay(d.data);
-      nodes.forEach(node => {
+      nodes.reverse().forEach(node => {
         let li = document.createElement('li');
         let link = document.createElement('a');
         let span = document.createElement('span');
@@ -38,16 +40,16 @@ class Show extends React.Component {
       });
     }
     var svg = d3.select("#svg-container").append("svg")
-    	.attr("width", 800)
-    	.attr("height", 700)
+    	.attr("width", 900)
+    	.attr("height", 1150)
       .append("g")
-    	.attr("transform", "translate(" + (800 / 2 ) + "," + (700 / 2 + 40) + ")");
+    	.attr("transform", "translate(" + (900 / 2 - 50) + "," + (1150 / 2 - 200 ) + ")");
 
     var duration = 750,
     	root;
 
     var tree = d3.tree()
-    	.size([2*Math.PI, 350])
+    	.size([2*Math.PI, 315])
       .separation(function(a, b) {
         return (a.parent == b.parent ? 1 : 2) / a.depth;
       });
@@ -111,6 +113,7 @@ class Show extends React.Component {
   }
 
   receiveVisits(){
+    // console.log(this.props.windows);
     Object.keys(this.props.windows).forEach( windowId => {
       this.props.fetchVisits(windowId);
     })
@@ -137,8 +140,9 @@ class Show extends React.Component {
       this.receiveVisits();
       return retDiv;
     }
-    this.renderTree(this.props);
     
+    this.renderTree(this.props);
+
     return retDiv;
   }
 }

@@ -15,13 +15,13 @@ class Splash extends React.Component{
                     <div className='splash-list-left'>
                         <ul className='splash-ul'>
                             <li className='splash-li'>Create history trees on demand</li>
-                            <li className='splash-li'>Add notes and review them later</li>
+                            <li className='splash-li'>Easy navigation and visibility</li>
                         </ul>
                     </div>
                     <div className='splash-list-right'>
                         <ul className='splash-ul'>
                             <li className='splash-li'>Chrome extension for ease and accessibility</li>
-                            <li className='splash-li'>All stored locally: control your privacy</li>
+                            <li className='splash-li'>All securely stored: control your privacy</li>
                         </ul>
                     </div>
                 </div>

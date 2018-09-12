@@ -36,3 +36,13 @@
     * https://fonts.google.com/specimen/Merriweather
     * https://fonts.google.com/specimen/Raleway
 >>>>>>> 374009dbecc8c266cee4192da2c6e4c5e49bf20b
+
+
+
+create user 
+get demo user 
+Host on Heroku 
+errors 
+keep dino awake script 
+tracking script 
+favicon and title 

@@ -10,6 +10,12 @@ class Login extends React.Component {
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleDemoUser = this.handleDemoUser.bind(this);
+    }
+
+    handleDemoUser(e){
+        e.preventDefault();
+        this.props.login({username:"Kyle", password:"KylePassword"});
     }
 
     handleInput(type) {
@@ -20,8 +26,7 @@ class Login extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.login(this.state);
-        this.props.history.push("/history");
+        this.props.login(this.state);    
     }
 
 
@@ -39,6 +44,9 @@ class Login extends React.Component {
                 <input className='signin-form-field' type="password" placeholder="password" value={this.state.password} onChange={this.handleInput("password")} />
                 <button className="signin-button" onClick={this.handleSubmit}>
                   Sign in
+                </button>
+                <button className='signin-demo-button'>
+                  Checkout a demo account
                 </button>
               </form>
             </div>

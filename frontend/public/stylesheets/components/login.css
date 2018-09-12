@@ -47,7 +47,21 @@
     color: white; 
     border: none;
     font-size: 20px;
-    
+}
+
+.signin-demo-button{
+    width: 90%;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #d14e33;
+    color: white; 
+    border: none;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.signin-demo-button:hover {
+    background-color: #ef745b;
 }
 
 .signin-button:hover {

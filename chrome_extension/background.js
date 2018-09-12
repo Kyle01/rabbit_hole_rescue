@@ -14,8 +14,9 @@ let username;
 let windowObject = { id: null, visits: [], username: username };
 
 chrome.runtime.onMessage.addListener(function(message) {
+  console.log(message)
   let payload = { windows: {}, visits: {} };
-  let currNode = { _id: null };
+  let currNode = { id: null };
 
   if (message.sender === "login") {
     username = message.username;
@@ -49,22 +50,6 @@ chrome.runtime.onMessage.addListener(function(message) {
       xhr.open("PATCH", `http://localhost:5000/api/visits/update`);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.send(str);
-
-      xhr.onload = function () {
-        if (xhr.readyState === xhr.DONE) {
-          if (xhr.status === 200) {
-            let response = xhr.response;
-            if (response.includes("No Alert")) {
-              console.log("No alert");
-            } else {
-              console.log("Alert");
-            }
-          }
-          else {
-            console.log("Could not make a determination");
-          }
-        }
-      };
     }
   };
 
@@ -74,22 +59,6 @@ chrome.runtime.onMessage.addListener(function(message) {
     xhr.open("POST", "http://localhost:5000/api/windows/");
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(str);
-
-    xhr.onload = function () {
-      if (xhr.readyState === xhr.DONE) {
-        if (xhr.status === 200) {
-          let response = xhr.response;
-          if (response.includes("No Alert")) {
-            console.log("No alert");
-          } else {
-            console.log("Alert");
-          }
-        }
-        else {
-          console.log("Could not make a determination");
-        }
-      }
-    };
   };
 
   const addVisits = visit => {
@@ -98,22 +67,6 @@ chrome.runtime.onMessage.addListener(function(message) {
     xhr.open("PATCH", `http://localhost:5000/api/windows/update`);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(str);
-
-    xhr.onload = function () {
-      if (xhr.readyState === xhr.DONE) {
-        if (xhr.status === 200) {
-          let response = xhr.response;
-          if (response.includes("No Alert")) {
-            console.log("No alert");
-          } else {
-            console.log("Alert");
-          }
-        }
-        else {
-          console.log("Could not make a determination");
-        }
-      }
-    };
   };
 
   const idCreator = () => {
@@ -151,7 +104,6 @@ chrome.runtime.onMessage.addListener(function(message) {
     } else {
       newNode.parent = null;
     }
-    console.log(newNode);
     return newNode;
   };
 
@@ -173,22 +125,6 @@ chrome.runtime.onMessage.addListener(function(message) {
     xhr.open("POST", "http://localhost:5000/api/visits/");
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(str);
-
-    xhr.onload = function () {
-      if (xhr.readyState === xhr.DONE) {
-        if (xhr.status === 200) {
-          let response = xhr.response;
-          if (response.includes("No Alert")) {
-            console.log("No alert");
-          } else {
-            console.log("Alert");
-          }
-        }
-        else {
-          console.log("Could not make a determination");
-        }
-      }
-    };
   };
 
   const activatedListener = () => {
@@ -218,9 +154,8 @@ chrome.runtime.onMessage.addListener(function(message) {
       window.localStorage[`session${date}`] = payload;
     }
   };
-  console.log(message);
+
   if (message.sender === "start") {
-    console.log("Hello friend");
     const sleep = time => {
       let start = new Date().getTime();
       while (new Date().getTime() < start + time);

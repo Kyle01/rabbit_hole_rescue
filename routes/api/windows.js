@@ -33,6 +33,7 @@ router.post('/', (req, res) => {
 })
 
 router.patch('/update', (req, res) => {
+    //username too
     Window.findOne({id: req.body.id})
         .then(window => {
             if (window) {

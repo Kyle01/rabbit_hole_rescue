@@ -76,20 +76,20 @@ class Show extends React.Component {
           .attr("transform", function(d) { return "translate(" + radialPoint(d.x, d.y) + ")"; });
 
       node.append("circle")
-        .attr("r", 8)
+        .attr("r", 6)
         .on("mouseover", function(d) {
             d3.select(this).attr("r", 15);
             d3.select(this).attr("class", "chosen-one");
           })
         .on("mouseout", function(d) {
-            d3.select(this).attr("r", 8);
+            d3.select(this).attr("r", 6);
             d3.select(this).attr("class", " ");
           })
         .on("click", click);
 
       node.append("text")
         .attr("dy", "0.31em")
-        .attr("x", function(d) { return d.x < Math.PI === !d.children ? 9 : -9; })
+        .attr("x", function(d) { return d.x < Math.PI === !d.children ? 7 : -7; })
         .attr("text-anchor", function(d) { return d.x < Math.PI === !d.children ? "start" : "end"; })
         .attr("transform", function(d) { return "rotate(" + (d.x < Math.PI ? d.x - Math.PI / 2 : d.x + Math.PI / 2) * 180 / Math.PI + ")"; });
         // .text(function(d) { return d.data.webname; });

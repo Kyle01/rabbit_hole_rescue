@@ -25,7 +25,6 @@ export const registerUser = (userData, history) => dispatch => {
         .then(res => {
             // Save to localStorage
             const { token } = res.data;
-            debugger
             // Set token to ls
             localStorage.setItem('jwtToken', token);
             // Set token to Auth header

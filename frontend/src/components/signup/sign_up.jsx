@@ -17,7 +17,6 @@ class SignUp extends React.Component {
   }
 
   signupForm(){
-    debugger
     return window.localStorage.jwtStorage != undefined ? (
       <div>You're already logged in</div>
     ) : (

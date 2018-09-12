@@ -1,7 +1,20 @@
 // Signup button opens Web application's signup page in new tab
 
-let loggedIn = window.localStorage.getItem("loggedIn"); 
-let recording = window.localStorage.getItem("recording");
+let loggedIn, recording;
+
+if (window.localStorage.getItem("loggedIn") != null) {
+  loggedIn = window.localStorage.getItem("loggedIn") 
+}
+  else {
+  loggedIn = false;
+}
+
+if (window.localStorage.getItem("recording") != null) {
+    recording = window.localStorage.getItem("recording")
+}
+else {
+    recording = false;
+}
 
 console.log(loggedIn);
 console.log(recording);
@@ -77,6 +90,8 @@ document.addEventListener('DOMContentLoaded', function () {
             loggedIn = "true";
             window.localStorage.setItem("loggedIn", "true");
         }
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
     });
 });
 

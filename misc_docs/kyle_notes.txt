@@ -1,21 +1,4 @@
-
-=======
-* Are we sure we want to store the history as a cookie? 
-
-8/27
--------
-* confirm we wont need a content script, because our site uses react with a backend so our extension will never modify the dom
-* Options page as an additional mvp 
 * Do we need to use the storage api or the html5 web storage api to get post calls to our server? 
-
-
-* Working through localStorage
-    * Really easy to do basics. Built into HTML5 and on the window always 
-    * You can only store 10mb, which it is unlikely a user will ever hit (appx 5000 pages), but we'll need to deal with it if it happens. 
-    * Store things as K, V pairs. VALUE MUST BE A STRING. 
-    * functions setItem, getItem, removeItem, key, length
-    * Need to check if you have a room, write a storage_available method 
-
 
 * Working through google auth 
     * Firebase console: https://console.firebase.google.com/project/rabbit-hole-rescue/authentication/users
@@ -36,3 +19,11 @@
     * https://fonts.google.com/specimen/Merriweather
     * https://fonts.google.com/specimen/Raleway
 >>>>>>> 374009dbecc8c266cee4192da2c6e4c5e49bf20b
+
+
+
+Host on Heroku 
+create account confirmation on create user 
+errors 
+keep dino awake script 
+tracking script 

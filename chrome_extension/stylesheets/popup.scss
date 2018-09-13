@@ -39,11 +39,10 @@ body {
     margin-top: 15px;
 }
 
-
-input {
-    border-radius: 4px;
-    padding: 5px;
-    margin-top: 10px;
+.login/signup {
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 label {
@@ -56,6 +55,23 @@ label {
     margin-left: 20px;
     width: 150px;
 }
+
+#username-label {
+    letter-spacing: .3px;
+}
+
+#password-label {
+    letter-spacing: .75px;
+}
+input {
+    border-radius: 4px;
+    padding: 5px;
+    margin-top: 10px;
+    justify-content: right;
+    width: 110px;
+}
+
+
 
 button {
     background-color: #b9c6b4;

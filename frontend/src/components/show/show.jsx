@@ -14,7 +14,7 @@ class Show extends React.Component {
   renderTree(props){
     console.log("in render tree")
     let treeStruct = createTree(this.props,"Sun Sep 02 2018");
-    
+
     console.log(treeStruct);
     var treeData = [treeStruct];
     function radialPoint(x, y) {
@@ -113,7 +113,6 @@ class Show extends React.Component {
   }
 
   receiveVisits(){
-    // console.log(this.props.windows);
     Object.keys(this.props.windows).forEach( windowId => {
       this.props.fetchVisits(windowId);
     })
@@ -140,7 +139,7 @@ class Show extends React.Component {
       this.receiveVisits();
       return retDiv;
     }
-    
+
     this.renderTree(this.props);
 
     return retDiv;

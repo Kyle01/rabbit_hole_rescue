@@ -20,7 +20,11 @@ const VisitSchema = new Schema({
   },
   chromeWindowId: {
     type: Number,
+<<<<<<< HEAD
     required: true
+=======
+    require: true
+>>>>>>> dbd977fc71466c83aee801812a5256d371fdb78e
   },
   parent: {
     type: Number,

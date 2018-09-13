@@ -13,7 +13,7 @@ import ShowContainer from './show/show_container';
 import Splash from './splash/splash';
 import SignUp from './signup/sign_up_container';
 import LoginContainer from './login/login_container';
-import { ProtectedRoute } from "../util/route_util";
+import { AuthRoute, ProtectedRoute } from "../util/route_util";
 import NotFound from './not_found/not_found';
 
 const Root = () => (
@@ -22,7 +22,7 @@ const Root = () => (
       <NavbarFeatures />
     </header>
     <Switch>
-      <Route exact path="/signin" component={LoginContainer} />
+      <AuthRoute exact path="/signin" component={LoginContainer} />
       <Route exact path="/signup" component={SignUp} />
       <ProtectedRoute exact path="/history" component={ShowContainer} />
       <Route exact path="/" component={Splash} />

@@ -9,7 +9,11 @@ const WindowSchema = new Schema({
     visits: [
         {
             type: Number,
+<<<<<<< HEAD
             required: false
+=======
+            required: true
+>>>>>>> dbd977fc71466c83aee801812a5256d371fdb78e
         }
     ],
     username: {

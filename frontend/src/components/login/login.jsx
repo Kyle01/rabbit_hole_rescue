@@ -16,7 +16,6 @@ class Login extends React.Component {
     handleDemoUser(e){
         e.preventDefault();
         this.props.login({username:"Kyle", password:"KylePassword"});
-        this.props.history.push("/history");
     }
 
     handleInput(type) {
@@ -27,9 +26,7 @@ class Login extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.login(this.state);
-        this.props.history.push("/history");
-        
+        this.props.login(this.state);    
     }
 
 
@@ -48,7 +45,7 @@ class Login extends React.Component {
                 <button className="signin-button" onClick={this.handleSubmit}>
                   Sign in
                 </button>
-                <button className='signin-demo-button'>
+                <button className='signin-demo-button' onClick={this.handleDemoUser}>
                   Checkout a demo account
                 </button>
               </form>

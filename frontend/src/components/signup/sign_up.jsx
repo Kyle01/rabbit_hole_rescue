@@ -16,6 +16,22 @@ class SignUp extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  signupForm(){
+    return window.localStorage.jwtStorage != undefined ? (
+      <div>You're already logged in</div>
+    ) : (
+          <form className="signin-form">
+            <input className="signup-field-form" type="text" placeholder="email" value={this.state.email} onChange = { this.handleInput("email") } />
+            <input className="signup-field-form" type="text" placeholder="username" value={this.state.username} onChange={this.handleInput("username")} />
+            <input className="signup-field-form" type="password" placeholder="password" value={this.state.password} onChange={this.handleInput("password")} />
+            <input className="signup-field-form" type="password" placeholder="confirm password" value={this.state.password2} onChange={this.handleInput("password2")} />
+            <button className="signup-field-button" onClick={this.handleSubmit}>
+              Create Account
+            </button>
+          </form>
+    );
+  }
+
 
   handleInput(type) {
     return (e => {
@@ -25,7 +41,7 @@ class SignUp extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    // this.props.registerUser(this.state);
+    this.props.registerUser(this.state);
   }
 
   render() {
@@ -41,17 +57,10 @@ class SignUp extends React.Component {
                   Create an account using the right panel
                 </p>
               </div>
-              <div className="signup-first-modal">
-                <form className="signin-form">
-                  <input className="signup-field-form" type="text" placeholder="email" value={this.state.email} onChange={this.handleInput("email")} />
-                  <input className="signup-field-form" type="text" placeholder="username" value={this.state.username} onChange={this.handleInput("username")} />
-                  <input className="signup-field-form" type="password" placeholder="password" value={this.state.password} onChange={this.handleInput("password")} />
-                  <input className="signup-field-form" type="password" placeholder="confirm password" value={this.state.password2} onChange={this.handleInput("password2")} />
-                  <button className="signup-field-button" onClick={this.handleSubmit}>
-                    Create Account
-                  </button>
-                </form>
-              </div>
+            <div className="signup-first-modal">
+              {this.signupForm()}
+            </div >
+              
             </div>
           </div>
           <div className="signup-second-div">

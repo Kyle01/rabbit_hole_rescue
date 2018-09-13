@@ -50,6 +50,22 @@ chrome.runtime.onMessage.addListener(function(message) {
       xhr.open("PATCH", `http://localhost:5000/api/visits/update`);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.send(str);
+
+      xhr.onload = function () {
+        if (xhr.readyState === xhr.DONE) {
+          if (xhr.status === 200) {
+            let response = xhr.response;
+            if (response.includes("No Alert")) {
+              console.log("No alert");
+            } else {
+              console.log("Alert");
+            }
+          }
+          else {
+            console.log("Could not make a determination");
+          }
+        }
+      };
     }
   };
 
@@ -59,6 +75,22 @@ chrome.runtime.onMessage.addListener(function(message) {
     xhr.open("POST", "http://localhost:5000/api/windows/");
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(str);
+
+    xhr.onload = function () {
+      if (xhr.readyState === xhr.DONE) {
+        if (xhr.status === 200) {
+          let response = xhr.response;
+          if (response.includes("No Alert")) {
+            console.log("No alert");
+          } else {
+            console.log("Alert");
+          }
+        }
+        else {
+          console.log("Could not make a determination");
+        }
+      }
+    };
   };
 
   const addVisits = visit => {
@@ -67,6 +99,22 @@ chrome.runtime.onMessage.addListener(function(message) {
     xhr.open("PATCH", `http://localhost:5000/api/windows/update`);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(str);
+
+    xhr.onload = function () {
+      if (xhr.readyState === xhr.DONE) {
+        if (xhr.status === 200) {
+          let response = xhr.response;
+          if (response.includes("No Alert")) {
+            console.log("No alert");
+          } else {
+            console.log("Alert");
+          }
+        }
+        else {
+          console.log("Could not make a determination");
+        }
+      }
+    };
   };
 
   const idCreator = () => {
@@ -125,6 +173,22 @@ chrome.runtime.onMessage.addListener(function(message) {
     xhr.open("POST", "http://localhost:5000/api/visits/");
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(str);
+
+    xhr.onload = function () {
+      if (xhr.readyState === xhr.DONE) {
+        if (xhr.status === 200) {
+          let response = xhr.response;
+          if (response.includes("No Alert")) {
+            console.log("No alert");
+          } else {
+            console.log("Alert");
+          }
+        }
+        else {
+          console.log("Could not make a determination");
+        }
+      }
+    };
   };
 
   const activatedListener = () => {

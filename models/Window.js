@@ -8,8 +8,8 @@ const WindowSchema = new Schema({
     },
     visits: [
         {
-            type: Schema.Types.ObjectId,
-            ref: "visits"
+            type: Number,
+            required: false
         }
     ],
     username: {

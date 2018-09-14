@@ -8,12 +8,15 @@ class Show extends React.Component {
 
   constructor(props) {
     super(props);
-
+    this.state = {
+      curr_date: "",
+      all_dates: []
+    };
   }
 
   renderTree(props){
-    console.log("in render tree")
-    let treeStruct = createTree(this.props,"Sun Sep 02 2018");
+    console.log(this.state.all_dates)
+    let treeStruct = createTree(this.props,this.state.curr_date.toDateString());
 
     console.log(treeStruct);
     var treeData = [treeStruct];
@@ -122,22 +125,58 @@ class Show extends React.Component {
 
   }
 
+  handleSubmit(e){
+    debugger
+  }
+
   render() {
     var retDiv = (
-      <div id="showme-money" className="show-page">
-        <svg width="800" height="700" ref={node => this.node = node} id="svg-container"></svg>
-        <div id="modal">
-          <h3>Websites You've Visited:</h3>
-          <ul id="modalist"></ul>
+      <div>
+        <form >
+          <select onChange={this.handleSubmit} id="pick-date"></select>
+          <input type="submit" value="Choose Date"></input>
+        </form>
+        <div id="showme-money" className="show-page">
+          <svg width="800" height="700" ref={node => this.node = node} id="svg-container"></svg>
+          <div id="modal">
+            <h3>Websites You've Visited:</h3>
+            <ul id="modalist"></ul>
+          </div>
         </div>
       </div>
     );
+
+    var date_sort_desc = function (date1, date2) {
+      // This is a comparison function that will result in dates being sorted in
+      // DESCENDING order.
+      if (date1 > date2) return -1;
+      if (date1 < date2) return 1;
+      return 0;
+    };
 
     if (!(Object.keys(this.props.windows).length > 0)){
       return retDiv;
     } else if ((Object.keys(this.props.windows).length > 0) && (!(Object.keys(this.props.visits).length > 0))){
       this.receiveVisits();
       return retDiv;
+    }
+    if (this.state.all_dates.length == 0){
+      let dates = Object.keys(this.props.date).map((k) => new Date(k));
+      this.state.all_dates = dates.sort(date_sort_desc);
+      this.state.curr_date = this.state.all_dates[0];
+      let select = document.getElementById("pick-date");
+      let i = 0;
+      dates.forEach(d => {
+        var opt = document.createElement('option');
+        opt.value = d.toDateString();
+        opt.innerHTML = d.toDateString();
+        if (i == 0) {
+          opt.selected = true;
+        }
+        select.appendChild(opt);
+        i += 1;
+      });
+
     }
 
     this.renderTree(this.props);

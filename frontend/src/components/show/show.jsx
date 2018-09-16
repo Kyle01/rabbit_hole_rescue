@@ -143,9 +143,8 @@ class Show extends React.Component {
   render() {
     var retDiv = (
       <div>
-        <form >
+        <form id="change-date">
           <select onChange={this.handleSubmit} id="pick-date"></select>
-          <input type="submit" value="Choose Date"></input>
         </form>
         <div id="showme-money" className="show-page">
           <svg width="800" height="700" ref={node => this.node = node} id="svg-container"></svg>

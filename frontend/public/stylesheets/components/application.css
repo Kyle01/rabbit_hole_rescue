@@ -79,3 +79,18 @@
   display: flex;
   justify-content: space-evenly;
 }
+
+#change-date {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+#pick-date {
+  width: 30%;
+  background-color: #34d149;
+  color: white;
+  font-family: 'Merriweather';
+  height: 40px;
+
+}

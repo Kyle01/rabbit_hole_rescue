@@ -7,6 +7,9 @@ export const createTree = function({windows, visits, date}, dateId){
     tree["url"] = "";
     tree["description"] = "Browse Windows Sessions";
     tree["children"] = [];
+    if (typeof windowIds === "undefined"){
+        return tree;
+    }
     windowIds.forEach( winId => {
         let currWindow = windows[winId];
         currWindow["children"] = getVisits(currWindow["visits"], visits);

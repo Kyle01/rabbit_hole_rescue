@@ -10,16 +10,21 @@ class Show extends React.Component {
     super(props);
     this.state = {
       curr_date: "",
-      all_dates: []
+      all_dates: [],
+      change_date: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  resetTree(){
+    d3.select("#svg-container").selectAll("*").remove();
   }
 
   renderTree(props){
     console.log(this.state.all_dates)
     let treeStruct = createTree(this.props,this.state.curr_date );
 
-    console.log(treeStruct);
+    this.resetTree();
     var treeData = [treeStruct];
     function radialPoint(x, y) {
       return [(y = +y) * Math.cos(x -= Math.PI / 2), y * Math.sin(x)];

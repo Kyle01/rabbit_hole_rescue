@@ -12,11 +12,12 @@ class Show extends React.Component {
       curr_date: "",
       all_dates: []
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   renderTree(props){
     console.log(this.state.all_dates)
-    let treeStruct = createTree(this.props,this.state.curr_date.toDateString());
+    let treeStruct = createTree(this.props,this.state.curr_date );
 
     console.log(treeStruct);
     var treeData = [treeStruct];
@@ -126,7 +127,12 @@ class Show extends React.Component {
   }
 
   handleSubmit(e){
-    debugger
+    // debugger
+    var select = document.getElementById("pick-date");
+    
+    this.setState((state) => {
+      return {curr_date: select.options[ select.selectedIndex ].value};
+    });
   }
 
   render() {
@@ -146,11 +152,11 @@ class Show extends React.Component {
       </div>
     );
 
-    var date_sort_desc = function (date1, date2) {
+    var date_sort_asc = function (date1, date2) {
       // This is a comparison function that will result in dates being sorted in
       // DESCENDING order.
-      if (date1 > date2) return -1;
-      if (date1 < date2) return 1;
+      if (date1 > date2) return 1;
+      if (date1 < date2) return -1;
       return 0;
     };
 
@@ -162,10 +168,14 @@ class Show extends React.Component {
     }
     if (this.state.all_dates.length == 0){
       let dates = Object.keys(this.props.date).map((k) => new Date(k));
-      this.state.all_dates = dates.sort(date_sort_desc);
-      this.state.curr_date = this.state.all_dates[0];
+      this.state.all_dates = dates.sort(date_sort_asc);
+      this.state.curr_date = this.state.all_dates[0].toDateString();
       let select = document.getElementById("pick-date");
       let i = 0;
+      var sel = document.createElement('option');
+      sel.value = "Select a Date";
+      sel.innerHTML = "Select a Date";
+      select.appendChild(sel);
       dates.forEach(d => {
         var opt = document.createElement('option');
         opt.value = d.toDateString();

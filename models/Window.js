@@ -8,8 +8,8 @@ const WindowSchema = new Schema({
     },
     visits: [
         {
-            type: Number,
-            required: true
+            type: String,
+            required: false
         }
     ],
     username: {
@@ -18,7 +18,7 @@ const WindowSchema = new Schema({
     },
     date: {
         type: Date,
-        default: Date.now
+        default: new Date()
     }
 });
 

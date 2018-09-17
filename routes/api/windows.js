@@ -13,6 +13,7 @@ router.get('/:username', (req, res) => {
                 windows
             });
         })
+        .catch(errs => console.log(errs));
 })
 
 router.post('/', (req, res) => {

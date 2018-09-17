@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const VisitSchema = new Schema({
-  id: {
-    type: Number,
-    required: true
-  },
+
   title: {
     type: String,
     required: true
@@ -19,17 +16,17 @@ const VisitSchema = new Schema({
     required: true
   },
   chromeWindowId: {
-    type: Number,
-    require: true
+    type: String,
+    required: true
   },
   parent: {
-    type: Number,
+    type: String,
     required: true
   },
   children: [
     {
-      type: Number,
-      required: true
+      type: String,
+      required: false
     }
   ],
   username: {
@@ -38,7 +35,7 @@ const VisitSchema = new Schema({
   },
   timeCreated: {
     type: Date,
-    required: false
+    default: new Date()
   }
 });
 

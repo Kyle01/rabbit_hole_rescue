@@ -13,14 +13,15 @@ router.get('/:windowId', (req, res) => {
                 visits
             });
         })
+        .catch(err => console.log(err));
 })
 
 router.post('/', (req, res) => {
     Visit.findOne({url: req.body.url, chromeTabId: req.body.chromeTabId})
         .then (visit => {
             if (!visit) {
+                console.log("you are making a visit");
                 const newVisit = new Visit({
-                    id: req.body.id,
                     title: req.body.title,
                     url: req.body.url,
                     chromeTabId: req.body.chromeTabId,

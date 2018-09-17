@@ -45,27 +45,11 @@ chrome.runtime.onMessage.addListener(function(message) {
     let par = visit.parent;
     if (par) {
       let xhr = new XMLHttpRequest();
-      payload.visits[par].children.push(visit.id);
-      let str = `id=${par}&children=${visit.id}`;
+      payload.visits[par].children.push(visit._id);
+      let str = `_id=${par}&children=${visit._id}`;
       xhr.open("PATCH", `http://localhost:5000/api/visits/update`);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.send(str);
-
-      xhr.onload = function () {
-        if (xhr.readyState === xhr.DONE) {
-          if (xhr.status === 200) {
-            let response = xhr.response;
-            if (response.includes("No Alert")) {
-              console.log("No alert");
-            } else {
-              console.log("Alert");
-            }
-          }
-          else {
-            console.log("Could not make a determination");
-          }
-        }
-      };
     }
   };
 
@@ -75,22 +59,6 @@ chrome.runtime.onMessage.addListener(function(message) {
     xhr.open("POST", "http://localhost:5000/api/windows/");
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(str);
-
-    xhr.onload = function () {
-      if (xhr.readyState === xhr.DONE) {
-        if (xhr.status === 200) {
-          let response = xhr.response;
-          if (response.includes("No Alert")) {
-            console.log("No alert");
-          } else {
-            console.log("Alert");
-          }
-        }
-        else {
-          console.log("Could not make a determination");
-        }
-      }
-    };
   };
 
   const addVisits = visit => {
@@ -99,22 +67,6 @@ chrome.runtime.onMessage.addListener(function(message) {
     xhr.open("PATCH", `http://localhost:5000/api/windows/update`);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(str);
-
-    xhr.onload = function () {
-      if (xhr.readyState === xhr.DONE) {
-        if (xhr.status === 200) {
-          let response = xhr.response;
-          if (response.includes("No Alert")) {
-            console.log("No alert");
-          } else {
-            console.log("Alert");
-          }
-        }
-        else {
-          console.log("Could not make a determination");
-        }
-      }
-    };
   };
 
   const idCreator = () => {
@@ -136,19 +88,16 @@ chrome.runtime.onMessage.addListener(function(message) {
   };
 
   const createNode = tab => {
-    let id = idCreator();
     let newNode = {
-      id: id,
       url: tab.url,
       title: tab.title,
       chromeTabId: tab.id,
       chromeWindowId: tab.windowId,
       children: [],
-      username: username,
-      timeCreated: new Date()
+      username: username
     };
     if (currNode.chromeTabId === newNode.chromeTabId) {
-      newNode.parent = currNode.id;
+      newNode.parent = currNode._id;
     } else {
       newNode.parent = null;
     }
@@ -160,35 +109,20 @@ chrome.runtime.onMessage.addListener(function(message) {
 
     addVisits(visit);
     setChildren(visit);
-
+    
     let parent = visit.parent ? visit.parent : -1;
-    let str = `id=${visit.id}&title=${visit.title}&url=${
+    let str = `title=${visit.title}&url=${
       visit.url
-    }&chromeTabId=${visit.chromeTabId}&chromeWindowId=${
+    }` + `&chromeTabId=${visit.chromeTabId}&chromeWindowId=${
       visit.chromeWindowId
     }&parent=${parent}&children=${
       visit.children
     }&username=${username}&timeCreated=${visit.timeCreated}`;
 
+
     xhr.open("POST", "http://localhost:5000/api/visits/");
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(str);
-
-    xhr.onload = function () {
-      if (xhr.readyState === xhr.DONE) {
-        if (xhr.status === 200) {
-          let response = xhr.response;
-          if (response.includes("No Alert")) {
-            console.log("No alert");
-          } else {
-            console.log("Alert");
-          }
-        }
-        else {
-          console.log("Could not make a determination");
-        }
-      }
-    };
   };
 
   const activatedListener = () => {
@@ -197,7 +131,6 @@ chrome.runtime.onMessage.addListener(function(message) {
 
   const updatedListener = (visitId, changeInfo, visit) => {
     if (!payload.windows[visit.windowId]) {
-      console.log(payload.windows);
       createWindow(visit.windowId);
     }
 
@@ -269,3 +202,19 @@ function getYMDDate() {
   ].join("");
   return yyyymmdd;
 }
+
+// xhr.onload = function () {
+//   if (xhr.readyState === xhr.DONE) {
+//     if (xhr.status === 200) {
+//       let response = xhr.response;
+//       if (response.includes("No Alert")) {
+//         console.log("No alert");
+//       } else {
+//         console.log("Alert");
+//       }
+//     }
+//     else {
+//       console.log("Could not make a determination");
+//     }
+//   }
+// };

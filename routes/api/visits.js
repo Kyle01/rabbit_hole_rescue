@@ -16,6 +16,22 @@ router.get('/:windowId', (req, res) => {
         .catch(err => console.log(err));
 })
 
+router.get(`/:username/:chromeWindowId/:chromeTabId/:url`, (req, res) => {
+    Visit.findOne({
+        username: req.params.username,
+        chromeWindowId: req.params.chromeWindowId, 
+        chromeTabId: req.params.chromeTabId, 
+        url: req.params.url
+    })
+        .then(visit => {
+            res.json({
+                success: true,
+                visit
+            })
+        })
+        .catch(err => console.log(err));
+})
+
 router.post('/', (req, res) => {
     Visit.findOne({url: req.body.url, chromeTabId: req.body.chromeTabId})
         .then (visit => {
@@ -28,8 +44,7 @@ router.post('/', (req, res) => {
                     chromeWindowId: req.body.chromeWindowId,
                     parent: req.body.parent,
                     children: req.body.children,
-                    username: req.body.username,
-                    timeCreated: req.body.timeCreated
+                    username: req.body.username
                 });
 
                 newVisit.save()

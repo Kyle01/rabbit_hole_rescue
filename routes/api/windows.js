@@ -13,7 +13,18 @@ router.get('/:username', (req, res) => {
                 windows
             });
         })
-        .catch(errs => console.log(errs));
+        .catch(err => console.log(err));
+})
+
+router.get('/:username/:windowId', (req, res) => {
+    Window.findOne({id: req.params.windowId, username: req.params.username})
+        .then(window => {
+            res.json({
+                success: true,
+                window
+            });
+        })
+        .catch(err => console.log(err));
 })
 
 router.post('/', (req, res) => {

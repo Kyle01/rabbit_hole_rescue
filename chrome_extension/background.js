@@ -9,18 +9,28 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
   ]);
 });
 
-let i = 0;
 let username;
-let windowObject = { id: null, visits: [], username: username };
 
 chrome.runtime.onMessage.addListener(function(message) {
   console.log(message)
-  let payload = { windows: {}, visits: {} };
-  let currNode = { id: null };
+  let currNode = { _id: null };
 
   if (message.sender === "login") {
     username = message.username;
   }
+
+  const getWindow = windowId => {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", `http://localhost:5000/api/windows/${username}/${windowId}`);
+    xhr.send();
+  }
+
+  const getVisit = visit => {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", `http://localhost:5000/api/windows/${username}/${visit.windowId}/${visit.tabId}/${visit.url}`)
+    xhr.send();
+  }
+
 
   const setCurrNode = () => {
     // GET request
@@ -45,7 +55,6 @@ chrome.runtime.onMessage.addListener(function(message) {
     let par = visit.parent;
     if (par) {
       let xhr = new XMLHttpRequest();
-      payload.visits[par].children.push(visit._id);
       let str = `_id=${par}&children=${visit._id}`;
       xhr.open("PATCH", `http://localhost:5000/api/visits/update`);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -62,29 +71,18 @@ chrome.runtime.onMessage.addListener(function(message) {
   };
 
   const addVisits = visit => {
+    //get visit req here
     let xhr = new XMLHttpRequest();
-    let str = `id=${visit.chromeWindowId}&visits=${visit.id}`;
+    let str = `id=${visit.chromeWindowId}&visits=${visit._id}`;
     xhr.open("PATCH", `http://localhost:5000/api/windows/update`);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(str);
   };
 
-  const idCreator = () => {
-    return i++;
-  };
-
   const historyNode = visit => {
-    let historyIds = payload.windows[visit.windowId].visits;
-    for (let i = 0; i < historyIds.length; i++) {
-      let historyItem = payload.visits[historyIds[i]];
-      if (
-        historyItem.chromeTabId === visit.id &&
-        historyItem.url === visit.url
-      ) {
-        return historyItem;
-      }
-    }
-    return null;
+    // get request here
+    let res = getVisit(visit);
+    return res.visit;
   };
 
   const createNode = tab => {
@@ -117,7 +115,7 @@ chrome.runtime.onMessage.addListener(function(message) {
       visit.chromeWindowId
     }&parent=${parent}&children=${
       visit.children
-    }&username=${username}&timeCreated=${visit.timeCreated}`;
+    }&username=${username}`;
 
 
     xhr.open("POST", "http://localhost:5000/api/visits/");
@@ -130,7 +128,8 @@ chrome.runtime.onMessage.addListener(function(message) {
   };
 
   const updatedListener = (visitId, changeInfo, visit) => {
-    if (!payload.windows[visit.windowId]) {
+    let res = getWindow(visit.windowId)
+    if (!res.window) {
       createWindow(visit.windowId);
     }
 
@@ -143,12 +142,8 @@ chrome.runtime.onMessage.addListener(function(message) {
       } else {
         setCurrNode();
         createVisit(newNode);
-        payload.visits[newNode.id] = newNode;
-        payload.windows[visit.windowId] = windowObject;
       }
-      let date = getYMDDate();
-
-      window.localStorage[`session${date}`] = payload;
+      
     }
   };
 
@@ -162,20 +157,14 @@ chrome.runtime.onMessage.addListener(function(message) {
       windows
     ) {
       windows.forEach(window => {
-        windowObject = { id: window.id, visits: [], username: username };
         createWindow(window.id);
         window.tabs.forEach(visit => {
           let newNode = createNode(visit);
-          windowObject.visits.push(newNode.id);
           createVisit(newNode);
-          payload.visits[newNode.id] = newNode;
-          payload.windows[visit.windowId] = windowObject;
           sleep(250);
         });
       });
       setCurrNode();
-      let date = getYMDDate();
-      window.localStorage.setItem(`session${date}`, payload);
 
       chrome.tabs.onActivated.addListener(activatedListener);
       chrome.tabs.onUpdated.addListener(updatedListener);
@@ -189,19 +178,19 @@ chrome.runtime.onMessage.addListener(function(message) {
   }
 });
 
-function getYMDDate() {
-  let date = new Date();
+// function getYMDDate() {
+//   let date = new Date();
 
-  let yyyy = date.getFullYear();
-  let mm = date.getMonth() + 1;
-  let dd = date.getDate();
-  let yyyymmdd = [
-    yyyy,
-    (mm > 9 ? "" : "0") + mm,
-    (dd > 9 ? "" : "0") + dd
-  ].join("");
-  return yyyymmdd;
-}
+//   let yyyy = date.getFullYear();
+//   let mm = date.getMonth() + 1;
+//   let dd = date.getDate();
+//   let yyyymmdd = [
+//     yyyy,
+//     (mm > 9 ? "" : "0") + mm,
+//     (dd > 9 ? "" : "0") + dd
+//   ].join("");
+//   return yyyymmdd;
+// }
 
 // xhr.onload = function () {
 //   if (xhr.readyState === xhr.DONE) {

@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
             let username = document.getElementById("username").value;
             let password = document.getElementById("password").value;
 
-            xhr.open("POST", "http://localhost:5000/api/users/login/", false);
+            xhr.open("POST", "http://rabbit-hole-rescue.herokuapp.com/api/users/login/", false);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             let str = `username=${username}&password=${password}`;
             

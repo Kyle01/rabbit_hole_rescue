@@ -1,6 +1,6 @@
 body {
     width: 280px;
-    height: 600px;
+    height: 580px;
     background-color: #34d149;
 }
 
@@ -63,6 +63,7 @@ label {
 #password-label {
     letter-spacing: .75px;
 }
+
 input {
     border-radius: 4px;
     padding: 5px;
@@ -71,12 +72,16 @@ input {
     width: 110px;
 }
 
+#login {
+    margin-top: 0px;
+}
+
 .errors {
-  height: 15px;
+  height: 30px;
   color: red; 
   text-shadow: .5px .5px grey;
   margin-left: 30px;
-  padding-top: 15px;
+  padding-top: 10px;
   font-size: 15px;
 }
 

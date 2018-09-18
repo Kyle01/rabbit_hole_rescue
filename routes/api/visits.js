@@ -6,7 +6,7 @@ const keys = require("../../config/keys");
 const passport = require("passport");
 
 router.get('/:windowId', (req, res) => {
-    Visit.find({"chromeWindowId": req.params.windowId})
+    Visit.find({chromeWindowId: req.params.windowId})
         .then(visits => {
             res.json({
                 success: true,

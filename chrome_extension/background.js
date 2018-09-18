@@ -13,7 +13,7 @@ let username;
 
 chrome.runtime.onMessage.addListener(function(message) {
   console.log(message)
-  let currNode = { _id: null };
+  let currNode = { id: null };
 
   if (message.sender === "login") {
     username = message.username;
@@ -22,42 +22,52 @@ chrome.runtime.onMessage.addListener(function(message) {
   const getWindow = windowId => {
     let xhr = new XMLHttpRequest();
     xhr.open("GET", `http://localhost:5000/api/windows/${username}/${windowId}`);
+    xhr.onload = function () {
+      if (xhr.readyState === xhr.DONE) {
+        if (xhr.status === 200) {
+          let response = xhr.response;
+          // console.log(response);
+          return response;
+        } else {
+          console.log("Could not make a determination");
+        }
+      }
+    };
     xhr.send();
   }
 
   const getVisit = visit => {
+    console.log(visit);
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", `http://localhost:5000/api/windows/${username}/${visit.windowId}/${visit.tabId}/${visit.url}`)
+    xhr.open("GET", `http://localhost:5000/api/windows/${username}/${visit.windowId}/${visit.id}/${visit.url}`)
+    xhr.onload = function() {
+      if (xhr.readyState === xhr.DONE) {
+        if (xhr.status === 200) {
+          let response = xhr.response;
+          console.log(response);
+          return response;
+        } else {
+          console.log("Could not make a determination");
+        }
+      }
+    };
     xhr.send();
   }
-
-
-  const setCurrNode = () => {
-    // GET request
-    chrome.tabs.query(
-      { active: true, windowId: currNode.chromeWindowId },
-      function(tab) {
-        let currTab = tab[0];
-        payload.windows[currTab.windowId].visits.forEach(visit => {
-          let visitObj = payload.visits[visit];
-          if (
-            visitObj.url === currTab.url &&
-            visitObj.chromeTabId === currTab.id
-          ) {
-            currNode = visitObj;
-          }
-        });
-      }
-    );
-  };
 
   const setChildren = visit => {
     let par = visit.parent;
     if (par) {
       let xhr = new XMLHttpRequest();
-      let str = `_id=${par}&children=${visit._id}`;
+      let str = `id=${par}&children=${visit.id}`;
       xhr.open("PATCH", `http://localhost:5000/api/visits/update`);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+          let response = xhr.responseText;
+          console.log(xhr.responseText);
+          return response;
+        }
+      }
       xhr.send(str);
     }
   };
@@ -67,22 +77,38 @@ chrome.runtime.onMessage.addListener(function(message) {
     let str = `id=${windowId}&visits=${[]}&username=${username}`;
     xhr.open("POST", "http://localhost:5000/api/windows/");
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        let response = xhr.responseText;
+        console.log(xhr.responseText);
+        return response;
+      }
+    };
     xhr.send(str);
   };
 
   const addVisits = visit => {
     //get visit req here
+    console.log(visit);
     let xhr = new XMLHttpRequest();
     let str = `id=${visit.chromeWindowId}&visits=${visit._id}`;
-    xhr.open("PATCH", `http://localhost:5000/api/windows/update`);
+    xhr.open("PATCH", `http://localhost:5000/api/windows/${username}/update`);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        let response = xhr.responseText;
+        // console.log(xhr.responseText);
+        return response;
+      }
+    };
     xhr.send(str);
   };
 
   const historyNode = visit => {
     // get request here
     let res = getVisit(visit);
-    return res.visit;
+    // console.log(res);
+    return res;
   };
 
   const createNode = tab => {
@@ -95,7 +121,7 @@ chrome.runtime.onMessage.addListener(function(message) {
       username: username
     };
     if (currNode.chromeTabId === newNode.chromeTabId) {
-      newNode.parent = currNode._id;
+      newNode.parent = currNode.id;
     } else {
       newNode.parent = null;
     }
@@ -104,23 +130,49 @@ chrome.runtime.onMessage.addListener(function(message) {
 
   const createVisit = visit => {
     let xhr = new XMLHttpRequest();
-
-    addVisits(visit);
-    setChildren(visit);
-    
+    if (visit.parent) {setChildren(visit)};
+   
     let parent = visit.parent ? visit.parent : -1;
     let str = `title=${visit.title}&url=${
       visit.url
-    }` + `&chromeTabId=${visit.chromeTabId}&chromeWindowId=${
+      }` + `&chromeTabId=${visit.chromeTabId}&chromeWindowId=${
       visit.chromeWindowId
-    }&parent=${parent}&children=${
+      }&parent=${parent}&children=${
       visit.children
-    }&username=${username}`;
-
+      }&username=${username}`;
 
     xhr.open("POST", "http://localhost:5000/api/visits/");
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        let response = xhr.responseText;
+        // console.log(xhr.responseText);
+        addVisits(response);
+        return response;
+      }
+    };
     xhr.send(str);
+  };
+
+  const setCurrNode = () => {
+    // GET request
+    chrome.tabs.query(
+      { active: true, windowId: currNode.chromeWindowId },
+      function(tab) {
+        let currTab = tab[0];
+        let res = getVisit(currTab);
+        currNode = res || {id: null};
+        // payload.windows[currTab.windowId].visits.forEach(visit => {
+        //   let visitObj = payload.visits[visit];
+        //   if (
+        //     visitObj.url === currTab.url &&
+        //     visitObj.chromeTabId === currTab.id
+        //   ) {
+        //     currNode = visitObj;
+        //   }
+        // });
+      }
+    );
   };
 
   const activatedListener = () => {
@@ -129,7 +181,8 @@ chrome.runtime.onMessage.addListener(function(message) {
 
   const updatedListener = (visitId, changeInfo, visit) => {
     let res = getWindow(visit.windowId)
-    if (!res.window) {
+    // console.log(res);
+    if (!res) {
       createWindow(visit.windowId);
     }
 

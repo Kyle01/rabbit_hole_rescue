@@ -16,16 +16,16 @@ const VisitSchema = new Schema({
     required: true
   },
   chromeWindowId: {
-    type: String,
+    type: Number,
     required: true
   },
   parent: {
-    type: String,
+    type: Number,
     required: true
   },
   children: [
     {
-      type: String,
+      type: Number,
       required: false
     }
   ],

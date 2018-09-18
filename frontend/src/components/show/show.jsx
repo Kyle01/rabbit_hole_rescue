@@ -42,6 +42,7 @@ class Show extends React.Component {
         let span = document.createElement('span');
         span.appendChild(document.createTextNode(node.webname));
         link.href = node.url;
+        link.target = "_blank";
         link.appendChild(document.createTextNode(node.description));
         link.appendChild(span);
         li.appendChild(link);

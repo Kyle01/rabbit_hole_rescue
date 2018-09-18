@@ -17,19 +17,26 @@ class SignUp extends React.Component {
   }
 
   signupForm(){
-    return window.localStorage.jwtStorage != undefined ? (
-      <div>You're already logged in</div>
-    ) : (
-          <form className="signin-form">
-            <input className="signup-field-form" type="text" placeholder="email" value={this.state.email} onChange = { this.handleInput("email") } />
-            <input className="signup-field-form" type="text" placeholder="username" value={this.state.username} onChange={this.handleInput("username")} />
-            <input className="signup-field-form" type="password" placeholder="password" value={this.state.password} onChange={this.handleInput("password")} />
-            <input className="signup-field-form" type="password" placeholder="confirm password" value={this.state.password2} onChange={this.handleInput("password2")} />
-            <button className="signup-field-button" onClick={this.handleSubmit}>
-              Create Account
-            </button>
-          </form>
-    );
+    if(this.props.currentUser) {
+      return (
+        <div>
+          <p className='signup-first-confirmation-words'>Your account is ready to go!</p>
+        </div>
+      );
+    } else {
+      return (
+        <form className="signin-form">
+           <input className="signup-field-form" type="text" placeholder="email" value={this.state.email} onChange={this.handleInput("email")} />
+           <input className="signup-field-form" type="text" placeholder="username" value={this.state.username} onChange={this.handleInput("username")} />
+           <input className="signup-field-form" type="password" placeholder="password" value={this.state.password} onChange={this.handleInput("password")} />
+           <input className="signup-field-form" type="password" placeholder="confirm password" value={this.state.password2} onChange={this.handleInput("password2")} />
+           <button className="signup-field-button" onClick={this.handleSubmit}>
+             Create Account {" "}
+          </button>
+          {" "}
+        </form>
+      );
+    }
   }
 
 
@@ -42,6 +49,14 @@ class SignUp extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     this.props.registerUser(this.state);
+  }
+
+  getErrors(){
+    if (this.props.errors.constructor !== Array) {
+      return <div>
+          <p className="signup-errors">Something went wrong, try again</p>
+        </div>;
+    }
   }
 
   render() {
@@ -57,10 +72,11 @@ class SignUp extends React.Component {
                   Create an account using the right panel
                 </p>
               </div>
-            <div className="signup-first-modal">
-              {this.signupForm()}
-            </div >
-              
+              <div className="signup-first-modal">
+                {this.signupForm()}
+                {this.getErrors()}
+                {/* <p className="signup-errors-testing">Hello world</p> */}
+              </div>
             </div>
           </div>
           <div className="signup-second-div">
@@ -72,7 +88,7 @@ class SignUp extends React.Component {
               </p>
             </div>
             <div className="signup-second-modal">
-              <a href="https://chrome.google.com/webstore/detail/rabbit-hole-rescue/lhcoogckbmpeijhnnniaohgcplmgfmie">
+              <a href="https://chrome.google.com/webstore/detail/rabbit-hole-rescue/lhcoogckbmpeijhnnniaohgcplmgfmie" target="_blank">
                 <img src="../../../images/extension.png" className="signup-second-picture" />
               </a>
             </div>
@@ -85,7 +101,7 @@ class SignUp extends React.Component {
               </p>
             </div>
             <div className="signup-third-modal">
-            <img src="../../../images/popup.png" className="signup-third-picture" />
+              <img src="../../../images/popup.png" className="signup-third-picture" />
             </div>
           </div>
           <div className="signup-fourth-div">

@@ -29,6 +29,14 @@ class Login extends React.Component {
         this.props.login(this.state);    
     }
 
+    getErrors(){
+        if(this.props.errors.constructor !== Array){
+            return (<div>
+                <p className='signin-errors-text'>Something went wrong, try again</p>
+            </div>)
+        }
+    }
+
 
     render() {
         return (
@@ -50,6 +58,7 @@ class Login extends React.Component {
                 </button>
               </form>
             </div>
+            {this.getErrors()}
             </div>
           </div>
         );

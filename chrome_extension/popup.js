@@ -23,11 +23,14 @@ console.log(recording);
 
 let navlogo = document.getElementById("nav-logo");
 let signup = document.getElementById("signup");
+let usernameField = document.getElementById("username");
+let passwordField = document.getElementById("password");
 let login = document.getElementById('login');
 let start = document.getElementById('start');
 let stop = document.getElementById('stop');
 let visualization = document.getElementById("visualization");
 let logout = document.getElementById('logout');
+let errors = document.getElementById('errors');
 
 document.addEventListener("DOMContentLoaded", function() {
     navlogo.addEventListener("click", function() {
@@ -43,9 +46,28 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    usernameField.addEventListener("click", function () {
+        if (!errors.classList.contains('hidden')) {
+            errors.classList.add('hidden');
+        }    
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    passwordField.addEventListener("click", function () {
+        if (!errors.classList.contains('hidden')) {
+            errors.classList.add('hidden');
+        }    
+    });
+});
+
 if (loggedIn === "true") {
     if (!login.classList.contains('disabled')) {
         login.classList.add('disabled');
+    }
+    if (!errors.classList.contains('hidden')) {
+        errors.classList.add('hidden');
     }
 }
 
@@ -70,6 +92,9 @@ if ( loggedIn === "true" && recording === "true") {
     }
 }
 
+if (loggedIn === "false" && !errors.classList.contains('hidden')) {
+    errors.classList.add('hidden');
+}
 
 // Login button sends username to background.js on success 
 
@@ -101,6 +126,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!login.classList.contains('disabled')) {
                     login.classList.add('disabled');
                 }
+                if (!errors.classList.contains('hidden')) {
+                    errors.classList.add('hidden');
+                }
+            }
+            else {
+              if (errors.classList.contains('hidden')) {
+                  errors.classList.remove('hidden');
+              }
             }
         }
 

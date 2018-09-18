@@ -1,6 +1,6 @@
 body {
     width: 280px;
-    height: 580px;
+    height: 600px;
     background-color: #34d149;
 }
 
@@ -71,7 +71,18 @@ input {
     width: 110px;
 }
 
+.errors {
+  height: 15px;
+  color: red; 
+  text-shadow: .5px .5px grey;
+  margin-left: 30px;
+  padding-top: 15px;
+  font-size: 15px;
+}
 
+.hidden {
+  visibility: hidden;
+}
 
 button {
     background-color: #b9c6b4;

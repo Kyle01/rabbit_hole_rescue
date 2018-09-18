@@ -21,11 +21,11 @@ chrome.runtime.onMessage.addListener(function(message) {
 
   const getWindow = windowId => {
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", `http://localhost:5000/api/windows/${username}/${windowId}`);
+    xhr.open("GET", `http://localhost:5000/api/windows/${username}/${windowId}`, true);
     xhr.onload = function () {
       if (xhr.readyState === xhr.DONE) {
         if (xhr.status === 200) {
-          let response = xhr.response;
+          let response = JSON.parse(xhr.response);
           // console.log(response);
           return response;
         } else {
@@ -37,14 +37,14 @@ chrome.runtime.onMessage.addListener(function(message) {
   }
 
   const getVisit = visit => {
-    console.log(visit);
+    // console.log(visit);
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", `http://localhost:5000/api/windows/${username}/${visit.windowId}/${visit.id}/${visit.url}`)
+    xhr.open("GET", `http://localhost:5000/api/windows/${username}/${visit.windowId}/${visit.id}/${visit.url}`, true)
     xhr.onload = function() {
       if (xhr.readyState === xhr.DONE) {
         if (xhr.status === 200) {
-          let response = xhr.response;
-          console.log(response);
+          let response = JSON.parse(xhr.response);
+          // console.log(response);
           return response;
         } else {
           console.log("Could not make a determination");
@@ -59,49 +59,48 @@ chrome.runtime.onMessage.addListener(function(message) {
     if (par) {
       let xhr = new XMLHttpRequest();
       let str = `id=${par}&children=${visit.id}`;
-      xhr.open("PATCH", `http://localhost:5000/api/visits/update`);
+      xhr.open("PATCH", `http://localhost:5000/api/visits/update`, true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.onreadystatechange = function() {
         if(xhr.readyState === 4 && xhr.status === 200) {
-          let response = xhr.responseText;
-          console.log(xhr.responseText);
+          let response = JSON.parse(xhr.response);
           return response;
         }
       }
-      xhr.send(str);
+      if (str) {xhr.send(str)};
     }
   };
 
   const createWindow = windowId => {
     let xhr = new XMLHttpRequest();
     let str = `id=${windowId}&visits=${[]}&username=${username}`;
-    xhr.open("POST", "http://localhost:5000/api/windows/");
+    xhr.open("POST", "http://localhost:5000/api/windows/", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
-        let response = xhr.responseText;
-        console.log(xhr.responseText);
-        return response;
-      }
-    };
-    xhr.send(str);
-  };
-
-  const addVisits = visit => {
-    //get visit req here
-    console.log(visit);
-    let xhr = new XMLHttpRequest();
-    let str = `id=${visit.chromeWindowId}&visits=${visit._id}`;
-    xhr.open("PATCH", `http://localhost:5000/api/windows/${username}/update`);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        let response = xhr.responseText;
+        let response = JSON.parse(xhr.response);
         // console.log(xhr.responseText);
         return response;
       }
     };
-    xhr.send(str);
+    if (str) { xhr.send(str) };
+  };
+
+  const addVisits = visit => {
+    //get visit req here
+    // console.log(visit);
+    let xhr = new XMLHttpRequest();
+    let str = `id=${visit.chromeWindowId}&visits=${visit._id}`;
+    xhr.open("PATCH", `http://localhost:5000/api/windows/${username}/update`, true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        let response = JSON.parse(xhr.response);
+        // console.log(xhr.responseText);
+        return response;
+      }
+    };
+    if (str) { xhr.send(str) };
   };
 
   const historyNode = visit => {
@@ -141,17 +140,16 @@ chrome.runtime.onMessage.addListener(function(message) {
       visit.children
       }&username=${username}`;
 
-    xhr.open("POST", "http://localhost:5000/api/visits/");
+    xhr.open("POST", "http://localhost:5000/api/visits/", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4 && xhr.status === 200) {
-        let response = xhr.responseText;
-        // console.log(xhr.responseText);
+        let response = JSON.parse(xhr.response);
         addVisits(response);
         return response;
       }
     };
-    xhr.send(str);
+    if (str) {xhr.send(str)};
   };
 
   const setCurrNode = () => {

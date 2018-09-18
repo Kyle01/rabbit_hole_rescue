@@ -36,7 +36,6 @@ router.post('/', (req, res) => {
     Visit.findOne({url: req.body.url, chromeTabId: req.body.chromeTabId})
         .then (visit => {
             if (!visit) {
-                console.log("you are making a visit");
                 const newVisit = new Visit({
                     title: req.body.title,
                     url: req.body.url,
@@ -46,7 +45,7 @@ router.post('/', (req, res) => {
                     children: req.body.children,
                     username: req.body.username
                 });
-
+                console.log(newVisit);
                 newVisit.save()
                     .then(visit => res.json(visit))
                     .catch(err => console.log(err));

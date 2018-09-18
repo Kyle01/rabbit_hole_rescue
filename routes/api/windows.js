@@ -13,16 +13,24 @@ router.get('/:username', (req, res) => {
                 windows
             });
         })
+        //fix this in all
         .catch(err => console.log(err));
 })
 
 router.get('/:username/:windowId', (req, res) => {
     Window.findOne({id: req.params.windowId, username: req.params.username})
         .then(window => {
-            res.json({
-                success: true,
-                window
-            });
+            if(window) {
+                res.json({
+                    success: true,
+                    window
+                });
+            } else {
+                res.json({
+                    window: null
+                });
+            }
+            
         })
         .catch(err => console.log(err));
 })

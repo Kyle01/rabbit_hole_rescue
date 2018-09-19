@@ -20,12 +20,12 @@ const VisitSchema = new Schema({
     required: true
   },
   parent: {
-    type: Number,
+    type: String,
     required: true
   },
   children: [
     {
-      type: Number,
+      type: String,
       required: false
     }
   ],

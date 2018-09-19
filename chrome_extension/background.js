@@ -59,7 +59,7 @@ chrome.runtime.onMessage.addListener(function(message) {
     if (par) {
       let xhr = new XMLHttpRequest();
       let str = `id=${par}&children=${visit._id}`;
-      xhr.open("PATCH", `http://localhost:5000/api/visits/update`, true);
+      xhr.open("PUT", `http://localhost:5000/api/visits/update`, true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.onreadystatechange = function() {
         if(xhr.readyState === 4 && xhr.status === 200) {
@@ -91,7 +91,7 @@ chrome.runtime.onMessage.addListener(function(message) {
     // console.log(visit);
     let xhr = new XMLHttpRequest();
     let str = `id=${visit.chromeWindowId}&visits=${visit._id}`;
-    xhr.open("PATCH", `http://localhost:5000/api/windows/${username}/update`, true);
+    xhr.open("PUT", `http://localhost:5000/api/windows/${username}/update`, true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4 && xhr.status === 200) {
@@ -147,33 +147,36 @@ chrome.runtime.onMessage.addListener(function(message) {
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4 && xhr.status === 200) {
         let response = JSON.parse(xhr.response);
-        addVisits(response);
-        return response;
+        if (response.success) {
+          addVisits(response.visit);
+        }
+        
+        currNode = response.visit;
       }
     };
     if (str) {xhr.send(str)};
   };
 
-  const setCurrNode = () => {
-    // GET request
-    chrome.tabs.query(
-      { active: true, lastFocusedWindow: true, windowId: currNode.chromeWindowId },
-      function(tab) {
-        let currTab = tab[0];
-        // console.log(currTab);
-        let node = getVisit(currTab);
-        // console.log(node); just track, backend handle rest?
-        if (node) {
-          currNode = node;
-          return currNode;
-        }
-      }
-    );
-  };
+  // const setCurrNode = () => {
+  //   // GET request
+  //   chrome.tabs.query(
+  //     { active: true, lastFocusedWindow: true, windowId: currNode.chromeWindowId },
+  //     function(tab) {
+  //       let currTab = tab[0];
+  //       // console.log(currTab);
+  //       let node = getVisit(currTab);
+  //       // console.log(node); just track, backend handle rest?
+  //       if (node) {
+  //         currNode = node;
+  //         return currNode;
+  //       }
+  //     }
+  //   );
+  // };
 
   const activatedListener = () => {
     console.log("Current Node is...");
-    setCurrNode();
+    // setCurrNode();
     console.log(currNode);
   };
 
@@ -191,7 +194,7 @@ chrome.runtime.onMessage.addListener(function(message) {
         currNode = histNode;
       } else {
         let newNode = createNode(visit);
-        setCurrNode();
+        // setCurrNode();
         createVisit(newNode);
       }
       
@@ -215,7 +218,7 @@ chrome.runtime.onMessage.addListener(function(message) {
           sleep(250);
         });
       });
-      setCurrNode();
+      // setCurrNode();
 
       chrome.tabs.onActivated.addListener(activatedListener);
       chrome.tabs.onUpdated.addListener(updatedListener);

@@ -8,7 +8,7 @@ const WindowSchema = new Schema({
     },
     visits: [
         {
-            type: Number,
+            type: String,
             required: false
         }
     ],

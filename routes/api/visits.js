@@ -49,7 +49,12 @@ router.get(`/:username/:chromeWindowId/:chromeTabId/:url`, (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    Visit.findOne({url: req.body.url, chromeTabId: req.body.chromeTabId})
+    Visit.findOne({
+        username: req.body.username, 
+        url: req.body.url, 
+        chromeTabId: req.body.chromeTabId, 
+        chromeWindowId: req.body.chromeWindowId
+    })
         .then (visit => {
             if (!visit) {
                 const newVisit = new Visit({
@@ -63,15 +68,23 @@ router.post('/', (req, res) => {
                 });
                 console.log(newVisit);
                 newVisit.save()
-                    .then(visit => res.json(visit))
+                    .then(visit => res.json({
+                        success: true,
+                        visit
+                    }))
                     .catch(err => console.log(err));
+            } else {
+                res.json({
+                    success: false,
+                    visit
+                });
             }
         }
 
     )
 })
 
-router.patch('/update', (req, res) => {
+router.put('/update', (req, res) => {
     Visit.findOne({id: req.body.id})
         .then(visit => {
             if (visit) {

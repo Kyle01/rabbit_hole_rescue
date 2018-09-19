@@ -60,7 +60,7 @@ router.post('/', (req, res) => {
         })
 })
 
-router.patch(':username/update', (req, res) => {
+router.put(':username/update', (req, res) => {
     //username too
     Window.findOne({id: req.body.id, username: req.params.username})
         .then(window => {

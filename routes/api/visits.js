@@ -8,10 +8,18 @@ const passport = require("passport");
 router.get('/:windowId', (req, res) => {
     Visit.find({chromeWindowId: req.params.windowId})
         .then(visits => {
-            res.json({
-                success: true,
-                visits
-            });
+            if (visits) {
+                res.json({
+                    success: true,
+                    visits
+                });
+            } else {
+                res.json({
+                    success: false,
+                    visits: null
+                })
+            }
+            
         })
         .catch(err => console.log(err));
 })
@@ -24,10 +32,18 @@ router.get(`/:username/:chromeWindowId/:chromeTabId/:url`, (req, res) => {
         url: req.params.url
     })
         .then(visit => {
-            res.json({
-                success: true,
-                visit
-            })
+            if (visit) {
+                res.json({
+                    success: true,
+                    visit
+                })
+            } else [
+                res.json({
+                    success: false,
+                    visit: null
+                })
+            ]
+            
         })
         .catch(err => console.log(err));
 })

@@ -13,7 +13,7 @@ let username;
 
 chrome.runtime.onMessage.addListener(function(message) {
   console.log(message)
-  let currNode = { id: null };
+  let currNode = { _id: null };
 
   if (message.sender === "login") {
     username = message.username;
@@ -36,10 +36,10 @@ chrome.runtime.onMessage.addListener(function(message) {
     xhr.send();
   }
 
-  const getVisit = visit => {
+  const getVisit = tab => {
     // console.log(visit);
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", `http://localhost:5000/api/windows/${username}/${visit.windowId}/${visit.id}/${visit.url}`, true)
+    xhr.open("GET", `http://localhost:5000/api/windows/${username}/${tab.windowId}/${tab.id}/${tab.url}`, true)
     xhr.onload = function() {
       if (xhr.readyState === xhr.DONE) {
         if (xhr.status === 200) {
@@ -58,7 +58,7 @@ chrome.runtime.onMessage.addListener(function(message) {
     let par = visit.parent;
     if (par) {
       let xhr = new XMLHttpRequest();
-      let str = `id=${par}&children=${visit.id}`;
+      let str = `id=${par}&children=${visit._id}`;
       xhr.open("PATCH", `http://localhost:5000/api/visits/update`, true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.onreadystatechange = function() {
@@ -74,7 +74,7 @@ chrome.runtime.onMessage.addListener(function(message) {
   const createWindow = windowId => {
     let xhr = new XMLHttpRequest();
     let str = `id=${windowId}&visits=${[]}&username=${username}`;
-    xhr.open("POST", "http://localhost:5000/api/windows/", true);
+    xhr.open("POST", `http://localhost:5000/api/windows/`, true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
@@ -119,8 +119,10 @@ chrome.runtime.onMessage.addListener(function(message) {
       children: [],
       username: username
     };
+    // console.log(currNode);
     if (currNode.chromeTabId === newNode.chromeTabId) {
-      newNode.parent = currNode.id;
+      console.log("Setting parent");
+      newNode.parent = currNode._id;
     } else {
       newNode.parent = null;
     }
@@ -155,26 +157,24 @@ chrome.runtime.onMessage.addListener(function(message) {
   const setCurrNode = () => {
     // GET request
     chrome.tabs.query(
-      { active: true, windowId: currNode.chromeWindowId },
+      { active: true, lastFocusedWindow: true, windowId: currNode.chromeWindowId },
       function(tab) {
         let currTab = tab[0];
-        let res = getVisit(currTab);
-        currNode = res || {id: null};
-        // payload.windows[currTab.windowId].visits.forEach(visit => {
-        //   let visitObj = payload.visits[visit];
-        //   if (
-        //     visitObj.url === currTab.url &&
-        //     visitObj.chromeTabId === currTab.id
-        //   ) {
-        //     currNode = visitObj;
-        //   }
-        // });
+        // console.log(currTab);
+        let node = getVisit(currTab);
+        // console.log(node); just track, backend handle rest?
+        if (node) {
+          currNode = node;
+          return currNode;
+        }
       }
     );
   };
 
   const activatedListener = () => {
+    console.log("Current Node is...");
     setCurrNode();
+    console.log(currNode);
   };
 
   const updatedListener = (visitId, changeInfo, visit) => {
@@ -185,12 +185,12 @@ chrome.runtime.onMessage.addListener(function(message) {
     }
 
     if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
-      let newNode = createNode(visit);
       let histNode = historyNode(visit);
 
       if (histNode) {
         currNode = histNode;
       } else {
+        let newNode = createNode(visit);
         setCurrNode();
         createVisit(newNode);
       }
@@ -258,3 +258,13 @@ chrome.runtime.onMessage.addListener(function(message) {
 //     }
 //   }
 // };
+
+// payload.windows[currTab.windowId].visits.forEach(visit => {
+        //   let visitObj = payload.visits[visit];
+        //   if (
+        //     visitObj.url === currTab.url &&
+        //     visitObj.chromeTabId === currTab.id
+        //   ) {
+        //     currNode = visitObj;
+        //   }
+        // });

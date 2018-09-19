@@ -8,10 +8,18 @@ const passport = require("passport");
 router.get('/:username', (req, res) => {
     Window.find({"username": req.params.username})
         .then(windows => {
-            res.json({
-                success: true,
-                windows
-            });
+            if (windows) {
+                res.json({
+                    success: true,
+                    windows
+                });
+            } else {
+                res.json({
+                    success: false,
+                    windows: null
+                })
+            }
+            
         })
         //fix this in all
         .catch(err => console.log(err));
@@ -36,7 +44,7 @@ router.get('/:username/:windowId', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    Window.findOne({id: req.body.id})
+    Window.findOne({id: req.body.id, username: req.body.username})
         .then(window => {
             if (!window) {
                 const newWindow = new Window ({

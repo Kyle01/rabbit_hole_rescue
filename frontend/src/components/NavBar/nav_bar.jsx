@@ -13,6 +13,7 @@ const NavbarFeatures = props => {
               </div>
               <div className="nav-right">
                 <button className='nav-signout-link' onClick={props.logout}>Sign out</button>
+                <Link to='/history' className='nav-history-link'>History</Link>                
             </div>
           </div>
         );

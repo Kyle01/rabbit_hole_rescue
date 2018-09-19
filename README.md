@@ -35,18 +35,19 @@ The Chrome extension makes use of Google's Chrome API's to gather browsing data,
 
 The Web application is built using the MERN stack: MongoDB, Express, React, and Node.js. User authorization information and browser session data is stored in a MongoDB database, and the Web site is composed of React pages.
 
+KYLE: rewrite this paragraph as you see fit. Here it's an intro; down below, write it up in more detail.
+
 #### D3.js 
 
 D3.js is used to display the stored browser sessions in an attractive, easy-to-read tree diagram format.
+
+KAVIAN: rewrite this paragraph as you see fit. Here it's an intro; down below, write it up in more detail.
 
 ## Implementation details 
 
 ### Chrome Extension
 
 The Chrome extension, once installed, is activated by clicking on its icon in the toolbar. A popup appears, and the user clicks on a button to be taken to the signup or login page. Once logged in, the user can click the record button, and have a session's browsing history saved. The recording stops when the user clicks the stop button.
-
-#### Background script (`background.js`)
-
 
 #### Popup (`popup.js`)
 
@@ -82,6 +83,9 @@ they are reset upon logout.
 
 #### Background script 
 
+NICK: when you're ready, write up a couple paragraphs about what background.js does. You probably won't need screenshots, but definitely highlight a couple of code snippets. Below is older version of what it does. Edit and expand as necessary.
+
+
 The extension's `background.js` script contains the code that does the tracking. The extension, on loading, installs a listener for the start and stop buttons. When the start button in the popup is clicked, listeners are added to Chrome's `onUpdated` and `onActivated` actions, and all open tabs are logged in a visit structure.
 
 Information is sent from the chrome extension to the database through XML Http Requests and stored with the current user's `username`.
@@ -90,6 +94,11 @@ Information is sent from the chrome extension to the database through XML Http R
 
 ### Web application
 
+Here is the place for more detail about the MERN implementation and the visualization.
+
+KYLE: A couple of paragraphs on MERN stack, website structure, etc. Whatever's interesting. 1-2 screenshots, 1-2 code snippets. 
+
+KAVIAN: A couple paragraphs about how the data is being turned into the visualizations. 1-2 screenshots, 1-2 code snippets.
 
 
 ## Design documents
@@ -97,6 +106,9 @@ Information is sent from the chrome extension to the database through XML Http R
   [Proposal README.md](https://github.com/Kyle01/rabbit_hole_rescue/tree/master/misc_docs/README.md)
 
 ## Projected features 
+
+ EVERYONE: how does below list look? Do we need to add/remove anything? 
+ 
   - Add popups to visualization that display URL's and titles
   - Let users add notes to entries
   - Add search capability to Web site and extension

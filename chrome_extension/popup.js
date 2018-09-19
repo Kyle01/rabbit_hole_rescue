@@ -3,7 +3,7 @@
 let loggedIn, recording;
 
 if (window.localStorage.getItem("loggedIn") != null) {
-  loggedIn = window.localStorage.getItem("loggedIn") 
+  loggedIn = window.localStorage.getItem("loggedIn"); 
 }
 else {
   loggedIn = "false";
@@ -18,16 +18,16 @@ else {
     window.localStorage.setItem("recording", "false");
 }
 
-console.log(loggedIn);
-console.log(recording);
-
 let navlogo = document.getElementById("nav-logo");
 let signup = document.getElementById("signup");
+let usernameField = document.getElementById("username");
+let passwordField = document.getElementById("password");
 let login = document.getElementById('login');
 let start = document.getElementById('start');
 let stop = document.getElementById('stop');
 let visualization = document.getElementById("visualization");
 let logout = document.getElementById('logout');
+let errors = document.getElementById('errors');
 
 document.addEventListener("DOMContentLoaded", function() {
     navlogo.addEventListener("click", function() {
@@ -43,9 +43,28 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    usernameField.addEventListener("click", function () {
+        if (!errors.classList.contains('hidden')) {
+            errors.classList.add('hidden');
+        }    
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    passwordField.addEventListener("click", function () {
+        if (!errors.classList.contains('hidden')) {
+            errors.classList.add('hidden');
+        }    
+    });
+});
+
 if (loggedIn === "true") {
     if (!login.classList.contains('disabled')) {
         login.classList.add('disabled');
+    }
+    if (!errors.classList.contains('hidden')) {
+        errors.classList.add('hidden');
     }
 }
 
@@ -70,6 +89,9 @@ if ( loggedIn === "true" && recording === "true") {
     }
 }
 
+if (loggedIn === "false" && !errors.classList.contains('hidden')) {
+    errors.classList.add('hidden');
+}
 
 // Login button sends username to background.js on success 
 
@@ -80,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
             let username = document.getElementById("username").value;
             let password = document.getElementById("password").value;
 
-            xhr.open("POST", "http://localhost:5000/api/users/login/", false);
+            xhr.open("POST", "https://rabbit-hole-rescue.herokuapp.com/api/users/login/", false);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             let str = `username=${username}&password=${password}`;
             
@@ -101,6 +123,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!login.classList.contains('disabled')) {
                     login.classList.add('disabled');
                 }
+                if (!errors.classList.contains('hidden')) {
+                    errors.classList.add('hidden');
+                }
+            }
+            else {
+              if (errors.classList.contains('hidden')) {
+                  errors.classList.remove('hidden');
+              }
             }
         }
 
@@ -132,11 +162,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     stop.addEventListener('click', function () {
-      if (loggedIn === "true" && recording == "true") {
+      if (loggedIn === "true" && recording === "true") {
         recording = false;
         loggedIn = false;
         window.localStorage.setItem("recording", "false");
-        // window.localStorage.setItem("loggedIn", "false");
+        window.localStorage.setItem("loggedIn", "false");
         chrome.runtime.sendMessage({sender: "stop"});
       }
     });

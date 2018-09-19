@@ -165,11 +165,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     stop.addEventListener('click', function () {
-      if (loggedIn === "true" && recording == "true") {
+      if (loggedIn === "true" && recording === "true") {
         recording = false;
         loggedIn = false;
         window.localStorage.setItem("recording", "false");
-        // window.localStorage.setItem("loggedIn", "false");
+        window.localStorage.setItem("loggedIn", "false");
         chrome.runtime.sendMessage({sender: "stop"});
       }
     });

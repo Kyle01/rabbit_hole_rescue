@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
         recording = false;
         loggedIn = false;
         window.localStorage.setItem("recording", "false");
-        // window.localStorage.setItem("loggedIn", "false");
+        window.localStorage.setItem("loggedIn", "false");
         chrome.runtime.sendMessage({sender: "stop"});
       }
     });

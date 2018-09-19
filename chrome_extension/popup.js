@@ -3,7 +3,7 @@
 let loggedIn, recording;
 
 if (window.localStorage.getItem("loggedIn") != null) {
-  loggedIn = window.localStorage.getItem("loggedIn") 
+  loggedIn = window.localStorage.getItem("loggedIn"); 
 }
 else {
   loggedIn = "false";

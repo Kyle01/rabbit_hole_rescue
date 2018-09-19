@@ -18,9 +18,6 @@ else {
     window.localStorage.setItem("recording", "false");
 }
 
-console.log(loggedIn);
-console.log(recording);
-
 let navlogo = document.getElementById("nav-logo");
 let signup = document.getElementById("signup");
 let usernameField = document.getElementById("username");
@@ -105,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
             let username = document.getElementById("username").value;
             let password = document.getElementById("password").value;
 
-            xhr.open("POST", "http://rabbit-hole-rescue.herokuapp.com/api/users/login/", false);
+            xhr.open("POST", "https://rabbit-hole-rescue.herokuapp.com/api/users/login/", false);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             let str = `username=${username}&password=${password}`;
             

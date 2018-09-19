@@ -20,95 +20,156 @@ chrome.runtime.onMessage.addListener(function(message) {
   }
 
   const getWindow = windowId => {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", `http://localhost:5000/api/windows/${username}/${windowId}`, true);
-    xhr.onload = function () {
-      if (xhr.readyState === xhr.DONE) {
-        if (xhr.status === 200) {
+    return new Promise (function(resolve, reject) {
+      let xhr = new XMLHttpRequest();
+      xhr.open("GET", `http://localhost:5000/api/windows/${username}/${windowId}`, true);
+      xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
           let response = JSON.parse(xhr.response);
           // console.log(response);
-          return response;
+          resolve(response);
         } else {
-          console.log("Could not make a determination");
+          // console.log(xhr.status);
+          reject({
+            status: xhr.status
+          });
         }
+      };
+
+      xhr.onerror = function() {
+        reject({
+          status: xhr.status
+        })
       }
-    };
-    xhr.send();
+      xhr.send();
+    });  
   }
 
   const getVisit = tab => {
     // console.log(visit);
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", `http://localhost:5000/api/windows/${username}/${tab.windowId}/${tab.id}/${tab.url}`, true)
-    xhr.onload = function() {
-      if (xhr.readyState === xhr.DONE) {
-        if (xhr.status === 200) {
+    return new Promise (function(resolve, reject) {
+      let xhr = new XMLHttpRequest();
+      xhr.open("GET", `http://localhost:5000/api/visits/${username}/${tab.windowId}/${tab.id}/${tab.url}`, true)
+      xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
           let response = JSON.parse(xhr.response);
           // console.log(response);
-          return response;
+          resolve(response);
         } else {
-          console.log("Could not make a determination");
+          // console.log(xhr.status);
+          reject({
+            status: xhr.status
+          });
         }
+      };
+
+      xhr.onerror = function () {
+        reject({
+          status: xhr.status
+        })
       }
-    };
-    xhr.send();
+      xhr.send();
+    });
   }
 
   const setChildren = visit => {
-    let par = visit.parent;
-    if (par) {
-      let xhr = new XMLHttpRequest();
+    return new Promise (function(resolve, reject) {
+      let par = visit.parent;
       let str = `id=${par}&children=${visit._id}`;
-      xhr.open("PUT", `http://localhost:5000/api/visits/update`, true);
-      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhr.onreadystatechange = function() {
-        if(xhr.readyState === 4 && xhr.status === 200) {
-          let response = JSON.parse(xhr.response);
-          return response;
+      if (par) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("PUT", `http://localhost:5000/api/visits/update`, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.onload = function () {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            let response = JSON.parse(xhr.response);
+            resolve(response);
+          } else {
+            // console.log(xhr.status);
+            reject({
+              status: xhr.status
+            });
+          }
         }
-      }
-      if (str) {xhr.send(str)};
-    }
+
+        xhr.onerror = function () {
+          reject({
+            status: xhr.status
+          })
+        }
+
+        xhr.send(str);
+      };
+    });
   };
 
   const createWindow = windowId => {
-    let xhr = new XMLHttpRequest();
     let str = `id=${windowId}&visits=${[]}&username=${username}`;
-    xhr.open("POST", `http://localhost:5000/api/windows/`, true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        let response = JSON.parse(xhr.response);
-        // console.log(xhr.responseText);
-        return response;
-      }
-    };
-    if (str) { xhr.send(str) };
+    return new Promise (function(resolve, reject) {
+      console.log(str);
+      let xhr = new XMLHttpRequest();
+      xhr.open("POST", `http://localhost:5000/api/windows/`, true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          let response = JSON.parse(xhr.response);
+          // console.log(xhr.responseText);
+          resolve(response);
+        } else {
+          // console.log(xhr.status);
+          reject({
+            status: xhr.status
+          });
+        }
+      };
+
+      xhr.onerror = function () {
+        reject({
+          status: xhr.status
+        })
+      };
+      
+      xhr.send(str);
+    });
   };
 
   const addVisits = visit => {
-    //get visit req here
-    // console.log(visit);
-    let xhr = new XMLHttpRequest();
+    console.log(visit);
     let str = `id=${visit.chromeWindowId}&visits=${visit._id}`;
-    xhr.open("PUT", `http://localhost:5000/api/windows/${username}/update`, true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        let response = JSON.parse(xhr.response);
-        // console.log(xhr.responseText);
-        return response;
-      }
-    };
-    if (str) { xhr.send(str) };
+    return new Promise (function(resolve, reject) {
+      let xhr = new XMLHttpRequest();
+      xhr.open("PUT", `http://localhost:5000/api/windows/${username}/update`, true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          let response = JSON.parse(xhr.response);
+          // console.log(xhr.responseText);
+          resolve(response);
+        } else {
+          // console.log(xhr.status);
+          reject({
+            status: xhr.status
+          });
+        }
+      };
+
+      xhr.onerror = function () {
+        reject({
+          status: xhr.status
+        })
+      };
+
+      xhr.send(str);
+    });
   };
 
-  const historyNode = visit => {
-    // get request here
-    let res = getVisit(visit);
-    // console.log(res);
-    return res;
-  };
+  // const historyNode = visit => {
+  //   // get request here
+  //   getVisit(visit)
+  //   // let res = getVisit(visit);
+  //   // // console.log(res);
+  //   // return res;
+  // };
 
   const createNode = tab => {
     let newNode = {
@@ -116,24 +177,25 @@ chrome.runtime.onMessage.addListener(function(message) {
       title: tab.title,
       chromeTabId: tab.id,
       chromeWindowId: tab.windowId,
+      parent: currNode._id,
       children: [],
       username: username
     };
     // console.log(currNode);
-    if (currNode.chromeTabId === newNode.chromeTabId) {
-      console.log("Setting parent");
-      newNode.parent = currNode._id;
-    } else {
-      newNode.parent = null;
-    }
+    // newNode.parent = currNode._id;
+    // if (currNode.chromeTabId === newNode.chromeTabId) {
+    //   console.log("Setting parent");
+      
+    // } else {
+    //   newNode.parent = null;
+    // }
     return newNode;
   };
 
   const createVisit = visit => {
-    let xhr = new XMLHttpRequest();
+    
     if (visit.parent) {setChildren(visit)};
-   
-    let parent = visit.parent ? visit.parent : -1;
+    let parent = (visit.parent ? visit.parent : -1);
     let str = `title=${visit.title}&url=${
       visit.url
       }` + `&chromeTabId=${visit.chromeTabId}&chromeWindowId=${
@@ -142,62 +204,92 @@ chrome.runtime.onMessage.addListener(function(message) {
       visit.children
       }&username=${username}`;
 
-    xhr.open("POST", "http://localhost:5000/api/visits/", true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        let response = JSON.parse(xhr.response);
-        if (response.success) {
-          addVisits(response.visit);
-        }
-        
-        currNode = response.visit;
+    return new Promise (function(resolve, reject) {
+      let xhr = new XMLHttpRequest();
+      xhr.open("POST", "http://localhost:5000/api/visits/", true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          let response = JSON.parse(xhr.response);
+          if (response.success) {
+            resolve(response.visit)
+            // addVisits(response.visit);
+          } else {
+            // console.log(xhr.status);
+            reject({
+              status: xhr.status
+            });
+
+          // currNode = response.visit;
+          }
+        };
+
+        xhr.onerror = function () {
+          reject({
+            status: xhr.status
+          })
+        };
+
+        xhr.send(str);
       }
-    };
-    if (str) {xhr.send(str)};
+    });
   };
 
-  // const setCurrNode = () => {
-  //   // GET request
-  //   chrome.tabs.query(
-  //     { active: true, lastFocusedWindow: true, windowId: currNode.chromeWindowId },
-  //     function(tab) {
-  //       let currTab = tab[0];
-  //       // console.log(currTab);
-  //       let node = getVisit(currTab);
-  //       // console.log(node); just track, backend handle rest?
-  //       if (node) {
-  //         currNode = node;
-  //         return currNode;
-  //       }
-  //     }
-  //   );
-  // };
+  const setCurrNode = () => {
+    // GET request
+    chrome.tabs.query(
+      { active: true, windowId: currNode.chromeWindowId },
+      function(tab) {
+        let currTab = tab[0];
+        // console.log(currTab);
+        // console.log(getVisit(currTab).then(visit => (currNode = visit)));
+        return getVisit(currTab).then(visit => currNode = visit || currNode).catch(err => console.log(err));
+        // console.log(node); just track, backend handle rest?
+      }
+    );
+  };
 
   const activatedListener = () => {
     console.log("Current Node is...");
-    // setCurrNode();
+    setCurrNode();
     console.log(currNode);
   };
 
   const updatedListener = (visitId, changeInfo, visit) => {
-    let res = getWindow(visit.windowId)
-    // console.log(res);
-    if (!res) {
-      createWindow(visit.windowId);
-    }
+    getWindow(visit.windowId).catch(err => {createWindow(visit.windowId)})
+    // // console.log(res);
+    // if (!res) {
+    //   createWindow(visit.windowId);
+    // }
 
     if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
-      let histNode = historyNode(visit);
-
-      if (histNode) {
-        currNode = histNode;
-      } else {
-        let newNode = createNode(visit);
-        // setCurrNode();
-        createVisit(newNode);
-      }
-      
+      // let histNode = historyNode(visit);
+      let newNode = createNode(visit);
+      getVisit(visit)
+        .then(visit => {
+          if(visit) {
+            currNode = visit;
+          } else {
+            createVisit(newNode)
+            .then(visit => {
+              console.log(visit);
+              addVisits(visit)
+            })
+            .then(() => setCurrNode())
+          }
+        })
+        .catch(err => (console.log(err))
+            // createVisit(newNode).then(visit => {
+            //   addVisits(visit).then(res => {
+            //     setCurrNode()})})}
+        )
+        // .then(() => createVisit(newNode))
+        // .then(visit => (addVisits(visit)))
+        // .then(() => setCurrNode())
+        // if (visit) {
+        //   currNode = visit;
+        // } else {
+        // }
     }
   };
 
@@ -214,7 +306,7 @@ chrome.runtime.onMessage.addListener(function(message) {
         createWindow(window.id);
         window.tabs.forEach(visit => {
           let newNode = createNode(visit);
-          createVisit(newNode);
+          createVisit(newNode).then(visit => addVisits(visit));
           sleep(250);
         });
       });

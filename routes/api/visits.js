@@ -85,12 +85,10 @@ router.post('/', (req, res) => {
     )
 })
 
-router.put('/update', (req, res) => {
+router.patch('/update', (req, res) => {
     Visit.findOne({
-        username: req.body.username,
-        url: req.body.url,
-        chromeTabId: req.body.chromeTabId,
-        chromeWindowId: req.body.chromeWindowId
+        _id: req.body._id,
+        username: req.body.username
     })
         .then(visit => {
             if (visit) {

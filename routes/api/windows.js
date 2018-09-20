@@ -67,9 +67,9 @@ router.post('/', (req, res) => {
         })
 })
 
-router.put(':username/update', (req, res) => {
+router.patch('/update', (req, res) => {
     //username too
-    Window.findOne({id: req.body.id, username: req.params.username})
+    Window.findOne({id: req.body.id, username: req.body.username})
         .then(window => {
             if (window) {
                 if (!window.visits.includes(req.body.visits)) {

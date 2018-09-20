@@ -24,20 +24,16 @@ chrome.runtime.onMessage.addListener(function(message) {
   const setChildren = visit => {
     return new Promise (function(resolve, reject) {
       let par = visit.parent;
-      let str = `id=${par}&children=${visit._id}`;
+      let str = `_id=${par}&username=${username}&children=${visit._id}`;
       if (par) {
         let xhr = new XMLHttpRequest();
-        xhr.open("PUT", `http://localhost:5000/api/visits/update`, true);
+        xhr.open("PATCH", `http://localhost:5000/api/visits/update`, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.onload = function () {
           if (xhr.status >= 200 && xhr.status < 300) {
+            console.log(xhr.response);
             let response = JSON.parse(xhr.response);
             resolve(response);
-          } else {
-            // console.log(xhr.status);
-            reject({
-              status: xhr.status
-            });
           }
         }
 
@@ -84,22 +80,23 @@ chrome.runtime.onMessage.addListener(function(message) {
 
   const addVisits = visit => {
     console.log(visit);
-    let str = `id=${visit.chromeWindowId}&visits=${visit._id}`;
+    let str = `id=${visit.chromeWindowId}&visits=${visit._id}&username=${username}`;
     return new Promise (function(resolve, reject) {
       let xhr = new XMLHttpRequest();
-      xhr.open("PUT", `http://localhost:5000/api/windows/${username}/update`, true);
+      xhr.open("PATCH", `http://localhost:5000/api/windows/update`, true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
           let response = JSON.parse(xhr.response);
           // console.log(xhr.responseText);
           resolve(response);
-        } else {
-          // console.log(xhr.status);
-          reject({
-            status: xhr.status
-          });
         }
+        // } else {
+        //   // console.log(xhr.status);
+        //   reject({
+        //     status: xhr.status
+        //   });
+        // }
       };
 
       xhr.onerror = function () {
@@ -152,7 +149,7 @@ chrome.runtime.onMessage.addListener(function(message) {
       visit.url
       }&chromeTabId=${visit.chromeTabId}&chromeWindowId=${
       visit.chromeWindowId
-      }&children=${visit.children}&parent=${parent}&username=${username}`;
+      }&parent=${parent}&username=${username}`;
     // console.log(str);
     return new Promise(function(resolve, reject) {
       let xhr = new XMLHttpRequest();
@@ -205,7 +202,7 @@ chrome.runtime.onMessage.addListener(function(message) {
     // console.log(currNode);
   };
 
-  const updatedListener = (visitId, changeInfo, visit) => {
+  const updatedListener = async function(visitId, changeInfo, visit) {
     // getWindow(visit.windowId).catch(err => {createWindow(visit.windowId)})
     // // console.log(res);
     // if (!res) {
@@ -215,29 +212,16 @@ chrome.runtime.onMessage.addListener(function(message) {
     if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
       // let histNode = historyNode(visit);
       let newNode = createNode(visit);
-      createWindow(visit.windowId).then(window => {
-          console.log("Window Created");
-          return createVisit(newNode);
-        })
-        .then(res => {
-          console.log("Visit Created");
-          currNode = res.visit;
-          return res;
-        })
-        .then(res => {
-          console.log("CurrNode set to:");
-          if (res.success) {
-            addVisits(res.visit);
-          }
-          console.log(currNode);
-          return res;
-        }).then(res => {
-          console.log("added to window visits");
-          return setChildren(res.visit);
-        }).then(() => {
-          console.log('set to parent');
-        })
-        .catch(err => console.log(err));
+      await createWindow(visit.windowId)
+      let res = await createVisit(newNode);
+      currNode = res.visit;
+      console.log(currNode);
+      if (res.success) {
+        console.log("adding visit")
+        await addVisits(res.visit);
+      }
+      console.log("setting children")
+      await setChildren(res.visit);
           // getVisit(visit)
           //   .then(visit => {
           //     if(visit) {
@@ -291,7 +275,7 @@ chrome.runtime.onMessage.addListener(function(message) {
           //   console.log("Here is result:");
           //   console.log(result);
           if (res.success) {
-            addVisits(res.visit);
+            await addVisits(res.visit);
           }
           currNode = res.visit;
           // return currNode;

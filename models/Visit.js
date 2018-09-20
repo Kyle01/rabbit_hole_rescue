@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const VisitSchema = new Schema({
-  id: {
-    type: Number,
-    required: true
-  },
+
   title: {
     type: String,
     required: true
@@ -20,16 +17,16 @@ const VisitSchema = new Schema({
   },
   chromeWindowId: {
     type: Number,
-    require: true
+    required: true
   },
   parent: {
-    type: Schema.Types.ObjectId,
-    ref: "visits"
+    type: String,
+    required: false
   },
   children: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "visits",
+      type: String,
+      required: false
     }
   ],
   username: {
@@ -38,7 +35,7 @@ const VisitSchema = new Schema({
   },
   timeCreated: {
     type: Date,
-    required: false
+    default: new Date()
   }
 });
 

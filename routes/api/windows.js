@@ -9,15 +9,25 @@ router.get('/:username', (req, res) => {
     debugger;
     Window.find({"username": req.params.username})
         .then(windows => {
-            res.json({
-                success: true,
-                windows
-            });
+            if (windows) {
+                res.json({
+                    success: true,
+                    windows
+                });
+            } else {
+                res.json({
+                    success: false,
+                    windows: null
+                })
+            }
+            
         })
+        //fix this in all
+        .catch(err => console.log(err));
 })
 
 router.post('/', (req, res) => {
-    Window.findOne({id: req.body.id})
+    Window.findOne({id: req.body.id, username: req.body.username})
         .then(window => {
             if (!window) {
                 const newWindow = new Window ({
@@ -29,12 +39,17 @@ router.post('/', (req, res) => {
                 newWindow.save()
                     .then(window => res.json(window))  
                     .catch(err => console.log(err));
+            } else {
+                res.json({
+                    window
+                });
             }
         })
 })
 
 router.patch('/update', (req, res) => {
-    Window.findOne({id: req.body.id})
+    //username too
+    Window.findOne({id: req.body.id, username: req.body.username})
         .then(window => {
             if (window) {
                 if (!window.visits.includes(req.body.visits)) {

@@ -24,29 +24,6 @@ router.get('/:windowId', (req, res) => {
         .catch(err => console.log(err));
 })
 
-router.get(`/:username/:chromeWindowId/:chromeTabId/:url`, (req, res) => {
-    console.log("YOU ARE IN VISITS");
-    Visit.findOne({
-        username: req.params.username,
-        chromeWindowId: req.params.chromeWindowId, 
-        chromeTabId: req.params.chromeTabId, 
-        title: req.params.url
-    })
-        .then(visit => {
-            if (visit) {
-                res.json({
-                    success: true,
-                    visit
-                })
-            }
-        })
-        .catch(err => res.json({
-            success: false,
-            visit: null
-        })
-    );
-})
-
 router.post('/', (req, res) => {
     console.log("You're in post!")
     Visit.findOne({

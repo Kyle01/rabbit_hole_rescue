@@ -25,27 +25,6 @@ router.get('/:username', (req, res) => {
         .catch(err => console.log(err));
 })
 
-router.get('/:username/:windowId', (req, res) => {
-    console.log("YOU ARE IN WINDOWS");
-    Window.findOne({id: req.params.windowId, username: req.params.username})
-        .then(window => {
-            if(window) {
-                res.json({
-                    success: true,
-                    window
-                });
-            } else {
-                
-            }
-            
-        })
-        .catch(err => { 
-            res.json({
-            window: null
-        });
-    });
-})
-
 router.post('/', (req, res) => {
     Window.findOne({id: req.body.id, username: req.body.username})
         .then(window => {

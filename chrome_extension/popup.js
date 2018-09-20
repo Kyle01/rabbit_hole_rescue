@@ -102,36 +102,38 @@ document.addEventListener('DOMContentLoaded', function () {
             let username = document.getElementById("username").value;
             let password = document.getElementById("password").value;
 
-            xhr.open("POST", "https://rabbit-hole-rescue.herokuapp.com/api/users/login/", false);
+            xhr.open("POST", "https://rabbit-hole-rescue.herokuapp.com/api/users/login/", true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             let str = `username=${username}&password=${password}`;
             
             xhr.send(str);
-            if (xhr.status === 200) {
-                chrome.runtime.sendMessage({sender: "login", username: username});
-                if (start.classList.contains('disabled')) {
-                    start.classList.remove('disabled');
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    chrome.runtime.sendMessage({sender: "login", username: username});
+                    if (start.classList.contains('disabled')) {
+                        start.classList.remove('disabled');
+                    }
+                    if (visualization.classList.contains('disabled')) {
+                        visualization.classList.remove('disabled');
+                    }
+                    if (logout.classList.contains('disabled')) {
+                        logout.classList.remove('disabled');
+                    }
+                    loggedIn = "true";
+                    window.localStorage.setItem("loggedIn", "true");
+                    if (!login.classList.contains('disabled')) {
+                        login.classList.add('disabled');
+                    }
+                    if (!errors.classList.contains('hidden')) {
+                        errors.classList.add('hidden');
+                    }
                 }
-                if (visualization.classList.contains('disabled')) {
-                    visualization.classList.remove('disabled');
+                else {
+                  if (errors.classList.contains('hidden')) {
+                      errors.classList.remove('hidden');
+                  }
                 }
-                if (logout.classList.contains('disabled')) {
-                    logout.classList.remove('disabled');
-                }
-                loggedIn = "true";
-                window.localStorage.setItem("loggedIn", "true");
-                if (!login.classList.contains('disabled')) {
-                    login.classList.add('disabled');
-                }
-                if (!errors.classList.contains('hidden')) {
-                    errors.classList.add('hidden');
-                }
-            }
-            else {
-              if (errors.classList.contains('hidden')) {
-                  errors.classList.remove('hidden');
-              }
-            }
+            };
         }
 
         document.getElementById("username").value = "";

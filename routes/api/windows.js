@@ -26,6 +26,7 @@ router.get('/:username', (req, res) => {
 })
 
 router.get('/:username/:windowId', (req, res) => {
+    console.log("YOU ARE IN WINDOWS");
     Window.findOne({id: req.params.windowId, username: req.params.username})
         .then(window => {
             if(window) {
@@ -34,13 +35,15 @@ router.get('/:username/:windowId', (req, res) => {
                     window
                 });
             } else {
-                res.json({
-                    window: null
-                });
+                
             }
             
         })
-        .catch(err => console.log(err));
+        .catch(err => { 
+            res.json({
+            window: null
+        });
+    });
 })
 
 router.post('/', (req, res) => {
@@ -56,6 +59,10 @@ router.post('/', (req, res) => {
                 newWindow.save()
                     .then(window => res.json(window))  
                     .catch(err => console.log(err));
+            } else {
+                res.json({
+                    window
+                });
             }
         })
 })

@@ -98,7 +98,7 @@ if (loggedIn === "false" && !errors.classList.contains('hidden')) {
 document.addEventListener('DOMContentLoaded', function () {
     let xhr = new XMLHttpRequest();
     login.addEventListener('click', function () {
-        if (loggedIn == "false") {
+        if (loggedIn === "false") {
             let username = document.getElementById("username").value;
             let password = document.getElementById("password").value;
 

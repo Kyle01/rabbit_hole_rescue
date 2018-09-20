@@ -143,7 +143,7 @@ chrome.runtime.onMessage.addListener(function(message) {
   };
 
   const createVisit = visit => {
-    
+    console.log(visit);
     // if (visit.parent) {setChildren(visit)};
     let parent = (visit.parent ? visit.parent : -1);
     // let url = toASCII(visit.url);
@@ -161,15 +161,16 @@ chrome.runtime.onMessage.addListener(function(message) {
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 300) {
+          // debugger;
           let response = JSON.parse(xhr.response);
           console.log(response);
-          if (response.success) {
+          // if (response.success) {
             // console.log(response);
-            resolve(response);
+          resolve(response);
             // addVisits(response.visit);
-          } else {
-            console.log("reject1");
-            reject({ status: xhr.status });
+          // } else {
+          //   console.log("reject1");
+          //   reject({ status: xhr.status });
 
             // currNode = response.visit;
           }
@@ -179,9 +180,8 @@ chrome.runtime.onMessage.addListener(function(message) {
           console.log("reject2");
           reject({ status: xhr.status });
         };
-
-        xhr.send(str);
-      };
+      // };
+      xhr.send(str);
     });
   };
 
@@ -266,33 +266,36 @@ chrome.runtime.onMessage.addListener(function(message) {
   };
 
   if (message.sender === "start") {
+ 
     const sleep = time => {
       let start = new Date().getTime();
       while (new Date().getTime() < start + time);
     };
 
-    chrome.windows.getAll({ populate: true, windowTypes: ["normal"] }, function(
+    chrome.windows.getAll({ populate: true, windowTypes: ["normal"] }, async function (
       windows
     ) {
-      for(let i = 0; i < windows.length; i++){
+      for (let i = 0; i < windows.length; i++) {
         let window = windows[i];
-        createWindow(window.id).then(res => res);
+        let res = await createWindow(window.id)
+        console.log(res);
+        
         let tabs = window.tabs;
         for (let j = 0; j < tabs.length; j++) {
           let visit = tabs[j];
           console.log("You got to tabs");
           let newNode = createNode(visit);
-          let res = createVisit(newNode);
-          // console.log(res);
-          res.then(result => {
-            console.log("Here is result:");
-            console.log(result);
-            if (result.success) {
-              addVisits(result.visit);
-            }
-            currNode = result.visit;
-            return currNode;
-          });
+          let res = await createVisit(newNode);
+          console.log(res);
+          // res.then(result => {
+          //   console.log("Here is result:");
+          //   console.log(result);
+          if (res.success) {
+            addVisits(res.visit);
+          }
+          currNode = res.visit;
+          // return currNode;
+          // });
           sleep(250);
         };
       };
@@ -301,6 +304,8 @@ chrome.runtime.onMessage.addListener(function(message) {
       chrome.tabs.onActivated.addListener(activatedListener);
       chrome.tabs.onUpdated.addListener(updatedListener);
     });
+
+    
   }
 
   if (message.sender === "stop") {

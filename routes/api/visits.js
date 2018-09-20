@@ -25,7 +25,6 @@ router.get('/:windowId', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    console.log("You're in post!")
     Visit.findOne({
         username: req.body.username, 
         url: req.body.url, 
@@ -34,7 +33,6 @@ router.post('/', (req, res) => {
     })
         .then (visit => {
             if (!visit) {
-                console.log("No visit!")
                 const newVisit = new Visit({
                     title: req.body.title,
                     url: req.body.url,
@@ -44,7 +42,6 @@ router.post('/', (req, res) => {
                     children: req.body.children,
                     username: req.body.username
                 });
-                console.log(newVisit);
                 newVisit.save()
                     .then(visit => res.json({
                         success: true,

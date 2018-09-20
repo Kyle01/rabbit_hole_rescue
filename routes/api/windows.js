@@ -22,7 +22,6 @@ router.get('/:username', (req, res) => {
             }
             
         })
-        //fix this in all
         .catch(err => console.log(err));
 })
 
@@ -48,7 +47,6 @@ router.post('/', (req, res) => {
 })
 
 router.patch('/update', (req, res) => {
-    //username too
     Window.findOne({id: req.body.id, username: req.body.username})
         .then(window => {
             if (window) {

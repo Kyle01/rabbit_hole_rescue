@@ -21,7 +21,7 @@ const VisitSchema = new Schema({
   },
   parent: {
     type: String,
-    required: true
+    required: false
   },
   children: [
     {

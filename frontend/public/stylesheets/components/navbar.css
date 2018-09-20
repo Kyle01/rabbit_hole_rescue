@@ -12,7 +12,9 @@
 
 .nav-right {
     float: right; 
-    margin-top: 18px;
+    margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
 }
 
 .nav-logo-image {
@@ -64,9 +66,27 @@
     font-family: 'Raleway';
     background: none;
     border: none;
-    padding-right: 25px;
+    padding-right: 20px;
 }
 
 .nav-signout-link:hover {
     color: #cfd6cd;
+    cursor: pointer;
+}
+
+.nav-history-link {
+    font-family: 'Raleway';
+    color: white;
+    background-color: #d14e33;
+    border: 2px solid white;
+    border-radius: 5px;
+    padding: 8px;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 18px;
+}
+
+.nav-history-link:hover{
+    background-color: #ef745b;
+    cursor: pointer;
 }

@@ -6,6 +6,7 @@ const keys = require("../../config/keys");
 const passport = require("passport");
 
 router.get('/:username', (req, res) => {
+    debugger;
     Window.find({"username": req.params.username})
         .then(windows => {
             if (windows) {

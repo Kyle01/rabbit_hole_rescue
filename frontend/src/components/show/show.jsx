@@ -11,7 +11,8 @@ class Show extends React.Component {
     this.state = {
       curr_date: "",
       all_dates: [],
-      change_date: false
+      change_date: false,
+      visited: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -42,6 +43,7 @@ class Show extends React.Component {
         let span = document.createElement('span');
         span.appendChild(document.createTextNode(node.webname));
         link.href = node.url;
+        link.target = "_blank";
         link.appendChild(document.createTextNode(node.description));
         link.appendChild(span);
         li.appendChild(link);
@@ -165,12 +167,14 @@ class Show extends React.Component {
     };
 
     if (!(Object.keys(this.props.windows).length > 0)){
+      this.state.visited = true;
       return retDiv;
     } else if ((Object.keys(this.props.windows).length > 0) && (!(Object.keys(this.props.visits).length > 0))){
+      this.state.visited = true;
       this.receiveVisits();
       return retDiv;
     }
-    if (this.state.all_dates.length == 0){
+    if ((this.state.visited) &&(this.state.all_dates.length == 0)){
       let dates = Object.keys(this.props.date).map((k) => new Date(k));
       this.state.all_dates = dates.sort(date_sort_asc);
       this.state.curr_date = this.state.all_dates[0].toDateString();
@@ -191,6 +195,8 @@ class Show extends React.Component {
         i += 1;
       });
 
+    } else {
+      this.state.visited = true;
     }
 
     this.renderTree(this.props);

@@ -23,7 +23,7 @@ chrome.runtime.onMessage.addListener(function(message) {
       let str = `_id=${par}&username=${username}&children=${visit._id}`;
       if (par) {
         let xhr = new XMLHttpRequest();
-        xhr.open("PATCH", `http://localhost:5000/api/visits/update`, true);
+        xhr.open("PATCH", `https://rabbit-hole-rescue.herokuapp.com/api/visits/update`, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.onload = function () {
           if (xhr.status >= 200 && xhr.status < 300) {
@@ -47,17 +47,13 @@ chrome.runtime.onMessage.addListener(function(message) {
     let str = `id=${windowId}&username=${username}`;
     return new Promise (function(resolve, reject) {
       let xhr = new XMLHttpRequest();
-      xhr.open("POST", `http://localhost:5000/api/windows/`, true);
+      xhr.open("POST", `https://rabbit-hole-rescue.herokuapp.com/api/windows/`, true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
           let response = JSON.parse(xhr.response);
           resolve(response);
-        } else {
-          reject({
-            status: xhr.status
-          });
-        }
+        } 
       };
 
       xhr.onerror = function () {
@@ -74,7 +70,7 @@ chrome.runtime.onMessage.addListener(function(message) {
     let str = `id=${visit.chromeWindowId}&visits=${visit._id}&username=${username}`;
     return new Promise (function(resolve, reject) {
       let xhr = new XMLHttpRequest();
-      xhr.open("PATCH", `http://localhost:5000/api/windows/update`, true);
+      xhr.open("PATCH", `https://rabbit-hole-rescue.herokuapp.com/api/windows/update`, true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
@@ -119,7 +115,7 @@ chrome.runtime.onMessage.addListener(function(message) {
       }&parent=${parent}&username=${username}`;
     return new Promise(function(resolve, reject) {
       let xhr = new XMLHttpRequest();
-      xhr.open("POST", "http://localhost:5000/api/visits/", true);
+      xhr.open("POST", "https://rabbit-hole-rescue.herokuapp.com/api/visits/", true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 300) {
@@ -142,7 +138,7 @@ chrome.runtime.onMessage.addListener(function(message) {
   
     if (changeInfo.url !== undefined && changeInfo.url !== "chrome://newtab/") {
       let newNode = createNode(visit);
-      await createWindow(visit.windowId)
+      await createWindow(visit.windowId);
       let res = await createVisit(newNode);
       currNode = res.visit;
       if (res.success) {
@@ -164,7 +160,7 @@ chrome.runtime.onMessage.addListener(function(message) {
     ) {
       for (let i = 0; i < windows.length; i++) {
         let window = windows[i];
-        let res = await createWindow(window.id)
+        await createWindow(window.id);
         
         let tabs = window.tabs;
         for (let j = 0; j < tabs.length; j++) {

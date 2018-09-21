@@ -33,9 +33,7 @@ The Chrome extension makes use of Google's Chrome API's to gather browsing data,
 
 #### MERN Stack 
 
-The Web application is built using the MERN stack: MongoDB, Express, React, and Node.js. User authorization information and browser session data is stored in a MongoDB database, and the Web site is composed of React pages.
-
-KYLE: rewrite this paragraph as you see fit. Here it's an intro; down below, write it up in more detail.
+The web app employs a typical MERN Stack (MongoDB, Express.js, React.js, and Node.js). Utilizing the MERN stack allowed us to use Javascript on both the front and back end, and allowed the application to communicate with the chrome extension, also written in Javascript, using the same conventions. The user's information and recorded history is stored as noSQL objects in the MongoDB. The node.js scripts post and fetch this data and it is displayed using the React frontend. 
 
 #### D3.js 
 
@@ -96,7 +94,73 @@ Information is sent from the chrome extension to the database through XML Http R
 
 Here is the place for more detail about the MERN implementation and the visualization.
 
-KYLE: A couple of paragraphs on MERN stack, website structure, etc. Whatever's interesting. 1-2 screenshots, 1-2 code snippets. 
+#### Backend ####
+The MongoDB has three schemas: `user`, `window`, and `visit`. Below  is our `visit` Schema. A `visit` represents a viewed tab in the user's history. The visits are stored in a linked-list like fashion, with a parent and child relationship. 
+
+~~~~~
+const VisitSchema = new Schema({
+
+  title: {
+    type: String,
+    required: true
+  },
+  url: {
+    type: String,
+    required: true
+  },
+  chromeTabId: {
+    type: Number,
+    required: true
+  },
+  chromeWindowId: {
+    type: Number,
+    required: true
+  },
+  parent: {
+    type: String,
+    required: false
+  },
+  children: [
+    {
+      type: String,
+      required: false
+    }
+  ],
+  username: {
+    type: Schema.Types.String,
+    ref: "users"
+  },
+  timeCreated: {
+    type: Date,
+    default: new Date()
+  }
+});
+~~~~~
+
+#### Frontend ####
+Below is a representation of our `root` directory illustrating the paths that were used for this project. Paths were appropriately restricted based on the `user` login status.
+
+~~~~
+const Root = () => (
+  <div>
+    <header>
+      <NavbarFeatures />
+    </header>
+    <Switch>
+      <AuthRoute exact path="/signin" component={LoginContainer} />
+      <Route exact path="/signup" component={SignUp} />
+      <ProtectedRoute exact path="/history" component={ShowContainer} />
+      <Route exact path="/" component={Splash} />
+      <Route path="/*" component={NotFound} />
+    </Switch>
+    <div className="splash-bottom-bar">
+      <div className="splash-bottom-cr">
+        <p>2018 ©</p>
+      </div>
+    </div>
+  </div>
+);
+~~~~
 
 KAVIAN: A couple paragraphs about how the data is being turned into the visualizations. 1-2 screenshots, 1-2 code snippets.
 

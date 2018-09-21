@@ -33,7 +33,7 @@ The Chrome extension makes use of Google's Chrome API's to gather browsing data,
 
 #### MERN Stack 
 
-The web app employs a typical MERN Stack (MongoDB, Express.js, React.js, and Node.js). Utilizing the MERN stack allowed us to use Javascript on both the front and back end, and allowed the application to communicate with the chrome extension, also written in Javascript, using the same conventions. The user's information and recorded history is stored as noSQL objects in the MongoDB. The node.js scripts post and fetch this data and it is displayed using the React frontend. 
+The web app employs a typical MERN Stack (MongoDB, Express.js, React.js, and Node.js). Utilizing the MERN stack allowed us to use Javascript on both the front and back end, and allowed the application to communicate with the Chrome extension, also written in Javascript, using the same conventions. The user's information and recorded history is stored as NoSQL objects in the MongoDB. The Node.js scripts post and fetch this data and it is displayed using the React frontend. 
 
 #### D3.js 
 
@@ -95,9 +95,9 @@ Information is sent from the chrome extension to the database through XML Http R
 Here is the place for more detail about the MERN implementation and the visualization.
 
 #### Backend ####
-The MongoDB has three schemas: `user`, `window`, and `visit`. Below  is our `visit` Schema. A `visit` represents a viewed tab in the user's history. The visits are stored in a linked-list like fashion, with a parent and child relationship. 
+The MongoDB has three schemas: `user`, `window`, and `visit`. Below  is our `visit` Schema. A `visit` represents a viewed tab in the user's history. The visits are stored as a tree, with a parent and child relationship. 
 
-~~~~~
+```javascript
 const VisitSchema = new Schema({
 
   title: {
@@ -135,12 +135,12 @@ const VisitSchema = new Schema({
     default: new Date()
   }
 });
-~~~~~
+```
 
 #### Frontend ####
 Below is a representation of our `root` directory illustrating the paths that were used for this project. Paths were appropriately restricted based on the `user` login status.
 
-~~~~
+```javascript
 const Root = () => (
   <div>
     <header>
@@ -160,7 +160,7 @@ const Root = () => (
     </div>
   </div>
 );
-~~~~
+```
 
 KAVIAN: A couple paragraphs about how the data is being turned into the visualizations. 1-2 screenshots, 1-2 code snippets.
 

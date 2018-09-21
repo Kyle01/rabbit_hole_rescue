@@ -27,7 +27,7 @@ const parseVisits = function(visit_array){
         }
         visit["webname"] = visit.url.split('/')[2];
         visit["description"] = visit.title;
-        visitObject[visit.id] = visit;
+        visitObject[visit._id] = visit;
     })
     return visitObject;
 }

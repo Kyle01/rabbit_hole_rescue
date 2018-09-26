@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
   let xhr = new XMLHttpRequest();
 
   signup.addEventListener("click", function() {
-    window.open("https://rabbit-hole-rescue.herokuapp.com/signup", "_blank");
+    window.open("https://rabbit-hole-rescue.herokuapp.com/#/signup", "_blank");
   });
 });
 

@@ -2,7 +2,7 @@
 
 [Link to Chrome Store](https://chrome.google.com/webstore/detail/rabbit-hole-rescue/lhcoogckbmpeijhnnniaohgcplmgfmie)
 
-[Link to Website splash/demo page](rabbit-hole-rescue.herokuapp.com/)
+[Link to Website splash/demo page](https://rabbit-hole-rescue.herokuapp.com)
 
 ## Overview 
 

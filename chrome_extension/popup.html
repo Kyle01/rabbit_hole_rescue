@@ -1,35 +1,43 @@
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <link href="https://fonts.googleapis.com/css?family=Merriweather|Raleway|Slabo+13px" rel="stylesheet">
-      <link rel="stylesheet" href="./stylesheets/popup.scss">
-    </head>
-    <body>
-      <div class="main-content">
-        <div class="header">
-          <img class="nav-logo-image" src="/images/transparent_logo48.png">
-          <div class="logo">
-            <a class="nav-logo" id="nav-logo">Rabbit Hole Rescue</a>
-          </div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="./stylesheets/popup.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Merriweather|Raleway|Slabo+13px"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="main-content">
+      <div class="header">
+        <img class="nav-logo-image" src="/images/transparent_logo48.png" />
+        <div class="logo">
+          <a class="nav-logo" id="nav-logo">Rabbit Hole Rescue</a>
         </div>
-        <button id="signup">No account? Sign up!</button>
-        <div class="login-notice">
-          <p class="notice">You must be logged in to save sessions and view visualizations.</p>
-        </div>
-        <form id="login/signup">
-          <label id="username-label">Username: </label><input type="text" id="username">
-          <label id="password-label">Password: </label><input type="password" id="password">
-        </form>
-        <div id = "errors" class="errors hidden">
-          Invalid login. Please try again.
-        </div>
-        <button id="login">Log In</button>
-        <button id="start" class="disabled">Start recording session</button>
-        <button id="stop" class="disabled">Stop recording and log out</button>
-        <button id="visualization" class="disabled">Open visualization page</button>
-        <button id="logout" class="disabled">Log Out</button>
-
       </div>
-      <script src="popup.js"></script>
-    </body>
-  </html>
+      <button id="signup">No account? Sign up!</button>
+      <div class="login-notice">
+        <p class="notice">
+          You must be logged in to save sessions and view visualizations.
+        </p>
+      </div>
+      <form id="login/signup">
+        <label id="username-label">Username: </label
+        ><input type="text" id="username" />
+        <label id="password-label">Password: </label
+        ><input type="password" id="password" />
+      </form>
+      <div id="errors" class="errors hidden">
+        Invalid login. Please try again.
+      </div>
+      <button id="login">Log In</button>
+      <button id="start" class="disabled">Start recording session</button>
+      <button id="stop" class="disabled">Stop recording and log out</button>
+      <button id="visualization" class="disabled">
+        Open visualization page
+      </button>
+      <button id="logout" class="disabled">Log Out</button>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
